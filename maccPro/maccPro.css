@@ -1,0 +1,29 @@
+*{
+    color: #646464;
+}
+ul{
+    list-style:none;
+}
+
+
+.sell_pro_contain{
+    margin: 0 auto;
+}
+.sell_pro {
+    margin: 0 auto;
+    width: 60%;
+}
+.sell_pro> li{
+    margin: 0;
+    padding: 0;
+    border : 0;
+    float: left;
+    width: 25%;
+    text-align: center;
+}
+.pro_img>img{
+    width: 100%;
+}
+.pro_text{
+    width: 100%;
+}

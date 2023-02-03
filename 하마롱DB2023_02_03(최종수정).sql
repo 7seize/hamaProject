@@ -373,7 +373,7 @@ create table t_ev_vote_result (
 		references t_ev_vote_option(evo_idx)
 );
 
-select * from t_admin_info;
+-- select * from t_admin_info;
 insert into t_admin_info (ai_id, ai_pw, ai_name) value ('admin1', '1111', '관리자');
 
 
@@ -400,7 +400,7 @@ begin
 end $$
 delimiter ;
 
-													-- 회원 가입시 입력 사항 --	
+													-- 회원 가입시 입력 사항 예시--	
 -- =================================================================================================================================
 
 call sp_member('atest', '1111', '테스터', '2000-02-02','010-4444-5555', 'dou@test.com' , '33333', '경기도 파주시','555-22');
@@ -413,60 +413,136 @@ select * from t_member_addr;
 select * from t_member_point;
 
 
--- 분류 입력 mc:마카롱 ck:쿠키 jm:잼 te:차 bx:세트 
+-- 분류 입력 mc:마카롱 ck:쿠키 jm:잼 te:차 bx:세트 cx:커스텀박스
 insert into t_product_ctgr(pc_id , pc_name) values('mc' , '마카롱');
 insert into t_product_ctgr(pc_id , pc_name) values('ck', '쿠키');
 insert into t_product_ctgr(pc_id , pc_name) values('jm', '잼');
 insert into t_product_ctgr(pc_id , pc_name) values('te', '차');
 insert into t_product_ctgr(pc_id , pc_name) values('bx', '세트');
-    
-select * from t_product_ctgr;
+insert into t_product_ctgr(pc_id , pc_name) values('cb', '커스텀박스');
+
+-- select * from t_product_ctgr;
 
 
--- 작업중################################################################################
+
+-- 커스텀 마카롱 상품정보
+insert into t_product_info( pi_id, pc_id, pi_name, pi_price, pi_cost, pi_img1, pi_img2, pi_isview, pi_limit)
+values('mc100', 'mc','커스텀마카롱', 6000, 6000, 'mc100.png', 'mc100_v.png', 'y', 'a');
+
+
+-- 상품 등록 프로시저
+-- 커스텀 마카롱은 이곳에서 프로시저 처리 x
 drop procedure if exists sp_product;
 delimiter $$ 
 create procedure sp_product(
-	piid char(7), pcid char(2), piname varchar(20), piprice	int, picost int, piimg1 varchar(50), piimg2 varchar(50),
-	piimg3 varchar(50), pidesc varchar(200), piisview	char(1), pilimit char(1), pialg	varchar(200), pikcal int
+	piid char(5), pcid char(2), piname varchar(20), picost int, piimg1 varchar(50), piimg2 varchar(50),piimg3 varchar(50),pidesc varchar(200),piisview char(1),pilimit char(1),
+    pialg varchar(200), pikcal int
 )
 begin 
-
-	insert into t_product_info(
-    pi_id	char(7)
-	pc_id	char(2)
-	pi_name	varchar(20)
-	pi_price	int
-	pi_cost	int
-	pi_dc	int
-	pi_img1	varchar(50)
-	pi_img2	varchar(50)
-	pi_img3	varchar(50)
-	pi_desc	varchar(200)
-	pi_read	int
-	pi_score	float
-	pi_review	int
-	pi_sale	int
-	pi_isview	char(1)
-	pi_date	datetime
-	pi_limit	char(1)
-	pi_alg	varchar(200)
-	pi_kcal	int
-	pi_trash	int
-	pi_stock	int
-	pi_production	datetime
-) 
-	values(miid, mipw, miname , mibirth, miphone , miemail , 1000); 
-   
-	insert into t_member_addr(mi_id, ma_rname, ma_phone, ma_zip, ma_addr1, ma_addr2) 
-	values(miid, miname, miphone , mazip , maaddr1, maaddr2); 
-    
-	insert into t_member_point(mi_id, mp_su,mp_point,mp_desc) 
-	values(miid, 's',1000,'가입 축하금');
-    
-    insert into t_member_status(mi_id) 
-	values(miid);
-       
+		insert into t_product_info( pi_id, pc_id, pi_name, pi_price, pi_cost, pi_img1, pi_img2, pi_img3, pi_isview, pi_limit, pi_desc, pi_alg, pi_kcal)
+        values(piid, pcid, piname, picost, picost, piimg1, piimg2, piimg3, piisview, pilimit, pidesc, pialg, pikcal );
 end $$
 delimiter ;
 
+													-- 상품 입력 예시--	
+-- =================================================================================================================================
+
+call sp_product('mc101','mc','딸기',4000,'mc101.png','mc101_v.png','','신선한 제철 딸기로 만든 딸기 마카롱','y','a','아몬드, 달걀, 우유, 딸기',113);
+-- call sp_product('제품코드','분류','이름',가격,'이미지1','이미지2','이미지3','설명','개시여부','유통기한','알러지',칼로리);
+
+-- =================================================================================================================================
+
+-- 마카롱
+
+call sp_product('mc102',	'mc',	'초코',	4000,			'mc102.png',	'mc102_v.png',	'',	'벨기에 공수 초콜릿으로 생산한 초코 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 카카오, 카페인',	110	);
+call sp_product('mc103',	'mc',	'유자',	4000,			'mc103.png',	'mc103_v.png',	'',	'고흥에서 재배한 유자로 만든 유자 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 유자',	100					);
+call sp_product('mc104',	'mc',	'피스타치오',	4000,			'mc104.png',	'mc104_v.png',	'',	'천연 색소로 만든 피스타치오 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 피스타치오, 견과류',	150												);
+call sp_product('mc105',	'mc',	'민트',	4000,			'mc105.png',	'mc105_v.png',	'',	'치약맛이 아닌 민트맛! 민트맛 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 민트',	120			);
+call sp_product('mc106',	'mc',	'치즈',	4000,			'mc106.png',	'mc106_v.png',	'',	'꾸덕한 치즈로 만든 치즈맛 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 치즈',	155						);
+call sp_product('mc107',	'mc',	'바닐라',	4000,			'mc107.png',	'mc107_v.png',	'',	'바닐라빈이 콕콕 박혀있는 바닐라 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 바닐라빈',	140			);
+call sp_product('mc108',	'mc',	'우유',	4000,			'mc108.png',	'mc108_v.png',	'',	'마카롱의 기본! 목장산 우유로 만든우유맛 마카롱',	'y',	'a',	'아몬드, 달걀, 우유',	153					);
+call sp_product('mc109',	'mc',	'캬라멜',	4000,			'mc109.png',	'mc109_v.png',	'',	'특별한 국내제작 카라멜로 만든 카라멜 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 카라멜',	165				);
+call sp_product('mc110',	'mc',	'레드벨벳',	4000,			'mc110.png',	'mc110_v.png',	'',	'풍부한 크림치즈가 들어간 레드벨벳 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 크림치즈',	164				);
+call sp_product('mc111',	'mc',	'얼그레이',	4000,			'mc111.png',	'mc111_v.png',	'',	'TWG 얼그레이차로 만든 얼그레이 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 얼그레이',	120			);
+call sp_product('mc112',	'mc',	'오레오',	4000,			'mc112.png',	'mc112_v.png',	'',	'미국산 오레오로 만든 오레오 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 오레오',	135						);
+call sp_product('mc113',	'mc',	'블루베리',	4000,			'mc113.png',	'mc113_v.png',	'',	'고성 블루베리로 만든 블루베리 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 블루베리',	125		);
+
+
+-- 마카롱 세트
+call sp_product('bx101',	'bx',	'베스트 5구',	20000,			'bx101.png',	'',	'',	'하마롱의 베스트 상품만을 모은 5구 상자',	'y',	'a',''	,600	);
+call sp_product('bx102',	'bx',	'베스트 10구',	40000,			'bx102.png',	'',	'',	'하마롱의 베스트 상품만을 모은 10구 상자',	'y',	'a',	'',	1200	);
+call sp_product('bx103',	'bx',	'전체 15구',	60000,			'bx103.png',	'',	'',	'하마롱의 모든 상품을 맛보고 싶다면!',	'y',	'a',	'',	1800	);
+
+-- 커스텀 박스
+call sp_product('cb101','cb','마카롱선물상자5구',0,		'cb101.png',	'',	'',	'5입 상자에 마카롱 담기'	,'y','a','',0);
+call sp_product('cb102',	'cb',	'마카롱선물상자10구',	0	,	'cb102.png',	'',	'',	'10입 상자에 마카롱 담기',	'y',	'a','',0);
+
+-- 쿠키
+call sp_product('ck101',	'ck',	'초코칩',	2000,			'ck101.png',	'',	'',	'쌉싸름한 블랙 초코칩과 달콤한 화이트 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유  ',	300			);
+call sp_product('ck102',	'ck',	'라즈베리',	2000,			'ck102.png',	'',	'',	'상큼한 라즈베리와 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck103',	'ck',	'마카다미아',	2000,			'ck103.png',	'',	'',	'고소함 가득한 마카다미아와 달콤한 화이트 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유,마카다미아',	300												);
+call sp_product('ck104',	'ck',	'화이트초코',	2000,			'ck104.png',	'',	'',	'녹진한 화이트 초코쿠키',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck105',	'ck',	'레인보우',	2000,			'ck105.png',	'',	'',	'화려한 레인보우 초코쿠키',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck106',	'ck',	'아몬드',	2000,			'ck106.png',	'',	'',	'고소함 가득한 아몬드와 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유,아몬드',	300												);
+call sp_product('ck107',	'ck',	'호두',	2000,			'ck107.png',	'',	'',	'고소함 가득한 호두와 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유,호두',	300												);
+call sp_product('ck108',	'ck',	'오트밀',	2000,			'ck108.png',	'',	'',	'고소함 가득한 오트밀과 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유  ',	300												);
+call sp_product('ck109',	'ck',	'다크',	2000,			'ck109.png',	'',	'',	'농후한 다크 초코쿠키',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck110',	'ck',	'민트',	2000,			'ck110.png',	'',	'',	'민트와 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck111',	'ck',	'진저',	2000,			'ck111.png',	'',	'',	'진저와 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck112',	'ck',	'카라멜',	2000,			'ck112.png',	'',	'',	'카라멜과 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck113',	'ck',	'버터',	2000,			'ck113.png',	'',	'',	'버터와 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck114',	'ck',	'시나몬',	2000,			'ck114.png',	'',	'',	'시나몬과 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
+call sp_product('ck115',	'ck',	'슈가',	2000,			'ck115.png',	'',	'',	'설탕과 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
+
+
+-- 잼
+call sp_product('jm101',	'jm',	'블루베리',	7000,			'jm101.png',	'',	'',	'달콤한 블루베리 잼 ',	'y',	'b',	'',	800												);
+call sp_product('jm102',	'jm',	'시나몬사과',	7000,			'jm102.png',	'',	'',	'달콤한 시나몬사과 잼 ',	'y',	'b',	'',	800												);
+call sp_product('jm103',	'jm',	'무화과',	7000,			'jm103.png',	'',	'',	'달콤한 무화과 잼 ',	'y',	'b',	'',	800												);
+call sp_product('jm104',	'jm',	'딸기',	7000,			'jm104.png',	'',	'',	'달콤한딸기 잼 ',	'y',	'b',	'',	800												);
+call sp_product('jm105',	'jm',	'복숭아',	7000,			'jm105.png',	'',	'',	'달콤한 복숭아 잼 ',	'y',	'b',	'복숭아',	800												);
+call sp_product('jm106',	'jm',	'크랜베리',	7000,			'jm106.png',	'',	'',	'달콤한 크랜베리 잼 ',	'y',	'b',	'',	800												);
+call sp_product('jm107',	'jm',	'오렌지마멀레이드',	7000,			'jm107.png',	'',	'',	'달콤한 오렌지마멀레이드 잼',	'y',	'b',	'',	800												);
+
+-- 차
+call sp_product('te101',	'te',	'얼그레이',	10000,			'te101.png',	'',	'',	'향긋한 얼그레이 티',	'y',	'b',	'',	50												);
+call sp_product('te102',	'te',	'레몬',	10000,			'te102.png',	'',	'',	'향긋한 레몬티',	'y',	'b',	'',	50												);
+call sp_product('te103',	'te',	'딸기',	10000,			'te103.png',	'',	'',	'향긋한 딸기차',	'y',	'b',	'',	50												);
+call sp_product('te104',	'te',	'복숭아',	10000,			'te104.png',	'',	'',	'향긋한 복숭아',	'y',	'b',	'',	50												);
+call sp_product('te105',	'te',	'실론티',	10000,			'te105.png',	'',	'',	'향긋한 실론티',	'y',	'b',	'',	50												);
+call sp_product('te106',	'te',	'카모마일',	10000,			'te106.png',	'',	'',	'향긋한 카모마일 티',	'y',	'b',	'',	50												);
+call sp_product('te107',	'te',	'페퍼민트',	10000,			'te107.png',	'',	'',	'향긋한 페퍼민트 티',	'y',	'b',	'',	50												);
+call sp_product('te108',	'te',	'루이보스',	10000,			'te108.png',	'',	'',	'향긋한 루이보스티',	'y',	'b',	'',	50												);
+call sp_product('te109',	'te',	'블랙티',	10000,			'te109.png',	'',	'',	'향긋한 블랙티',	'y',	'b',	'',	50												);
+call sp_product('te110',	'te',	'생강',	10000,			'te110.png',	'',	'',	'향긋한 생강차',	'y',	'b',	'',	50												);
+
+select * from t_product_info;
+
+
+
+-- 커스텀 토핑 정보
+
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp101',	'초코');
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp102',	'딸기'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp103',	'프레첼'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp104',	'오레오'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp105',	'캬라멜'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp106',	'청포도'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp107',	'뽀또'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp108',	'블루베리'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp109',	'아몬드'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp110',	'민트'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp111',	'체리'																								);
+insert into t_product_ma_topping(pmt_id,pmt_name)
+values('tp112',	'로투스'																								);

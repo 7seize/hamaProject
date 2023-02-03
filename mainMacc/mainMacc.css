@@ -1,0 +1,19 @@
+.pro_slider{
+    display: flex;
+}
+.pro_slider > div{
+    width: 15%;
+}
+.pro_slider > div > img{
+    width: 100%;
+}
+
+.mcc_box{
+    display: flex;
+}
+.mcc_box > div{
+    width: 10%;
+}
+.mcc_box > div > img{
+    width: 100%;
+}
