@@ -1,8 +1,10 @@
+// 받아야하는 값 = 박스 크기, 마카롱 종류, 커스텀마카롱 종류
+//./vimg/0_v.png"는 빈칸, 투명그림으로 대체
+
 let prolist = document.querySelectorAll('.pro_slider>div');
 let selectMacc = document.querySelectorAll('.select_macc');
-let maccNum = 10; //마카롱 박스 개수 이전 페이지에서 받아올 값임
-let arr = new Array(maccNum).fill(0);   //마카롱 박스에 들어가는 마카롱을 저장하는 배열
-                                        //arr[?]가 0이면 빈칸 
+let maccNum = 10; //마카롱 박스 개수 #####################이전 페이지에서 받아올 값임############################
+let arr = new Array(maccNum).fill(0);   //마카롱 박스에 들어가는 마카롱을 저장하는 배열,arr[?]가 0이면 빈칸 
 let custombox = new Array(maccNum).fill(0); //커스텀마카롱을 저장하는 배열
 
 //마카롱 클릭시 해당 마카롱을 박스에 담음
@@ -25,7 +27,6 @@ for(let i = 0 ; i < prolist.length; i++){
 }
 
 //마카롱 90도 회전된 그림 클릭시 상품제거
-//./vimg/0_v.png"는 빈칸 투명그림으로 대체
 for(let i = 0; i < maccNum; i++){
     selectMacc[i].addEventListener("click",function(){
         if(arr[i] !=0){
@@ -51,7 +52,21 @@ result.addEventListener("click",function(){
     }else{
         alert("이곳에서 ajex 실행");
 
-        //이런형태로 이동
+//이런형태로 이동
+/*  ajax 
+    $.ajax({
+		type : "POST", 
+		url : "여기부분에 들어갈 주소", 
+		data : {"arr" : arr.join(), "custombox" : custombox.sort((a,b)=>b-a).join()}, 
+		success : function(chkRs) {
+			if (chkRs == 0) {
+				alert("오류 발생");
+			}
+			여기부분에 이동할 페이지
+		}
+	});
+*/
+        console.log('보내질 형태' );
         console.log('마카롱 박스에 담긴 마카롱 : ' + arr.join());
         console.log('마카롱 박스에 담긴 커스텀마카롱 인덱스 : ' + custombox.sort((a,b)=>b-a).join());
     }
