@@ -10,8 +10,10 @@
     src="https://code.jquery.com/jquery-3.6.1.js"
     integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
     crossorigin="anonymous"></script>
+    <script defer src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script defer src="./memberIn.js"></script>
     <script defer src="./date_change.js"></script>
+    
 </head>
 <body>
     <section class="agree_contain">
@@ -217,7 +219,7 @@
                     </li>
                     <li>
                         <input type="text" id="ma_zip" size="5" class="join_inner" maxlength="5" placeholder="우편번호" />
-                        <input type="button" class="srh_add" value="주소검색" />
+                        <input type="button" onclick="findAdd()" class="srh_add" value="주소검색" />
                     </li>
                     <li>
                         <input input type="text" id="ma_addr1" size="40" class="join_inner" placeholder="기본주소" />
