@@ -1,15 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<link rel="stylesheet" href="css/common.css">
-<style>
+<link rel="stylesheet" href="/hamaProject/css/common.css">
 
-footer{
-    margin: 2% auto;
-    width: 70%;
-    font-size: 12px;
-}
-</style>
 <hr/>
 <footer>
     <div class="copyright">

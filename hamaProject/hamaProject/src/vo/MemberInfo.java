@@ -1,9 +1,8 @@
 package vo;
 
-// 한 명의 회원 정보를 저장할 클래스
 public class MemberInfo {
 	private String mi_id, mi_pw, mi_name, mi_birth, mi_phone ,mi_memo;
-	private String mi_email, mi_lastlogin, mi_joindate, mi_status;
+	private String mi_email, mi_joindate, mi_status;
 	private int mi_point;
 
 	public String getMi_id() {
@@ -43,12 +42,7 @@ public class MemberInfo {
 	public void setMi_email(String mi_email) {
 		this.mi_email = mi_email;
 	}
-	public String getMi_lastlogin() {
-		return mi_lastlogin;
-	}
-	public void setMi_lastlogin(String mi_lastlogin) {
-		this.mi_lastlogin = mi_lastlogin;
-	}
+
 	public String getMi_joindate() {
 		return mi_joindate;
 	}

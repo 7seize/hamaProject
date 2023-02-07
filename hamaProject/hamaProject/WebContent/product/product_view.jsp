@@ -4,12 +4,6 @@
 
 <link rel="stylesheet" href="../_inc/css/common.css">
 <link rel="stylesheet" href="../_inc/css/header.css">
-<style>
-
-</style>
-<script>
-</script>
-
 <div class="container">
 	<div class="pdtImg">
 		<a href=""><img src="/hamaProject/mc101.png.PNG" alt="Hamaron"></a>

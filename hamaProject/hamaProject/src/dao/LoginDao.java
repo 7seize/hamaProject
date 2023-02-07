@@ -7,26 +7,19 @@ import vo.*;
 
 
 public class LoginDao {
-//·Î±×ÀÎ¿¡ °ü·ÃµÈ Äõ¸® ÀÛ¾÷À» Ã³¸®ÇÏ´Â Å¬·¡½º 
 	private static LoginDao loginDao;
 	private Connection conn;
 	private LoginDao() {}
-	//±âº» »ı¼ºÀÚ¸¦ privateÀ¸·Î ¼±¾ğÇÏ¿© ¿ÜºÎ¿¡¼­ ÇÔºÎ·Î ÀÎ½ºÅÏ½º¸¦ »ı¼ºÇÏÁö ¸øÇÏ°Ô ¸·À½
 	
 	public static LoginDao  getInstance() {
-	//LoginDao Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º¸¦ »ı¼ºÇØÁÖ´Â ¸Å¼Òµå  
-	//ÀÌ¹Ì ÀÎ½ºÅÏ½º°¡ ÀÖÀ¸¸é ±âÁ¸ÀÇ ÀÎ½ºÅÏ½º¸¦ ¸®ÅÏÇÑ´Ù.
-	//LoginDao Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º¸¦ ÇÏ³ª¸¸ »ı¼ºÇÏ¿© »ç¿ëÇÏ°Ô ÇÏ´Â ½Ì±ÛÅæ ¹æ½Ä
+
 		if (loginDao == null) loginDao = new LoginDao(); 
-		//ÀÌ¹Ì »ı¼ºµÈ LoginDao Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º°¡ ¾øÀ¸¸é »õ·Ó°Ô  ÀÎ½ºÅÏ½º¸¦ »ı¼ºÇÏ¶ó 
 		return loginDao;
 	}
 	public void setConnection(Connection conn) {
-	//Çö Dao Å¬·¡½º¿¡¼­ »ç¿ëÇÒ Ä¿³Ø¼Ç °´Ã¼¸¦ ¹Ş¾Æ¿Í¼­ »ı¼ºÇØÁÖ´Â ¸Ş¼Òµå 
 		this.conn = conn;
 	}
 	public MemberInfo getLoginInfo(String uid, String pwd) {
-	//¹Ş¾Æ¿Â ¾ÆÀÌµğ¿Í ¾ÏÈ£·Î ·Î±×ÀÎ ÀÛ¾÷À» Ã³¸®ÇÑ ÈÄ, È¸¿øÁ¤º¸ MemberInfoÇü ÀÎ½ºÅÏ½º·Î ¸®ÅÏ
 		Statement stmt = null;
 		ResultSet rs = null;
 		MemberInfo loginInfo = null;
@@ -38,12 +31,12 @@ public class LoginDao {
 					"' and mi_pw = '" + pwd + "'";
 
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql); //Äõ¸® stmt¿¡ ³ÖÀ½
+			rs = stmt.executeQuery(sql); 
 			
-			if(rs.next()){ //·Î±×ÀÎ¼º°ø½Ã ,rs¿¡ µ¥ÀÌÅÍ°¡ ÀÖÀ¸¸é 
+			if(rs.next()){
 
 				loginInfo = new MemberInfo();
-				//·Î±×ÀÎÇÑ È¸¿øÀÇ Á¤º¸µéÀ» ÀúÀåÇÒ ÀÎ½ºÅÏ½º »ı¼º 
+
 				loginInfo.setMi_id(rs.getString("mi_id"));
 				loginInfo.setMi_pw(rs.getString("mi_pw"));
 				loginInfo.setMi_name(rs.getString("mi_name"));
@@ -52,20 +45,17 @@ public class LoginDao {
 				loginInfo.setMi_phone(rs.getString("mi_phone"));
 				loginInfo.setMi_email(rs.getString("mi_email"));
 				loginInfo.setMi_point(rs.getInt("mi_point"));
-				loginInfo.setMi_lastlogin(rs.getString("mi_lastlogin"));
 				loginInfo.setMi_joindate(rs.getString("mi_joindate"));
 				loginInfo.setMi_status(rs.getString("mi_status"));
-
-			
-			} //rs°¡ ºñ¾úÀ¸¸é else¾øÀÌ loginInfo ÀÎ½ºÅÏ½º¿¡ nullÀÌ ÀÖ´Â »óÅÂ·Î ¸®ÅÏÇÒ °Í 
+			} 
 			
 		}catch(Exception e) {
-			System.out.println("LoginDao Å¬·¡½º getLoginInfo() ¸Ş¼Òµå ¿À·ù");
+			System.out.println("LoginDao í´ë˜ìŠ¤ getLoginInfo() ë¬¸ì œ");
 			e.printStackTrace();
 		}finally {
 			close(rs); close(stmt); 
 		}
 		return loginInfo;
-		//¸®ÅÏÇÑ´Ù
+
 	}
 }

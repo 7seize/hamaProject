@@ -3,29 +3,23 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.time.*" %>
 <%@ page import = "vo.*" %>     
+<script defer src="/hamaProject/js/header.js"></script>
 <script src="/hamaProject/WebContent/js/jquery-3.6.1.js"></script>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>하마롱</title>
-<link rel="stylesheet" href="../css/header.css">
+<link rel="stylesheet" href="/hamaProject/css/header.css">
+
 </head>
-<script>
-function onlyNum(obj){
-   if(isNaN(obj.value)){
-      //받아온 컨트롤의 값이 숫자가 아니면, ""String화한다.
-      obj.value = "";
-   }
-}
-</script>
+
 <body>
 <header>
     <div class="login"><!-- 이미지 경로는 절대경로로 하기 -->
-        <a href=""><img src="/hamaProject/WebContent/img/hamaron_icon.PNG" alt="Hamaron"></a>
+        <a href="/hamaProject/index.jsp"><img src="/hamaProject/img/hamaron_icon.PNG" alt="Hamaron"></a>
         <p>
-            <a href="#">로그인</a>  &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="/hamaProject/login_form.jsp">로그인</a>  &nbsp;&nbsp;&nbsp;&nbsp;
             <a href="#">회원가입</a>
         </p>
     </div>

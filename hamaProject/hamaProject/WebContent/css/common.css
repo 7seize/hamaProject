@@ -15,3 +15,9 @@ h1,h2,h3,h4,h5,h6,p,figure,video{ margin:0; }
 img{vertical-align: top;}
 a{text-decoration: none;}
 a:hover{color: #f6bc49;}
+
+footer{
+    margin: 2% auto;
+    width: 70%;
+    font-size: 12px;
+}

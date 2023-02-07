@@ -19,27 +19,22 @@ public class LoginCtrl extends HttpServlet {
 		String uid = request.getParameter("uid").trim().toLowerCase();
 		String pwd = request.getParameter("pwd").trim();	
 		LoginSvc loginSvc = new LoginSvc();
-		//LoginSvc ÀÇ ÀÎ½ºÅÏ½º loginSvc »ı¼º 
 		MemberInfo loginInfo = loginSvc.getLoginInfo(uid, pwd);
-		//ctrl>svc>dao>svc>ctrl ·Î ÀÌµ¿Çß´Ù°í ´À³¢Áö ¸»°í ¸Ş¼Òµå È£ÃâÇß´Ù°í »ı°¢ÇÏ±â
-		
-		//ÇÁ¸°ÅÍ ¸¸µé±â
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		
-		
-		if(loginInfo != null) { //·Î±×ÀÎ ¼º°ø½Ã
-			//¼­ºí¸´ÀÌ¾î¼­ ¼¼¼Ç Á÷Á¢ ¸¸µé¾î¾ßÇÔ. ·Î±×ÀÎ ¼º°øÇßÀ» ¶§¸¸ ¼¼¼Ç ¸¸µé±â
+		if(loginInfo != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute("loginInfo", loginInfo);
+			
 			out.println("<script>");
-			out.println("alert('ddddd');");
-	
+			out.println("alert('ë¡œê·¸ì¸ ì„±ê³µí• ë•Œ ëœ¨ëŠ” ì•ŒëŒ');");
 			out.println("</script>");
 			out.close();
-		}else {//·Î±×ÀÎ ½ÇÆĞ½Ã
-
+		}else {
 			out.println("<script>");
-			out.println("alert('¾ÆÀÌµğ¿Í ¾ÏÈ£¸¦ È®ÀÎÇÏ¼¼¿ä');");
-	
+			out.println("alert('ì¡´ì¬í•˜ì§€ ì•ŠëŠ” íšŒì›ì…ë‹ˆë‹¤.');");
+			out.println("history.back();");
 			out.println("</script>");
 			out.close();
 		}

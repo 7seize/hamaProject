@@ -3,22 +3,9 @@
      
 <%@ include file="_inc/header.jsp" %>
 
-<style>
-
-main{
-    margin: 2% auto;
-}
-
-main > video{
-    width: 100%;
-    display: block; 
-    margin: 20px auto;
-}
-</style>
-
 <main>
     <video autoplay muted loop>
-        <source src="./img/hamaron_macaron.mp4" type="video/mp4">
+        <source src="/hamaProject/img/hamaron_macaron.mp4" type="video/mp4">
     </video>
 </main>
 
