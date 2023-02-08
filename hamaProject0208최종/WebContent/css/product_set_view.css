@@ -53,7 +53,8 @@ overflow: hidden;
     left: 0;
     top: 0;
     transform:translateY(100%);
-    background-color: blue;
+
+    background-color: #cccc;
     transition: 0.5s;
 }
 .mc-active{
@@ -71,6 +72,7 @@ overflow: hidden;
 }
 .macc-img{
     width: 100%;
+    cursor: pointer;
 }
 .macc-img > img{
     width: 100%;

@@ -1,5 +1,5 @@
 const slide = document.querySelector(".slide");
-let slideWidth = 290;
+let slideWidth = 250;
 
 // 버튼 엘리먼트 선택하기
 const prevBtn = document.querySelector(".slide_prev_button");
@@ -123,7 +123,7 @@ for(let i = 0 ; i < decsClose.length; i ++){
 //./vimg/0_v.png"는 빈칸, 투명그림으로 대체
 let maccImg = document.querySelectorAll('.macc-img');
 let selectMacc = document.querySelectorAll('.select_macc');
-let maccNum = 10; //마카롱 박스 개수 #####################이전 페이지에서 받아올 값임############################
+//let maccNum = 10; //마카롱 박스 개수 #####################이전 페이지에서 받아올 값임############################
 let arr = new Array(maccNum).fill(0);   //마카롱 박스에 들어가는 마카롱을 저장하는 배열,arr[?]가 0이면 빈칸 
 let custombox = new Array(maccNum).fill(0); //커스텀마카롱을 저장하는 배열
 //마카롱 클릭시 해당 마카롱을 박스에 담음
@@ -153,7 +153,8 @@ for(let i = 0; i < maccNum; i++){
             arr[i]=0;
             custombox[i]=0;
             for(let j = 0; j < maccNum; j++){//선택한 마카롱들을 박스에서 뺌
-                selectMacc[j].src="./mc_v/"+arr[j]+"_v.png"
+                selectMacc[j].src="hamaProject/product/pdt_img/vmc/"+arr[j]+"_v.png"
+
             }
         }
     })
