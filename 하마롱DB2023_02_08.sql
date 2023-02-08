@@ -71,7 +71,7 @@ create table t_product_ctgr (
 	pc_id char(2) primary key, 	-- 대분류 코드
 	pc_name varchar(20) not null 	-- 대분류 이름
 );
-
+select * from t_product_info;
 -- 상품 정보
 create table t_product_info (
 	pi_id char(7) primary key, 				-- 상품 ID
@@ -128,7 +128,7 @@ create table t_product_ma_custom (
 	pmc_date	datetime default now(), 		-- 등록일
 	pmc_price	int	default 5000,				-- 가격
 	pmc_isview	char(1)	default 'y',			-- 게시여부
-	pmc_isbuy	char(1)	default 't',			-- 구매여부
+	pmc_isbuy	char(1)	default 'n',			-- 구매여부
 
 	constraint fk_product_ma_custom_mi_id foreign key (mi_id) 
 			references t_member_info(mi_id),
@@ -221,6 +221,41 @@ create table t_order_info (
     constraint fk_order_info_mi_id foreign key (mi_id) 
 		references t_member_info(mi_id)
 );
+
+-- 주문 정보 프로시저 // 보류 
+/*
+drop procedure if exists sp_order;
+delimiter $$ 
+create procedure sp_order(
+kind char(1), oi_id	char(12), mi_id	varchar(20), oi_name varchar(20), oi_phone	varchar(13), oi_zip	char(5), oi_addr1 varchar(50), oi_addr2	varchar(50),
+oi_memo	varchar(50), oi_payment	char(1), oi_pay	int, oi_upoint	int, oi_spoint int, oi_invoice	varchar(50), oi_status char(1), oi_date	datetime, oi_redate	datetime
+	
+)
+begin 
+		insert into t_order_info( mi_id, oi_name, oi_phone, oi_zip, oi_addr1, oi_addr2, oi_memo, oi_payment, oi_pay, oi_upoint, oi_spoint, oi_invoice, 
+        oi_status,  oi_redate)
+        values(miid, oiname, oiphone, oizip, oiaddr1, oiaddr2, oimemo, oipayment, oipay, oiupoint, oispoint, oiinvoice, oistatus,  oiredate );
+end $$
+delimiter ;
+
+													-- 주문 정보 예시--	
+-- =================================================================================================================================
+
+call sp_order('1001', 'mc101','mc','딸기',4000,'mc101.png','mc101_v.png','','신선한 제철 딸기로 만든 딸기 마카롱','y','a','아몬드, 달걀, 우유, 딸기',113);
+-- call sp_order('1001', 'mc101','mc','딸기',4000,'mc101.png','mc101_v.png','','신선한 제철 딸기로 만든 딸기 마카롱','y','a','아몬드, 달걀, 우유, 딸기',113);
+-- call sp_order('주문정보', 'mc101','mc','딸기',4000,'mc101.png','mc101_v.png','','신선한 제철 딸기로 만든 딸기 마카롱','y','a','아몬드, 달걀, 우유, 딸기',113);
+
+
+-- =================================================================================================================================
+
+-- 주문정보
+
+call sp_order( '1001'	);
+call sp_order(			);
+call sp_order(												);
+
+*/
+-- ===============================
 
 -- 주문 상세 정보 
 create table t_order_detail (
@@ -519,7 +554,7 @@ call sp_product('te110',	'te',	'생강',	10000,			'te110.png',	'',	'',	'향긋�
 select * from t_product_info;
 
 
-
+select * from t_order_infom t_product_ma_topping;
 -- 커스텀 토핑 정보
 
 insert into t_product_ma_topping(pmt_id,pmt_name)
@@ -546,3 +581,46 @@ insert into t_product_ma_topping(pmt_id,pmt_name)
 values('tp111',	'체리'																								);
 insert into t_product_ma_topping(pmt_id,pmt_name)
 values('tp112',	'로투스'																								);
+
+
+
+-- ============한유진 추가 20230206========================================================
+-- 커스텀 마카롱(mc100) 상세 설명 빠져있어서 update 
+update t_product_info set pi_desc = '직접 마카롱을 커스텀할 수 있습니다. 비건 마카롱, 저당 마카롱을 즐겨 보세요.' where pi_id = 'mc100';
+
+select * from t_product_ma_custom;
+-- 마카롱 커스텀 테이블에 예시 추가 
+
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('atest',   '커마1',   100, 'y', 'c', 'mc101' , '',   'tp102'   , '',   6000,    'y',   'n'   );
+-- 회원아이디, 마카롱리스트저장명, 당도, 비건여부, 필링양(a적게 c많이), 맛상징마카롱아이디, 레터링이미지, 토핑아이디1(빈문자열가능), 토핑아이디2(빈문자열가능), 가격, 게시여부, 판매된여부
+
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values(   'atest', '커마2', 0, 'y', 'a',   'mc102', '',   'tp102', 'tp107', 6000,   'y',   'n'   );
+
+select * from t_member_info;
+select * from t_product_ma_custom;
+-- 공지/이벤트 예시 추가 (민)
+select * from t_bbs_notice;
+insert into t_bbs_notice (bn_idx, bn_ctgr, bn_title, bn_content, bn_isview) value ('1','공지', '공지입니다', '시범 공지입니다.', 'y');
+insert into t_bbs_notice (bn_idx, bn_ctgr, bn_title, bn_content, bn_isview, bn_sdate, bn_edate, bn_iscal, bn_color)
+value ('2','이벤트', '이벤트입니다', '시범 이벤트입니다.', 'y', '2023-02-23', '2023-02-28', 'y', '#FA8072');
+insert into t_bbs_notice (bn_idx, bn_ctgr, bn_title, bn_content, bn_isview) value ('3','공지2', '공지2입니다', '시범 공지입니다.', 'y');
+
+
+-- 커스텀 토너먼트 /커스텀 토너먼트 투표 데이터 입력<이다희>
+select * from t_ev_cus_tor;
+select * from t_ev_cus_tor_poll;
+
+ insert into t_ev_cus_tor( pmc_idx, mi_id, ect_date, ect_vote, ect_isview, ect_img1, ect_title, ect_content)
+values(  '1' ,'atest', '2023-02-05', 0, 'y', '',  '내가 당연히 1등', '제 마카롱 진짜 맛있어요 비건이라 건강합니다.'  );
+
+ insert into t_ev_cus_tor( pmc_idx, mi_id, ect_date, ect_vote, ect_isview, ect_img1, ect_title, ect_content)
+values(  '2' ,'atest', '2023-02-05', 0, 'y', '',  '아니 내 레시피가 1등임', '제 마카롱 진짜 맛있어요22222'  );
+
+ insert into t_ev_cus_tor_poll( ect_idx, pmc_idx, mi_id, ectp_date)
+values( '1',   '1', 'atest', '2023-02-28' );
+ insert into t_ev_cus_tor_poll( ect_idx, pmc_idx, mi_id, ectp_date)
+values( '2',   '2', 'atest', '2023-02-28' );
