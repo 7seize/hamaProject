@@ -1,19 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import = "java.util.*" %>
-<%@ page import = "java.time.*" %>
-<%@ page import = "vo.*" %>
-
-<%
-request.setCharacterEncoding("utf-8");
-ArrayList<OrderCart> cartList = 
-(ArrayList<OrderCart>)request.getAttribute("cartList");
-
-%>
-<%@ include file="../_inc/header.jsp" %>
-<link rel="stylesheet" href="/hamaProject/css/cart_view.css">
-<script defer src="/hamaProject/js/cart_view.js"></script>
-<form name="frmCart" class="cart_contain" action="order_form" method="post">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./cart1.css">
+    <script defer src="./cart.js"></script>
+</head>
+<body>
+    <form name="frmCart" class="cart_contain" action="order_form" method="post">
         <div class="cart_name">
             <div class="check_wrap"><input type="checkBox" name="all" id="all" onclick="chkAll(this)" checked="checked"></div>
             <div class="cart_img">이미지</div>
@@ -88,7 +84,5 @@ ArrayList<OrderCart> cartList =
             <input type="button" value="전체 구매">
         </div>
     </form>
-</body>
-</html>
 </body>
 </html>

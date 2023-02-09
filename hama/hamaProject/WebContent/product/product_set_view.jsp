@@ -51,14 +51,52 @@ let maccNum = <%=boxsize %>;
                 <div class="decs-detail mc-unactive">
                     <div class = "decs-close">▼</div>
                     <div><%=pc.getPmc_name()%></div>
-                    <div>당도 : </div>
-                    <div>필링량 : </div>
-                    <div>맛 : </div>
+                    <div>당도 : <%=pc.getPmc_sugar()%>%</div>
 <%
-String topping1 = pc.get
+String fill = pc.getPmc_pl();
+if(fill.equals('a')){
+	fill ="적게";
+}else if(fill.equals('c')){
+	fill = "많이";
+}else{
+	fill = "보통";
+}
 %>
-                    <div>비건 여부 : </div>
-                    <div>비건 여부 : </div>
+                    <div>필링량 : <%=fill %></div>
+<%
+String topping1= pc.getPmc_tp1();
+if(topping1 == null){
+%>
+					<div>토핑1 : 없음</div>
+<%}else{ %>
+					<div>토핑1 : <%=topping1 %></div>
+<%} %>
+<%
+String topping2= pc.getPmc_tp1();
+if(topping2 == null){
+%>
+					<div>토핑2 : 없음</div>
+<%}else{ %>
+					<div>토핑2 : <%=topping2 %></div>
+<%} %>
+<%
+String vg = pc.getPmc_vg();
+if(vg == null){
+	vg = "아니요";
+}else{
+	vg = "예";
+}
+%>
+                    <div>비건 여부 : <%=vg%></div>
+<%
+String im = pc.getPmc_img();
+if(im == null){
+	im = "아니요";
+}else{
+	im = "예";
+}
+%>
+                    <div>사진 여부 : <%=im%></div>
                 </div>
             </div>
 <%} %>
