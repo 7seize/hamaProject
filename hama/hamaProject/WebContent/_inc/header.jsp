@@ -30,7 +30,7 @@ if(loginInfo != null) isLogin = true;
 
             <p>
 				<a href="/hamaProject/logout.jsp">로그아웃</a>&nbsp;&nbsp;
-				<a href="member_form_up">정보수정</a>&nbsp;&nbsp;
+				<a href="/hamaProject/my/my_buy_list.jsp">마이페이지</a>&nbsp;&nbsp;
 				<a href="cart_view">장바구니</a>
 			</p>
 <%}else{%>
@@ -75,8 +75,8 @@ if(loginInfo != null) isLogin = true;
                 <a>이벤트</a>
                 <div class="menu-small unactive">
                     <ul>
-                        <li><a href="">투표</a></li>
-                        <li><a href="">토너먼트</a></li>
+                        <li><a href="/hamaProject/event/ev_tor_list?kind=a">투표하러 가기</a></li>
+                        <li><a href="/hamaProject/event/ev_tor_list?kind=b">레시피 구경하기</a></li>
                     </ul>
                 </div>
             </li>
@@ -89,7 +89,7 @@ if(loginInfo != null) isLogin = true;
                 <div class="menu-small unactive">
                     <ul>
                         <li><a href="">공지</a></li>
-                        <li><a href="">토너먼트</a></li>
+                        <li><a href="/hamaProject/event/ev_tor_list.jsp">토너먼트</a></li>
                     </ul>
                 </div>
             </li>

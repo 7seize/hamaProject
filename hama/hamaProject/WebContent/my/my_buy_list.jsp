@@ -58,7 +58,7 @@
     <table class="buy-list">
         <tr class="buy-sort">
             <td width="10%">주문번호/<br>주문일자</td>
-            <td width="10%"></td>
+            <td width="15%"></td>
             <td width="*">제목(상품이름)</td>
             <td width="10%">가격</td>
             <td width="5%">수량</td>

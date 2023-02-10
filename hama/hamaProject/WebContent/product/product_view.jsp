@@ -28,13 +28,11 @@ if(pi.getPi_alg() !=null && !pi.getPi_alg().equals("")){
 }
 
 
-
-
 %>
 
 <style>
    .container{margin: 0 auto;  width: 70%; display:flex; 
-      justify-content: space-evenly;  align-items: center; }
+      justify-content: space-around; align-items: center; }
    .pdtImg {width:300px;}
    .pdtImg > a > img {width : 100%;}
    .desc {padding: 20px;} 
@@ -43,10 +41,66 @@ if(pi.getPi_alg() !=null && !pi.getPi_alg().equals("")){
    .desc > strong {padding: 3% 0 ;}
    #cnt {width : 20px; text-align:right;}
    .buyBtn{ margin-top:5%; width:500px; height: 30px;}
-   #product_name{ }
+   #product_name{font-size: 30px; font-weight: bolder;   font-family: fantasy; }
 </style>
 
 
+<script>
+function setCnt(chk){ //수량 조절 함수
+	var price = <%=realPrice%>;
+	var frm = document.frm;
+	var cnt = parseInt(frm.cnt.value);
+	
+	if (chk == "+" && cnt<99 )		  frm.cnt.value =cnt+ 1;
+	else if(chk == "-" && cnt > 1)		frm.cnt.value= cnt- 1;	
+	
+	var obj = document.getElementById("total");
+	total.innerHTML = frm.cnt.value * price;
+}
+
+function buy(chk){
+	//[장바구니 담기] 또는 [바로구매] 버튼 클릭시 작업할 함수
+   var frm = document.frm;
+<% if (isLogin){%> //로그인되어있을 때 
+	if(chk=="c"){ //장바구니 담기일 경우
+		var cnt = frm.cnt.value; //개수는 따로 받아와야함
+		$.ajax({
+			type : "POST",
+			url : "/hamaProject/cart_proc_in",
+			data : {"piid":"<%= pi.getPi_id()%>", "cnt":cnt},
+			success : function(chkRs){
+				if(chkRs == 0){ //장바구니 담기에 실패했을 경우
+					alert("장바구니 담기에 실패했습니다. \n 다시 시도해보세요.");
+					 return;
+				}else{ //장바구니 담기에 성공했을 경우
+					if(confirm("장바구니에 담았습니다. \n 장바구니로 이동하시겠습니까?")){
+						//보겠다고하면
+						location.href="cart_view";
+					}
+				}
+			}
+		}); 
+		
+	}else{ //바로 구매일 경우 => 결제폼으로 가기 사이즈, 수량, 상품아이디 등 컨트롤 값을 가져가야
+		//폼을 사용해야한다. 액션을 안정했고 여기서 폼을 제출한다.  
+		frm.action = "order_form";  //당연히 서블릿...
+		frm.submit();
+	}
+	
+<%}else { %> //로그인 안되어있으면
+	if(confirm("로그인을 한 뒤 장바구니를 이용하실 수 있습니다.\n로그인 하시겠습니까?")){
+		//로그인하겠다고하면
+		location.href="login_form?url=/hamaProject/product_view?piid=<%=pi.getPi_id()%>";
+	} 
+<%}  %>
+}
+
+
+
+
+
+
+</script>
 
 
 
@@ -62,18 +116,18 @@ if(pi.getPi_alg() !=null && !pi.getPi_alg().equals("")){
          <input type="hidden" name="kind" value="d" /><br />
          <input type="hidden" name="piid" value="<%=pi.getPi_id()%>" /><br />
          
-          <p id="product_name"><%=pi.getPi_name()%></p><br />
+         <p id="product_name"><%=pi.getPi_name()%></p><br />
          <p><%=pi.getPi_desc() %></p><br />
-         <p>영양성분&nbsp;&nbsp;&nbsp;&nbsp; <%=pi.getPi_kcal()%></p><br />
+         <p>영양성분&nbsp;&nbsp;&nbsp;&nbsp; <%=pi.getPi_kcal()%>kcal</p><br />
          <p>알러지&nbsp;&nbsp;&nbsp;&nbsp; <%=al%></p><br />
-         <p><strong>유통기한 </strong>&nbsp;&nbsp;&nbsp;&nbsp; <%=limit %></p><br />
+         <p>유통기한&nbsp;&nbsp;&nbsp;&nbsp; <%=limit %></p><br />
   
 
          
          <div class="btn">
             <p>상품명 : <%=price %></p>
             <input type="button" value="-" onclick="setCnt(this.value);"  />
-            <input type="text" name="cnt" id="cnt" value="1" readonly ="readonly" />
+            <input type="text" name="cnt" id="cnt" value="1" readonly ="readonly" style="width:30px;font-size:1rem;" />
             <input type="button" value="+" onclick="setCnt(this.value);"  />
          </div>
          <div class="buyBtn">
@@ -90,5 +144,3 @@ if(pi.getPi_alg() !=null && !pi.getPi_alg().equals("")){
 
 
 <%@ include file="../_inc/footer.jsp" %>
-</body>
-</html>

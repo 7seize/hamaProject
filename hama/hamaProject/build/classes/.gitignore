@@ -1,6 +1,4 @@
-/act/
 /ctrl/
-/dao/
-/db/
 /svc/
+/dao/
 /vo/

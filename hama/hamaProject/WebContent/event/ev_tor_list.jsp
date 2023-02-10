@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../_inc/header.jsp" %>
+<%
+request.setCharacterEncoding("utf-8");
 
+ArrayList<EvCusTor> torList  = 
+(ArrayList<EvCusTor>)request.getAttribute("torList");
+//EvCusTor ect = (EvCusTor)request.getAttribute("ect");
+
+%>
 <link rel="stylesheet" href="../_inc/css/common.css">
 <link rel="stylesheet" href="../_inc/css/header.css">
 
@@ -21,14 +28,14 @@
 </style>
 <h2>2월 토너먼트 진행중</h2>
 <h3>기간 : 2023.02.01 ~ 2023.02.28 </h3>
-
+<form name="frmSch" method="get">
 <div class="container">
-	<div class="voteIng">
+	<div class="voteIng" onclick="location.href='/hamaProject/event/ev_tor_month_list';">
 		<img  src="ev_img/macaronTp.png"/>
 		<p>2월의 레시피 투표</p>
 		<b>2023.02.01 ~ 2023.02.28</b>
 	</div>
-	<div class="votePre">
+	<div class="votePre" >
 		<img src="ev_img/macaronTp.png"/>
 		<p>1월의 레시피 투표</p>
 		<b>2023.01.01 ~ 2023.01.31</b>
@@ -54,7 +61,7 @@
 		<b>2022.09.01 ~ 2022.09.30</b>
 	</div>
 </div>
-
+</form>
 
 <%@ include file="../_inc/footer.jsp" %>
 </body>

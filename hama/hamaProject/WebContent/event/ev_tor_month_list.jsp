@@ -3,26 +3,21 @@
 <%@ include file="../_inc/header.jsp" %>
 <%
 request.setCharacterEncoding("utf-8");
-ArrayList<BbsFree> freeList 
-= (ArrayList<BbsFree>)request.getAttribute("freeList");
+
+ArrayList<EvCusTor> torList  = 
+(ArrayList<EvCusTor>)request.getAttribute("torList");
 PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
 
 int bsize = pageInfo.getBsize(), cpage = pageInfo.getCpage();
 int psize= pageInfo.getPsize(), pcnt= pageInfo.getPcnt();
 int spage = pageInfo.getSpage(), rcnt= pageInfo.getRcnt();
-String schtype= pageInfo.getSchtype();
-String keyword= pageInfo.getKeyword();
+
 
 String schargs = "", args="";
 //검색조건용 쿼리스트링과 그냥 쿼리 스트링
 //검색조건용은 있을 수도 없을 수도 있음 
-if(schtype != null && !schtype.equals("") && 
-keyword != null && !keyword.equals("") ){
-	//검색조건과 검색어가 있으면 검색 관련 쿼리스트링 완성
-	schargs = "&schtype=" + schtype + "&keyword=" + keyword;
-}
-args = "&cpage=" + cpage +  schargs;
 
+args = "&cpage=" + cpage +  schargs;
 %>
 <style>
 #list tr{height : 30px; }
@@ -33,6 +28,7 @@ args = "&cpage=" + cpage +  schargs;
 
 
 <h2>자유게시판 목록</h2>
+<form name="frmSch" method="get">
 <table width="700" cellpadding="0" cellspacing="0" id="list">
 <tr>
 <th width="10%">번호</th><th width="*">제목</th>
@@ -40,28 +36,28 @@ args = "&cpage=" + cpage +  schargs;
 <th width="10%">조회</th>
 </tr>
 <%
-if(freeList.size()>0){ //게시글 목록이 있으면
+if(torList.size()>0){ //게시글 목록이 있으면
 	int num = rcnt - (psize*(cpage-1));
 	
 	
-	for(int i=0; i<freeList.size(); i++){
-		BbsFree bf = freeList.get(i); //담기
-		String title = bf.getBf_title();
-		if(title.length()>30) title = title.substring(0,27) + "...";
+	for(int i = 0; i < torList.size(); i++){
+		EvCusTor ect = torList.get(i); //담기
+		String title = ect.getEct_title();
+		String date = ect.getEct_date();
+		if(date.length() > 21 ) date = date.substring(0,20);
+		if(title.length() > 30) title = title.substring(0,27) + "...";
 		
-		title = "<a href='free_view?bfidx=" + bf.getBf_idx() + args + 
-				"'>"+title+"</a>";
+		title = "<a href='ev_tor_view.jsp?ectidx=" + ect.getEct_idx()  + 
+				"'>"+ title + "</a>";
 				//타이틀 제목 누르면 링크 걸려서 가야함 
-		if(bf.getBf_reply()>0){
-			title+= " [" +  bf.getBf_reply()+ "]";
+		if(ect.getEct_vote() > 0){
+			title += " [" +  ect.getEct_vote()+ "]";
 		}
 %>			
 		<tr align="center">
 			<td><%=num%></td>
 			<td align="left">&nbsp;&nbsp;<%=title%></td>
-			<td><%=bf.getBf_writer() %></td>
-			<td><%=bf.getBf_date() %></td>
-			<td><%=bf.getBf_read() %></td>
+			<td><%=ect.getEct_img1() %></td>
 		</tr>
 <%	
 	num--; //num 목록 줄어들어야함 
@@ -81,7 +77,7 @@ if(freeList.size()>0){ //게시글 목록이 있으면
 <td width="600">
 <%
 if(rcnt>0){ //게시글이 있으면 - 페이징 영역을 보여줌 
-	String lnk = "free_list?cpage=";
+	String lnk = "ev_tor_list?cpage=";
 	pcnt = rcnt / psize;
 	if(rcnt % psize>0) pcnt++; //전체 페이지 수(마지막 페이지 번호이기도 함)
 	
@@ -124,49 +120,15 @@ if(rcnt>0){ //게시글이 있으면 - 페이징 영역을 보여줌
 %>
 </td>
 <td width="*">
-	<input type="button" value="글등록" />
+	<input type="button" value="레시피 제출" />
 </td>
 </tr>
-
-
-<tr>
-<td colspan="2">
-	<form name="frmSch" method="get">
-	<fieldset>
-		<legend>게시판검색</legend>
-		<select name="schtype"> 
-			<option value="">검색조건</option>
-			<option value="title"  
-			<%if(schtype.equals("title")){%>selected="selected"<%} %>>제목</option>
-			<option value="content"  
-			<%if(schtype.equals("content")){%>selected="selected"<%} %>>내용</option>
-			<option value="tc"  
-			<%if(schtype.equals("tc")){%>selected="selected"<%} %>>제목+내용</option>
-		
-		</select>
-		<input type="text" name="keyword" value="<%=keyword %>" />
-		<input type="submit"  value="검색" />
-		<input type="button"  value="전체글" onclick="location.href='free_list';" />
-	</fieldset>
-	
-	</form>
-</td>
-</tr>
-
 
 
 
 
 </table> 
-
-
-
-
-
-
-
-
-
+</form>
 
 </body>
 </html>

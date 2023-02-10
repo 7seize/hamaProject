@@ -10,7 +10,7 @@ function cartDel(ocidx){
         if(confirm("정말 삭제하시겠습니까?")){
             $.ajax({
                 type : "POST",
-                url : "/hamaproject/cart_proc_del",
+                url : "/hamaProject/cart_proc_del",
                 data : {"ocidx" : ocidx},
                 success : function(chkRs){
                     if(chkRs==0){

@@ -2,7 +2,7 @@ package vo;
 
 public class ProductCustom {
 	//고객이 만든 커스텀마카롱(레시피라봐도무방)을 저장하는 클래스 
-	private int pmc_idx, pmc_sugar, pmc_price, ect_idx;
+	private int pmc_idx, pmc_sugar, pmc_price, ect_idx, ect_vote;
 	private String mi_id, pmc_name,	pmc_vg, pmc_pl, ect_title;
 	private String pi_id, pmc_img, pmc_tp1,pmc_tp2, pmc_isview, pmc_isbuy;
 	 
@@ -95,6 +95,12 @@ public class ProductCustom {
 	}
 	public void setEct_title(String ect_title) {
 		this.ect_title = ect_title;
+	}
+	public int getEct_vote() {
+		return ect_vote;
+	}
+	public void setEct_vote(int ect_vote) {
+		this.ect_vote = ect_vote;
 	}
 
 	

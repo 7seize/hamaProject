@@ -28,7 +28,7 @@ public class CartProcDao {
 			String sql = " update t_order_cart set "
 					+ " oc_cnt = oc_cnt + " + oc.getOc_cnt()
 					+ " where mi_id = '"+ oc.getMi_id()
-					+"' and pi_id = '"+ oc.getPi_id();
+					+"' and pi_id = '"+ oc.getPi_id() + "'";
 
 
 			System.out.println(sql);
@@ -41,12 +41,14 @@ public class CartProcDao {
 						+ "  values ('"+ oc.getMi_id()+"', '"
 						+ oc.getPi_id()+"', '"
 						+ oc.getOc_cnt()+"') ";
-			
+				
+						System.out.println(sql);
+						
 						stmt = conn.createStatement();
 						result = stmt.executeUpdate(sql);	
 			}	
 		}catch(Exception e){
-			System.out.println("CartProcDao 클래스 cartInsert 메소드 오류�");
+			System.out.println("CartProcDao Class cartInsert Fall");
 			e.printStackTrace();
 		}finally {
 			close(stmt);
@@ -65,7 +67,7 @@ public class CartProcDao {
 			result = stmt.executeUpdate(sql);		
 			
 		}catch(Exception e){
-			System.out.println("CartProcDao 클래스의 cartDelete메소드에서오류발생");
+			System.out.println("CartProcDao Class cartDelete Fall");
 			e.printStackTrace();
 		}finally {
 			close(stmt);
@@ -89,7 +91,7 @@ public class CartProcDao {
 			result = stmt.executeUpdate(sql);		
 			
 		}catch(Exception e){
-			System.out.println("CartProcDao 클래스의 cartUpdate메소드에서오류발생");
+			System.out.println("CartProcDao Class cartUpdate Fall");
 			e.printStackTrace();
 		}finally {
 			close(stmt);
@@ -108,17 +110,16 @@ public class CartProcDao {
 		ArrayList<OrderCart> cartList = new ArrayList<OrderCart>();
 		OrderCart oc = null;
 		try {
-			
+			ProductDao ppd = ProductDao.getInstance();
 	
-			String sql = " select  a.*, b.pi_name,  b.pi_img1, "
-					+ " b.pi_price, b.pi_dc, c.ps_stock"
-					+ " from t_order_cart a, t_product_info b, "
-					+ " t_product_stock c where a.pi_id = b.pi_id "
-					+ " and a.pi_id = c.pi_id and a.ps_idx = c.ps_idx "
+			String sql = " select  a.*, b.pi_name, b.pi_img1, "
+					+ " b.pi_price "
+					+ " from t_order_cart a, t_product_info b "
+					+ " where a.pi_id = b.pi_id "
 					+ " and b.pi_isview = 'y' and a.mi_id = '"+
 					miid +"' ";
 			
-			System.out.println(sql + ": /CartProcDao/getCartList");
+			System.out.println(sql + ": 장바구니 + 상품정보 join sql");
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);	
 			
@@ -127,20 +128,16 @@ public class CartProcDao {
 				oc.setOc_idx(rs.getInt("oc_idx"));
 				oc.setMi_id(miid);
 				oc.setPi_id(rs.getString("pi_id"));
-				oc.setPs_idx(rs.getInt("ps_idx"));
 				oc.setOc_cnt(rs.getInt("oc_cnt"));
 				oc.setPi_name(rs.getString("pi_name"));
 				oc.setPi_img1(rs.getString("pi_img1"));
 				oc.setPi_price(rs.getInt("pi_price"));
-				oc.setPi_dc(rs.getInt("pi_dc"));
-				oc.setPs_stock(rs.getInt("ps_stock"));
-				oc.setStockList(ppd.getStockList(oc.getPi_id()));
-				///mvcSite/src/dao/ProductProcDao.java 메소드 참고
+
 				cartList.add(oc);
 			}
 
 		}catch(Exception e){
-			System.out.println("CartProcDao 클래스의 getCartList메소드에서오류발생");
+			System.out.println("CartProcDao 클래스 getCartList 오류");
 			e.printStackTrace();
 		}finally {
 			close(rs); close(stmt);

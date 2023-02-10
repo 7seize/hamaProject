@@ -22,9 +22,7 @@ public class ProductListCtrl extends HttpServlet {
 		String where = ""; //검색조건 where절 
 		String pc = request.getParameter("pc");	// 상품 분류 , 검색조건 없음
 		if (pc != null && !pc.equals("")) {
-			if(pc.equals("te")) { //티타임일때만
-				where += " and (pc_id = 'te' or pc_id ='jm' )";
-			}
+			
 			where += " and pc_id = '" + pc + "' ";
 		}
 		
@@ -43,13 +41,10 @@ public class ProductListCtrl extends HttpServlet {
 		
 		ProductListSvc productListSvc = new ProductListSvc();
 		ArrayList<ProductInfo> productList = 
-				productListSvc.getProductList(where, orderBy);
+				productListSvc.getProductList(where, orderBy); //제품리스트가져감
 		
-		
-	
-		PageInfo pageInfo = new PageInfo();
+		PageInfo pageInfo = new PageInfo(); //정렬을 위해 o가져감 
 		pageInfo.setO(o);
-		
 		
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("productList", productList);

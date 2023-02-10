@@ -6,7 +6,7 @@ import vo.*;
 
 
 public class ProductDao {
-	// »óÇ° °ü·ÃµÈ Äõ¸® ÀÛ¾÷(¸ñ·Ï, »ó¼¼º¸±â)µéÀ» ¸ðµÎ Ã³¸®ÇÏ´Â Å¬·¡½º
+	// ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½(ï¿½ï¿½ï¿½, ï¿½ó¼¼ºï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 	private static ProductDao productDao;
 	private Connection conn;
 	private ProductDao() {}
@@ -19,9 +19,9 @@ public class ProductDao {
 	}
 	
 	
-	// product_list.jsp »óÇ° ¸ñ·Ï °ü·Ã dao
+
 	public ArrayList<ProductInfo> getProductList(String where, String orderBy) {
-		// °Ë»öµÇ´Â »óÇ° ¸ñ·ÏÀ» ÁöÁ¤ÇÑ ÆäÀÌÁö¿¡ ¸ÂÃç ArrayList<ProductInfo>ÇüÀ¸·Î ¸®ÅÏÇÏ´Â ¸Þ¼Òµå
+		// ï¿½Ë»ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ArrayList<ProductInfo>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼Òµï¿½
 			Statement stmt = null;
 			ResultSet rs = null;
 			ArrayList<ProductInfo> productList = new ArrayList<ProductInfo>();
@@ -48,7 +48,7 @@ public class ProductDao {
 				}
 
 			} catch(Exception e) {
-				System.out.println("ProductDao Å¬·¡½ºÀÇ getProductList() ¸Þ¼Òµå ¿À·ù");
+				System.out.println("ProductDao Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ getProductList() ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½");
 				e.printStackTrace();
 			} finally {
 				close(rs);	close(stmt);
@@ -56,8 +56,7 @@ public class ProductDao {
 			return productList;
 		}
 	
-	//¿©±âºÎÅÍ´Â »óÇ° »ó¼¼ 
-	//º¸·Á´Â »óÇ°ÀÇ Á¶È¸¼ö¸¦ 1Áõ°¡½ÃÅ°´Â ¸Þ¼Òµå 
+
 	public int readUpdate(String piid) {
 		int result = 0;
 		Statement stmt = null;
@@ -68,9 +67,9 @@ public class ProductDao {
 			System.out.println(sql + "ProductDao : readUpdate");
 			stmt = conn.createStatement();
 			result = stmt.executeUpdate(sql);
-			//ÇÁ¶óÀÌ¸Ó¸®Å°·Î °°Àº°Å Ã£´Â°Å´Ï±î 1¿Ü¿¡ ³ª¿Ã ¼ö ¾øÀ½ 		
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸Ó¸ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â°Å´Ï±ï¿½ 1ï¿½Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 		
 		} catch(Exception e) {
-			System.out.println("ProductDao Å¬·¡½ºÀÇ readUpdate() ¸Þ¼Òµå ¿À·ù");
+			System.out.println("ProductDao Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ readUpdate() ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½");
 			e.printStackTrace();
 		} finally {
 			close(stmt);
@@ -78,7 +77,7 @@ public class ProductDao {
 		return result;
 	}
 	
-	//»ç¿ëÀÚ°¡ ¼±ÅÃÇÑ »óÇ°ÀÇ Á¤º¸¸¦ ProductInfoÇü ÀÎ½ºÅÏ½º·Î ¸®ÅÏÇÏ´Â ¸Þ¼Òµå 	
+	//ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ProductInfoï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼Òµï¿½ 	
 	public ProductInfo getProductInfo(String piid) {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -90,11 +89,11 @@ public class ProductDao {
 			System.out.println(sql + "getProductInfo");
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-			//ÇÁ¶óÀÌ¸Ó¸®Å°·Î °°Àº°Å Ã£´Â°Å´Ï±î 1¿Ü¿¡ ³ª¿Ã ¼ö ¾øÀ½ 
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸Ó¸ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â°Å´Ï±ï¿½ 1ï¿½Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			
 			if(rs.next()) {
-				//µ¥ÀÌÅÍ°¡ ÀÖÀ» ¶§ 
-				pi = new ProductInfo();// »óÇ° Á¤º¸¸¦ ÀúÀåÇÒ ÀÎ½ºÅÏ½º »ý¼º 
+				//ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
+				pi = new ProductInfo();// ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 				
 				pi.setPi_id(rs.getString("pi_id"));
 				pi.setPc_id(rs.getString("pc_id"));
@@ -114,12 +113,12 @@ public class ProductDao {
 				pi.setPi_alg(rs.getString("pi_alg"));
 				pi.setPi_kcal(rs.getInt("pi_kcal"));
 
-			}//µ¥ÀÌÅÍ°¡ ¾øÀ¸¸é nullÀÌ pi¿¡ µé¾î°¥°Å°í < ±×·¯¸é nullÀÌ¸é ctrl¿¡¼­
-			//»óÇ°Á¤º¸ ¾ø´Ù°í Æ¨±â°Ô µÇ¾îÀÖÀ½.
+			}//ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ nullï¿½ï¿½ piï¿½ï¿½ ï¿½ï¿½î°¥ï¿½Å°ï¿½ < ï¿½×·ï¿½ï¿½ï¿½ nullï¿½Ì¸ï¿½ ctrlï¿½ï¿½ï¿½ï¿½
+			//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù°ï¿½ Æ¨ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½.
 			
 			
 		} catch(Exception e) {
-			System.out.println("ProductDao Å¬·¡½ºÀÇ getProductInfo() ¸Þ¼Òµå ¿À·ù");
+			System.out.println("ProductDao Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ getProductInfo() ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½");
 			e.printStackTrace();
 		} finally {
 			close(rs); close(stmt);

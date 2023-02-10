@@ -6,19 +6,25 @@
 request.setCharacterEncoding("utf-8");
 
 ArrayList<ProductInfo> piList = (ArrayList<ProductInfo>)request.getAttribute("piList");
-ArrayList<ProductCustom> pcList = (ArrayList<ProductCustom>)request.getAttribute("piList");
+ArrayList<ProductCustom> pcList = (ArrayList<ProductCustom>)request.getAttribute("pcList");
 ProductInfo pi = null;
 ProductCustom pc = null;
 %>
 <link rel="stylesheet" href="/hamaProject/css/product_set_view.css">
 <script defer src="/hamaProject/js/product_set_view.js"></script>
 <%
+
 //임시로 박스갯수 10개 나중에 받아올값임
 int boxsize = 10;
 //마카롱 갯수
 int macc = piList.size();
+
+int maccCur = 0;
 //커스텀 마카롱 갯수
-int maccCur = pcList.size();
+System.out.println(pcList);
+if(pcList != null){
+	maccCur = pcList.size();
+};
 %>
 <script>
 let maccNum = <%=boxsize %>;
@@ -41,7 +47,9 @@ let maccNum = <%=boxsize %>;
                 </div>
             </div>
 <%} %>
-<%for(int i = 1; i <= maccCur; i++ ){ 
+<%
+if (maccCur !=0){
+for(int i = 0; i < maccCur; i++ ){ 
 	pc =pcList.get(i);
 %>
             <div class="slide_item">
@@ -99,7 +107,8 @@ if(im == null){
                     <div>사진 여부 : <%=im%></div>
                 </div>
             </div>
-<%} %>
+<%}//for문
+}//if문%>
             <div class="slide_prev_button slide_button">◀</div>
             <div class="slide_next_button slide_button">▶</div>
             <ul class="slide_pagination"></ul>

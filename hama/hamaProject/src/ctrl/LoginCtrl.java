@@ -12,40 +12,40 @@ import javax.servlet.http.*;
 
 @WebServlet("/login")
 public class LoginCtrl extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+   private static final long serialVersionUID = 1L;
     public LoginCtrl() {super();}
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String uid = request.getParameter("uid").trim().toLowerCase();
-		String pwd = request.getParameter("pwd").trim();	
-		LoginSvc loginSvc = new LoginSvc();
-		//LoginSvc ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ loginSvc ï¿½ï¿½ï¿½ï¿½ 
-		MemberInfo loginInfo = loginSvc.getLoginInfo(uid, pwd);
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      request.setCharacterEncoding("utf-8");
+      String uid = request.getParameter("uid").trim().toLowerCase();
+      String pwd = request.getParameter("pwd").trim();   
+      String url = request.getParameter("url").replace('$', '&'); //µÇµ¹¾Æº¸³»´Â °Í ¶§¹®¿¡ url
+      LoginSvc loginSvc = new LoginSvc();
+      //LoginSvc 
+      MemberInfo loginInfo = loginSvc.getLoginInfo(uid, pwd);
 
-		
+      
 
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
-		
-		
-		if(loginInfo != null) {
+      response.setContentType("text/html; charset=utf-8");
+      PrintWriter out = response.getWriter();
+      
+      
+      if(loginInfo != null) {
+         
+         HttpSession session = request.getSession();
+         session.setAttribute("loginInfo", loginInfo );
+         
+         out.println("<script>");
+         out.println("location.replace('" + url + "');");
+         out.println("</script>");
+         out.close();
+      }else {//·Î±×ÀÎ ½ÇÆĞ½Ã
 
-			HttpSession session = request.getSession();
-			session.setAttribute("loginInfo", loginInfo );
-			
-			out.println("<script>");
-			out.println("alert('ë¡œê·¸ì¸ ì„±ê³µ');");
-			out.println("location.replace('index.jsp');");
-			out.println("</script>");
-			out.close();
-		}else {//ë¡œê·¸ì¸ ì‹¤íŒ¨ì‹œ
-
-			out.println("<script>");
-			out.println("alert('ì•„ì´ë””ì™€ ì•”í˜¸ë¥¼ í™•ì¸í•˜ì„¸ìš”');");
-			out.println("history.back();");
-			out.println("</script>");
-			out.close();
-		}
-	}
+         out.println("<script>");
+         out.println("alert('¾ÆÀÌµğ/ºñ¹Ğ¹øÈ£¸¦ ´Ù½Ã È®ÀÎÇØÁÖ¼¼¿ä.');");
+         out.println("history.back();");
+         out.println("</script>");
+         out.close();
+      }
+   }
 
 }

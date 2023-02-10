@@ -24,15 +24,14 @@ public class EvTorProcDao {
 		//현 Dao 클래스에서 사용할 커넥션 객체를 받아와서 생성해주는 메소드 
 			this.conn = conn;
 		}
-	
-		public  ArrayList<ProductCustom> getCustomList( int cpage, int psize){
+
+		public  ArrayList<EvCusTor> getTorList( String kind, int cpage, int psize){
 			//커스텀 목록을 ArrayList로 리턴하는 메소드
 			Statement stmt = null;
 			ResultSet rs = null;
-			ArrayList<ProductCustom> customList  = new ArrayList<ProductCustom>();
+			ArrayList<EvCusTor> torList  = new ArrayList<EvCusTor>();
 			//그냥 생성해도 됨
-			//하나의 레시피들을 저장할 ArrayList<ProductCustom> 
-			ProductCustom pmc = null;
+			EvCusTor ect = null;
 			//customList에 저장할 하나의 게시글 정보를 담을 인스턴스 
 			try {
 				/*
@@ -44,60 +43,41 @@ public class EvTorProcDao {
 							
 				*/
 				// customList에서 보여질 목록
-				String sql = "select a.pmc_idx, a.pmc_img ,b.ect_idx, b.ect_title " + 
+				String sql = "select a.*, b.* " + 
 						" from t_product_ma_custom a,  t_ev_cus_tor b " +
 						" where a.mi_id = b.mi_id and a.pmc_idx = b.pmc_idx and a.pmc_isview='y' and a.pmc_isbuy='y';"; 
 				
 				stmt = conn.createStatement();
-				System.out.println(sql + ":EvTorProcDao : getCustomList()메소드오류 ");
+				System.out.println(sql + ":EvTorProcDao : getTorList()메소드오류 ");
 				rs = stmt.executeQuery(sql); 
 				//한 개가 아니니까 루프돌리기 
 				while(rs.next()) {
-					 pmc = new ProductCustom();
-					 pmc.setPmc_idx(rs.getInt("pmc_idx"));
-					 pmc.setPmc_img(rs.getString("pmc_img"));
-					 pmc.setEct_idx(rs.getInt("ect_idx"));
-					 pmc.setEct_title(rs.getString("ect_title"));
-					 customList.add(pmc);
+					 ect = new EvCusTor();
+					 ect.setPmc_idx(rs.getInt("pmc_idx"));
+					 ect.setEct_idx(rs.getInt("ect_idx"));
+					 ect.setEct_vote(rs.getInt("ect_vote"));// 인기순으로 자동정렬 하기위해 필요
+					 ect.setEct_img1(rs.getString("ect_img1"));
+					 ect.setEct_title(rs.getString("ect_title"));
+					 ect.setEct_date(rs.getString("ect_date")); 
+					 torList.add(ect);
 				}
 			
 			}catch(Exception e) {
-				System.out.println("EvTorProcDao : getCustomList()메소드오류 ");
+				System.out.println("EvTorProcDao : getTorList()메소드오류 ");
 				e.printStackTrace();
 			}finally {
 				close(rs); close(stmt); 
 			}
 			
 			
-			return customList;
+			return torList;
 		}
 		
-		
-		public int voteUpdate(int ectidx) {
-			//득표수를 증가시키는 메소드
-			int result=0;
-			Statement stmt = null;		
-			try {
-				String sql = " update t_ev_cus_tor set ect_vote = ect_vote + 1 "
-						+ " where ect_vote = " +  ectidx;
-				stmt = conn.createStatement();
-				System.out.println(sql + ":EvTorProcDao:voteUpdate ");
-				result = stmt.executeUpdate(sql);
-			
-			}catch(Exception e) {
-				System.out.println("FreeProcDao클래스:readUpdate()오류");
-				e.printStackTrace();
-			}finally {
-				 close(stmt); 
-			}
-			return result;
-			
-		}
-		/*
 		public EvCusTor getEvCusTorInfo(int ectidx){
 			//지정한 게시글의 정보들을 EvCusTor형 인스턴스로 리턴하는 메소드 
 			Statement stmt = null;
 			ResultSet rs = null;
+			
 			EvCusTor ect = null;
 		
 			try {
@@ -106,27 +86,27 @@ public class EvTorProcDao {
 				stmt = conn.createStatement();
 				System.out.println(sql + ":EvTorProcDao :getEvCusTorInfo()");
 				rs = stmt.executeQuery(sql); 
+				// 한 게시글에서 보여줄 항목들 
 				//한 개 니까 루프 안돌려도 됨 
 				if(rs.next()) {
 					ect = new EvCusTor();
 					ect.setEct_idx(ectidx);
-					ect.setBf_ismem(rs.getString("bf_ismem"));
-					bf.setBf_writer(rs.getString("bf_writer"));
-					bf.setBf_header(rs.getString("bf_header"));
-					bf.setBf_title(rs.getString("bf_title"));
-					bf.setBf_content(rs.getString("bf_content"));
-					bf.setBf_date(rs.getString("bf_date"));
-					bf.setBf_read(rs.getInt("bf_read"));
-					bf.setBf_ip(rs.getString("bf_ip"));
+					ect.setMi_id(rs.getString("mi_id"));
+					ect.setPmc_idx(rs.getInt("pmc_idx"));
+					ect.setEct_date(rs.getString("ect_date"));
+					ect.setEct_vote(rs.getInt("ect_vote"));
+					ect.setEct_img1(rs.getString("ect_img1"));
+					ect.setEct_title(rs.getString("ect_title"));
+					ect.setEct_content(rs.getString("ect_content"));
 				}
 			
 			}catch(Exception e) {
-				System.out.println("FreeProcDao클래스:getFreeInfo()오류");
+				System.out.println("EvTorProcDao클래스:getEvCusTorInfo()오류");
 				e.printStackTrace();
 			}finally {
 				close(rs); close(stmt); 
 			}		
-			return bf;
+			return ect;
 		}
-*/
+
 }

@@ -11,6 +11,7 @@
     }
     .my-menu{
     	margin-right: 40px;
+    	margin-bottom : 50px;
     }
     h1{
         font-size: 2rem;
@@ -62,7 +63,7 @@
                 <p>MY 정보</p>
                 <ul>
                     <li><a href="my_info_view.jsp">개인정보 수정</a></li>
-                    <li><a href="my_place_view.jsp">배송지 관리</a></li>
+                    <li><a href="my_place_list.jsp">배송지 관리</a></li>
                     <li><a href="my_leave_view.jsp">회원 탈퇴</a></li>
                 </ul>
             </div>

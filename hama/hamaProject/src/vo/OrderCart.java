@@ -4,6 +4,7 @@ public class OrderCart {
 	private int oc_idx, oc_cnt;
 	private String mi_id, oc_date, pi_id;
 	private int pi_price, pi_dc;
+	private String pi_name, pi_img1;
 	
 	public int getOc_idx() {
 		return oc_idx;
@@ -46,6 +47,18 @@ public class OrderCart {
 	}
 	public void setPi_dc(int pi_dc) {
 		this.pi_dc = pi_dc;
+	}
+	public String getPi_name() {
+		return pi_name;
+	}
+	public void setPi_name(String pi_name) {
+		this.pi_name = pi_name;
+	}
+	public String getPi_img1() {
+		return pi_img1;
+	}
+	public void setPi_img1(String pi_img1) {
+		this.pi_img1 = pi_img1;
 	}
 	
 }
