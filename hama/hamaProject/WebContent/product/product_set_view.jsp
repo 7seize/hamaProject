@@ -5,6 +5,7 @@
 <%
 request.setCharacterEncoding("utf-8");
 
+
 ArrayList<ProductInfo> piList = (ArrayList<ProductInfo>)request.getAttribute("piList");
 ArrayList<ProductCustom> pcList = (ArrayList<ProductCustom>)request.getAttribute("pcList");
 ProductInfo pi = null;
@@ -13,9 +14,6 @@ ProductCustom pc = null;
 <link rel="stylesheet" href="/hamaProject/css/product_set_view.css">
 <script defer src="/hamaProject/js/product_set_view.js"></script>
 <%
-
-//임시로 박스갯수 10개 나중에 받아올값임
-int boxsize = 10;
 //마카롱 갯수
 int macc = piList.size();
 
@@ -27,7 +25,7 @@ if(pcList != null){
 };
 %>
 <script>
-let maccNum = <%=boxsize %>;
+let maccNum = <%=(String)request.getAttribute("boxSizeCount") %>;
 </script>
 <body>
     <div class="slider-contain">

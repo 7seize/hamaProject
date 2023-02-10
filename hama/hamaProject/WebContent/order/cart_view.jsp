@@ -13,7 +13,9 @@ ArrayList<OrderCart> cartList =
 <%@ include file="../_inc/header.jsp" %>
 <link rel="stylesheet" href="/hamaProject/css/cart_view.css">
 <script defer src="/hamaProject/js/cart_view.js"></script>
-<% if(cartList != null){ //카트에 담겨있는 제품이 있을경우 %>
+<% if(cartList != null){ //카트에 담겨있는 제품이 있을경우
+	int amout = 0;
+%>
 <form name="frmCart" class="cart_contain" action="order_form" method="post">
         <div class="cart_name">
             <div class="check_wrap"><input type="checkBox" name="all" id="all" onclick="chkAll(this)" checked="checked"></div>
@@ -27,6 +29,8 @@ ArrayList<OrderCart> cartList =
         </div>
 <%for(int i=0; i< cartList.size(); i++){
 	OrderCart oc = cartList.get(i);
+	int ocidx = oc.getOc_idx();
+	int cnt = oc.getOc_cnt();
 %>
         <div class="cart_content">
             <div class="check_wrap"><input type="checkbox" name="chk" value ="ocidx" checked="checked"></div>
@@ -38,27 +42,25 @@ ArrayList<OrderCart> cartList =
             <a href="product_view?piid=<%=oc.getPi_id()%>" class="cart_info"><%=oc.getPi_name() %></a>
             <div class="cart_price" ><%=oc.getPi_price() %> 원</div>
             <div class="cart_num">
-                <select class="cart_num_count">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
+            <select class="cart_num_count" onchange="cartUp(<%=ocidx%>, this.value)" >
+            <%for(int j = 1 ; j <100; j++){
+            	if(j == cnt){
+            		%><option value="<%=j %>" selected ><%=j %></option><%
+            	}else{
+            		%><option value="<%=j %>" ><%=j %></option><%
+            	}
+            } %>
+            </select>
             </div>
-            <div class="cart_point"><%=oc.getPi_price()*0.01 %> pt</div>
-            <div class="cart_amout">6000 원</div>
-            <div class="cart_del" onclick="cartDel('ocidx')">삭제</div>
+            <div class="cart_point"><%=oc.getPi_price()*cnt*0.01 %> pt</div>
+            <div class="cart_amout"><%=oc.getPi_price()*cnt %> 원</div>
+            <div class="cart_del" onclick="cartDel(<%=ocidx%>)">삭제</div>
         </div>
-<%} %>
+<% amout += oc.getPi_price()*cnt;
+} %>
         <div class="cart_total">
             <div>총 주문 금액</div>
-            <div class="total_price">12000 원</div>
+            <div class="total_price"><%=amout %> 원</div>
             <div></div>
         </div>
         <div class="cart_btn">

@@ -20,6 +20,7 @@ public class ProductSetViewCtrl extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		//String piid = request.getParameter("piid");
+		String boxSize = (String)request.getParameter("boxSize");
 		
 		ProductSetViewSvc productSetViewSvc = new ProductSetViewSvc();
 		
@@ -45,6 +46,7 @@ public class ProductSetViewCtrl extends HttpServlet {
 		
 		request.setAttribute("pcList", pcList);	//커스텀 마카롱 
 		request.setAttribute("piList", piList); //일반 마카롱
+		request.setAttribute("boxSizeCount", boxSize); //박스 개수
 		
 		RequestDispatcher dispatcher = 
 				

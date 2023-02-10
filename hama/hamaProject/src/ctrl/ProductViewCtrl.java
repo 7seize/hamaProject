@@ -3,6 +3,8 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
+import javax.websocket.SendResult;
+
 import svc.*;
 import vo.*;
 
@@ -29,9 +31,31 @@ public class ProductViewCtrl extends HttpServlet {
 			out.close();
 		}
 		request.setAttribute("pi", pi);
-		RequestDispatcher dispatcher = 
-		request.getRequestDispatcher("/product/product_view.jsp");
-		dispatcher.forward(request, response);
+		
+	
+			//상품 아이디로 구분해서 보내는 서블릿/jsp파일이 다르다
+		
+			if(piid.equals("mc100")) {//커스텀마카롱으로 할 때 일단 리스트로
+				//일시적로그인폼인데 커스텀마카롱서블릿을 호출할 것
+				System.out.println("빨리커스텀마카롱리스트만들자");
+				
+			}else if(piid.equals("cb101")||piid.equals("cb102")) { //5,10구성마카롱
+				//래규님 setctrl로 보냄 
+				int temp=5;
+				if(piid.equals("cb102")) temp = 10;
+				System.out.println(temp + ": productviewctrl");
+
+					
+				RequestDispatcher dispatcher = 
+						request.getRequestDispatcher("productsetview?boxSize="+temp);
+					dispatcher.forward(request, response);
+				
+			}else { //리스트에서 일반 상품 클릭시 상세 페이지로 이동 
+				RequestDispatcher dispatcher = 
+						request.getRequestDispatcher("/product/product_view.jsp");
+						dispatcher.forward(request, response);
+			}
+		
 	}
 			
 }

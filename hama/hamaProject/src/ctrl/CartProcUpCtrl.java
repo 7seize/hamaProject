@@ -20,8 +20,6 @@ public class CartProcUpCtrl extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		//캐릭터 인코딩
 		int ocidx = Integer.parseInt(request.getParameter("ocidx"));
-		//변경시 where절에서 조건으로 사용될 장바구니 테이블의 primary key
-		int opt = Integer.parseInt(request.getParameter("opt"));
 		int cnt = Integer.parseInt(request.getParameter("cnt"));
 		//opt : 변경할 옵션 인덱스 번호, cnt : 변경할 수량 
 		//셋 다 int고 cnt는 0 넣어줫으니 int로 받아오기 
@@ -40,8 +38,7 @@ public class CartProcUpCtrl extends HttpServlet {
 		}
 		String miid = loginInfo.getMi_id();
 		
-		OrderCart oc = new OrderCart();
-		//4개를 들고가야하니까 인스턴스 생성해서 인스턴스에 담아감 
+		OrderCart oc = new OrderCart(); 
 		oc.setOc_idx(ocidx);
 		oc.setMi_id(miid);
 		oc.setOc_cnt(cnt);

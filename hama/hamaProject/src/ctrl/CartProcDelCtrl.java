@@ -16,12 +16,10 @@ public class CartProcDelCtrl extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-		
-request.setCharacterEncoding("utf-8");
-		
+		request.setCharacterEncoding("utf-8");
+
 		String ocidx = request.getParameter("ocidx");
-		
+
 		HttpSession session = request.getSession();
 		MemberInfo loginInfo = (MemberInfo)session.getAttribute("loginInfo");
 
@@ -49,7 +47,7 @@ request.setCharacterEncoding("utf-8");
 			where += ")";
 			
 			
-		}else {//한 개의상품을 삭제할 경우
+		}else {
 			where += " and oc_idx = " + ocidx ;
 		}
 			
@@ -58,10 +56,9 @@ request.setCharacterEncoding("utf-8");
 		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
+		System.out.println(result);
 		out.println(result);
-		
 		//result 출력  ajax로 간다.
-		
 	}
 
 }
