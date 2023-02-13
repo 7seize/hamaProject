@@ -14,7 +14,7 @@ public class OrderFormCtrl extends HttpServlet {
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		
+		System.out.println("post 성공");
 		//바로구매인지 장바구니인지 구분해야함
 		//장바구니를 통한 구매(c)인지, 바로 구매(d)인지 여부를 판단할 데이터
 		String kind = request.getParameter("kind");
@@ -37,13 +37,13 @@ public class OrderFormCtrl extends HttpServlet {
 		//구매하려는 상품 정보를 위한 쿼리를 만들어서> 뷰로 
 		//장바구니  ㅣ장바구니 테이블에서정보를 가져옴
 		//직접인 경우 장바구니에서 가져올 게 없다. 
-		String select = "select a.pi_id, a.pi_img1, a.pi_name,  a.pi_price ";
+		String select = "select a.pi_id, a.pi_img1, a.pi_name, a.pi_price ";
 		String from = " from t_product_info a ";
 		String where = " where a.pi_isview = 'y' ";
 		
 		if(kind.equals("c")) { //장바구니(c)를 통한 구매일 경우
 			//장바구니일 때만 회원 아이디가 필요함 
-			select += " c.oc_cnt cnt,   c.oc_idx";
+			select += " , c.oc_cnt cnt,   c.oc_idx";
 			from += ", t_order_cart c ";
 			where += " and a.pi_id = c.pi_id " +
 			" and c.mi_id = '" + miid+ "' and (" ;
@@ -53,15 +53,15 @@ public class OrderFormCtrl extends HttpServlet {
 			//checkbox에 있는 value들 배열로 받기
 
 			for(int i=0; i<arr.length; i++) {
-				if(i==0) where += " c.oc_idx = " + arr[i];
+				if(i==0) where += " c.oc_idx = '' ";
 				else	 where += " or c.oc_idx = " + arr[i];
 //"select 어쩌고 where c.oc_idx = arr[1] or c.oc_idx = arr[2] or...이렇게 나오게 함 "
 //첫번째는 or 안붙이고 다음거는 or 쓴다. 
 			}
-			where += ") order by a.pi_id, c.ps_idx" ; //괄호 닫기
+			where += ") order by a.pi_id " ; //괄호 닫기
 			//order by로 아이디순 그다음 상품순 정렬
 	
-		} else { //바로 구매(d)일 경우 
+		} else { //바로 구매(d)일 경우 //###################################################################################작업중
 			//오더폼에서보여줄 상품정보를 보여주면 됨.
 			//어디서가져옴? 바로구매니까 장바구니테이블이아니라 상품테이블에서 직접 가져와야함
 			//아이디,수량은 가져올 수 없고 가져와야한다.

@@ -1,18 +1,30 @@
 function chkAll(all){
 	let chk = document.frmCart.chk;
-	for(let i=0; i<chk.length; i++){
+	for(let i=1; i < chk.length; i++){
 		chk[i].checked = all.checked;
 	}
+}
+function unchkAll(unChk) {
+	if(document.getElementById('all').checked )
+		document.frmCart.all.checked = unChk.checked;
 }
 
 function getSelectedValues(){
 
 		let chk = document.frmCart.chk; //chk 컨트롤 배열에서 선택된 체크박스의 값들을
-		let chkArr = [];
-		for(let i=0; i<chk.length; i++){ //히든객체로 하나 넣어놨기에 1부터 돌림 히든돌리지않게
-			if (chk[i].checked) chkArr.add(i);
+		let chkArr = '';
+		console.log(chk.length);
+		
+		for(let i = 1 ; i < chk.length; i ++){
+			if(chk[i].checked){
+				chkArr += (chk[i].value);
+				chkArr += ('/');
+			}
+			
 		}
-			return chkArr.join();
+		console.log(chkArr);
+		
+		return chkArr;
 	}
 
 function cartDel(ocidx){
@@ -53,3 +65,16 @@ function cartUp(ocidx, cnt){
 	}); 
 }
 
+function chkBuy(){
+	//사용자가 선택한 상품(들)을 구매히는 함수
+	let ocidx = getSelectedValues();
+	document.frmCart.chk[0].setAttribute('value',ocidx)
+	if(ocidx == "") alert("구매할 상품을 선택하세요.");
+	else			document.frmCart.submit();
+	//
+}
+function allBuy(){
+	let ocidx = getSelectedValues();
+	
+	document.frmCart.submit();
+}

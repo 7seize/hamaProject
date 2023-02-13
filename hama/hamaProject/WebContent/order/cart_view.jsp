@@ -17,6 +17,8 @@ ArrayList<OrderCart> cartList =
 	int amout = 0;
 %>
 <form name="frmCart" class="cart_contain" action="order_form" method="post">
+<input type="hidden" name="chk" value="" />
+<input type="hidden" name="kind" value="c" />
         <div class="cart_name">
             <div class="check_wrap"><input type="checkBox" name="all" id="all" onclick="chkAll(this)" checked="checked"></div>
             <div class="cart_img">이미지</div>
@@ -33,7 +35,7 @@ ArrayList<OrderCart> cartList =
 	int cnt = oc.getOc_cnt();
 %>
         <div class="cart_content">
-            <div class="check_wrap"><input type="checkbox" name="chk" value ="ocidx" checked="checked"></div>
+            <div class="check_wrap"><input type="checkbox" name="chk" onclick="unchkAll(this)" value = <%=ocidx %> checked="checked"></div>
             <div class="cart_img">
                 <a href="product_view?piid=<%=oc.getPi_id()%>" class="cart_img_container">
                     <img src="/hamaProject/product/pdt_img/<%=oc.getPi_id().substring(0,2)%>/<%=oc.getPi_id()%>.png" alt="">
@@ -64,8 +66,8 @@ ArrayList<OrderCart> cartList =
             <div></div>
         </div>
         <div class="cart_btn">
-            <input type="button" value="선택 항목 구매">
-            <input type="button" value="전체 구매">
+            <input type="button" onclick="chkBuy();" value="선택 항목 구매">
+            <input type="button" onclick="allBuy();" value="전체 구매">
         </div>
     </form>
 <%}else{ %>

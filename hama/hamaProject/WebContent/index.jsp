@@ -8,5 +8,4 @@
         <source src="/hamaProject/img/hamaron_macaron.mp4" type="video/mp4">
     </video>
 </main>
-
 <%@ include file="_inc/footer.jsp" %>
