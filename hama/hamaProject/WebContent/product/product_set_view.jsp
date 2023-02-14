@@ -23,9 +23,12 @@ System.out.println(pcList);
 if(pcList != null){
 	maccCur = pcList.size();
 };
+//마카롱 박스
+int boxmacc = Integer.parseInt((String)request.getAttribute("boxSizeCount"));
 %>
 <script>
-let maccNum = <%=(String)request.getAttribute("boxSizeCount") %>;
+let maccNum = <%=boxmacc %>;
+
 </script>
 <body>
     <div class="slider-contain">
@@ -112,16 +115,15 @@ if(im == null){
             <ul class="slide_pagination"></ul>
         </div>
     </div>
-    <div>
-        
-        <div class="mcc_box">
-            <div><img class="select_macc" src="/hamaProject/product/pdt_img/vmc/mc100_v.png"></div>
-
-        </div>
-    </div>
+       <div class="mcc_box">
+<%for(int i =0; i <boxmacc ; i++ ){ %>
+           <div><img class="select_macc" src="/hamaProject/product/pdt_img/vmc/0_v.png" ></div>
+<%} %>
+       </div>
     <form>
         <input id="result" type="button" value="장바구니에 담기">
         <input id="resultBuy" type="button" value="바로 구매">
-    </form>   
+    </form>
 </body>
+
 </html>

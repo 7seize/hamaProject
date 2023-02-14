@@ -8,7 +8,7 @@ create table t_admin_info (
 	ai_pw varchar(20) not null, 		-- 비밀번호
 	ai_name varchar(20) not null, 		-- 이름
 	ai_use char(1) default 'y', 		-- 사용여부
-	ai_date datetime default now()		-- 등록일
+	ai_date datetime default now()		-- 등록일t_ev_cus_tor
 );
 
 -- 회원정보 테이블
@@ -71,7 +71,7 @@ create table t_product_ctgr (
 	pc_id char(2) primary key, 	-- 대분류 코드
 	pc_name varchar(20) not null 	-- 대분류 이름
 );
-select * from t_product_info;
+
 -- 상품 정보
 create table t_product_info (
 	pi_id char(7) primary key, 				-- 상품 ID
@@ -187,23 +187,25 @@ create table t_order_cart (
 	po_idx int, 							-- 상품 재고 ID
 	oc_cnt int default 0, 					-- 개수
 	oc_date datetime default now(), 		-- 등록일
-    pmc_idx int default 0, 					-- 커스텀 인덱스
+    oc_pmc_idx int default 0, 					-- 커스텀 인덱스
     
     constraint fk_order_cart_mi_id foreign key (mi_id) 
 		references t_member_info(mi_id), 
     constraint fk_order_cart_pi_id foreign key (pi_id) 
 		references t_product_info(pi_id), 
     constraint fk_order_cart_po_idx foreign key (po_idx) 
-		references t_product_out(po_idx),
-	constraint fk_order_cart_pmc_idx foreign key (pmc_idx) 
-		references t_product_ma_custom(pmc_idx)
+		references t_product_out(po_idx)
 );
-
+-- constraint fk_order_cart_pmc_idx foreign key (pmc_idx) 
+	-- references t_product_ma_custom(pmc_idx)
+    
 -- 주문 정보 
 create table t_order_info (
 	oi_id char(12) primary key, 		-- 주문번호
 	mi_id varchar(20), 					-- 회원 ID
 	oi_name varchar(20) not null, 		-- 수취인명
+    oi_sender varchar(20) not null, 	-- 보내는이
+    oi_sephone varchar(13) not null, 	-- 보내는이 연락처
 	oi_phone varchar(13) not null, 		-- 배송지 전화번호
 	oi_zip char(5) not null, 			-- 배송지 우편번호
 	oi_addr1 varchar(50) not null, 		-- 배송지 주소1
@@ -440,12 +442,12 @@ delimiter ;
 
 call sp_member('atest', '1111', '테스터', '2000-02-02','010-4444-5555', 'dou@test.com' , '33333', '경기도 파주시','555-22');
 -- call sp_member('아이디', '비밀번호', '이름', '생일', '핸드폰', '이메일' , '우편번호', '주소1','주소2');
+call sp_member('btest', '1234', '비테스터', '1999-01-09', '010-8888-9999', 'blue@test.com' , '22222', '경기도 성남시','222-66');
+call sp_member('ctest', '1234', '시테스터', '1989-05-08', '010-1111-8888', 'ciwey@test.com' , '11111', '경기도 하남시','444-22');
+call sp_member('dtest', '1234', '디테스터', '1993-11-05', '010-2222-5555', 'day@test.com' , '44444', '서울시 강남구','888-25');
 
 -- =================================================================================================================================
 
-select * from t_member_info;
-select * from t_member_addr;
-select * from t_member_point;
 
 
 -- 분류 입력 mc:마카롱 ck:쿠키 jm:잼 te:차 bx:세트 cx:커스텀박스
@@ -554,7 +556,6 @@ call sp_product('te110',	'te',	'생강',	10000,			'te110.png',	'',	'',	'향긋�
 select * from t_product_info;
 
 
-select * from t_order_infom t_product_ma_topping;
 -- 커스텀 토핑 정보
 
 insert into t_product_ma_topping(pmt_id,pmt_name)
@@ -600,6 +601,38 @@ insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_
 pmc_price,   pmc_isview,   pmc_isbuy)
 values(   'atest', '커마2', 0, 'y', 'a',   'mc102', '',   'tp102', 'tp107', 6000,   'y',   'n'   );
 
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('btest',   '비마카롱1',   50, 'y', 'c', 'mc103' , '', 'tp104' , '',   6000,    'y',   'n'   );
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('btest',   '비마카롱2',   100, 'n', 'a', 'mc104' , '', 'tp105' , 'tp106',   6000,    'y',   'n'   );
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('ctest',   '시마카롱1',   50, 'y', 'a', 'mc105' , '', 'tp106' , '',   6000,    'y',   'n'   );
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('ctest',   '시마카롱1',   0, 'n', 'a', 'mc106' , '', 'tp108' , '',   6000,    'y',   'n'   );
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('dtest',   '디마카롱1',   100, 'n', 'c', 'mc107' , '', 'tp104' , 'tp102',   6000,    'y',   'n'   );
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('dtest',   '디마카롱2',   0, 'n', 'c', 'mc108' , '', 'tp109' , 'tp101',   6000,    'y',   'n'   );
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('ctest',   '내비건마카랑',   100, 'y', 'c', 'mc109' , '', 'tp112' , 'tp110',   6000,    'y',   'n'   );
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('ctest', '마싯는카롱', 50, 'n', 'a', 'mc110' , '', 'tp111', 'tp19', 6000, 'y', 'y');
+insert into t_product_ma_custom(mi_id,   pmc_name,   pmc_sugar,   pmc_vg,   pmc_pl,   pi_id,   pmc_img,   pmc_tp1,   pmc_tp2,   
+pmc_price,   pmc_isview,   pmc_isbuy)
+values('btest', '카롱아일등하자', 100, 'n', 'c', 'mc111' , '', 'tp105', '', 6000, 'y', 'y');
+
+
+-- update t_product_ma_custom set pmc_tp2 = 'tp110' where pmc_idx = '10';
+
+
 select * from t_member_info;
 select * from t_product_ma_custom;
 -- 공지/이벤트 예시 추가 (민)
@@ -624,3 +657,33 @@ values(  '2' ,'atest', '2023-02-05', 0, 'y', '',  '아니 내 레시피가 1등�
 values( '1',   '1', 'atest', '2023-02-28' );
  insert into t_ev_cus_tor_poll( ect_idx, pmc_idx, mi_id, ectp_date)
 values( '2',   '2', 'atest', '2023-02-28' );
+
+-- EvTorProcDao의  getCustomList() 쿼리
+select a.pmc_idx, a.pmc_img , ect_title
+from t_product_ma_custom a,  t_ev_cus_tor b
+where a.mi_id = b.mi_id and a.pmc_idx = b.pmc_idx and a.pmc_isview='y' and a.pmc_isbuy='y';
+
+
+-- 레시피 게시글 쿼리 
+select a.pmc_idx, a.pmc_sugar, a.pmc_vg, a.pmc_pl, a.pi_id, a.pmc_tp1, a.pmc_tp2, a.pmc_img, b.ect_idx, b.ect_vote, b.ect_title, ect_content
+from t_product_ma_custom a, t_ev_cus_tor b
+where a.pmc_idx = b.pmc_idx and b.ect_isview = 'y' and a.pmc_isview='y' and a.pmc_isbuy='y' order by b.ect_vote desc;
+
+-- 인기순 동작하는지 확인용
+update t_product_info set pi_sale = 16 where pi_id = 'ck101';
+
+select * from t_order_cart;
+-- insert into t_order_cart (mi_id, pi_id, oc_cnt)   values ('atest', 'mc101', '1') ;
+
+
+
+
+
+
+
+
+
+
+
+
+

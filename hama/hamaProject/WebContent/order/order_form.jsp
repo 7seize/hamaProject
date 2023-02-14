@@ -19,8 +19,9 @@ if(!isLogin || pdtList.size() == 0 || addrList.size() == 0 ){
 }
 %>
 <link rel="stylesheet" href="/hamaProject/css/order_form.css">
+<script defer src="/hamaProject/js/order_form.js"></script>
 
-    <form name="frmCart" class="cart_contain" action="order_form" method="post">
+    <form name="frmCart" class="cart_contain">
         <div class="cart_name">
             <div class="cart_img">이미지</div>
             <div class="cart_info">상품 정보</div>
@@ -34,6 +35,7 @@ String ocidxs = ""; //장바구니 인덱스 번호들을 누적 저장할 변�
 int total=0; //총 구매가격의 누적 값을 저장할 변수 
 for(int i=0; i<pdtList.size() ; i++){
 	OrderCart oc = pdtList.get(i);
+	ocidxs += "," + oc.getOc_idx();
 %>
         <div class="cart_content">
             <div class="cart_img">
@@ -49,7 +51,9 @@ for(int i=0; i<pdtList.size() ; i++){
         </div>
 <%
 total += oc.getPi_price()*oc.getOc_cnt();
-} %>
+} 
+ocidxs = (ocidxs.indexOf(',') >= 0)?  ocidxs.substring(1):ocidxs;
+%>
         <div class="cart_total">
             <div>예상 적립 포인트</div>
             <div><%=total*0.01 %> pt</div>
@@ -58,7 +62,8 @@ total += oc.getPi_price()*oc.getOc_cnt();
             <div></div>
         </div>
     </form>
-    <form action="">
+    <form action="order_proc_in" method="post" >
+    	<input type="hidden" name="kind" value="<%=request.getParameter("kind")%>" />
         <h2>주문하시는 분 (보내는 분)</h2>
         <div class="order_info">
             <div>
@@ -66,61 +71,70 @@ total += oc.getPi_price()*oc.getOc_cnt();
                     <label for="order_name">주문하시는 분 </label>
                 </div>
                 <div class="order_content">
-                    <input id="order_name" type="text" value="<%=ad.getMi_id() %>">
+                    <input id="order_name" name="order_name" type="text" value="<%=ad.getMi_id() %>">
                 </div>
                 <div class="order_title">
                     <label for="order_phone">휴대번호 </label>
                 </div>
                 <div class="order_content">
-                    <input id="order_phone" type="text" value="<%=ad.getMa_phone()%>"  >
+                    <input id="order_phone" name="order_phone"  type="text" value="<%=ad.getMa_phone()%>"  >
                 </div>
             </div>
         </div>
+        <script>
+        	let orName, orPhone, orAddrNum, orAddr1, orAddr2;
+        	orName  = '<%=ad.getMa_rname() %>';
+        	orPhone  =  '<%=ad.getMa_phone() %>';
+        	orAddrNum  =  '<%=ad.getMa_zip() %>';
+        	orAddr1  =  '<%=ad.getMa_addr1() %>';
+        	orAddr2  =  '<%=ad.getMa_addr2() %>';
+        </script>
         <h2>받으시는 분 (상품을 받으시는 분)</h2>
         <div>
-            <input type="checkbox" id="is_receive">
-            <label for="is_receive"> 주문자 정보와 동일</label>
+        	<input type="hidden" name="ocidxs" value="<%=ocidxs%>" />
+            <input type="checkbox" id="isReceive"  onClick="checkMem()" >
+            <label for="isReceive"> 주문자 정보와 동일</label>
         </div>
         <div class="order_info">
             <div>
                 <div class="order_title">
-                    <label for="receive_name">받으시는 분 이름</label>
+                    <label for="receiveName">받으시는 분 이름</label>
                 </div>
                 <div class="order_content">
-                    <input id="receive_name" type="text">
+                    <input id="receiveName" name="receiveName"  type="text">
                 </div>
                 <div class="order_title">
-                    <label for="receive_phone">휴대번호 </label>
+                    <label for="receivePhone">휴대번호 </label>
                 </div>
                 <div class="order_content">
-                    <input id="receive_phone" type="text">
+                    <input id="receivePhone" name="receivePhone" type="text">
                 </div>
                 <div class="order_title">
-                    <label for="receive_add">주소 </label>
+                    <label for="receiveZip">주소 </label>
                 </div>
                 <div class="order_content">
                     <div>
-                        <input id="receive_add" type="text">
-                        <input id="receive_btn" type="button" value="우편번호 찾기">
+                        <input id="receiveZip" name="receiveZip" type="text">
+                        <input id="receiveBtn" type="button" value="우편번호 찾기">
                     </div>
                     <div>
-                        <input id="receive_add" type="text">
+                        <input id="receiveAdd1"  name="receiveAdd1" type="text">
                     </div>
                     <div>
-                        <input id="receive_add" type="text">
+                        <input id="receiveAdd2"  name="receiveAdd2" type="text">
                     </div>
                 </div>
                  <div class="order_title">
-                    <label for="receive_memo">요청사항(선택) </label>
+                    <label for="receiveMemo" >요청사항(선택) </label>
                 </div>
                 <div class="order_content">
-                    <input id="receive_memo" type="text">
+                    <input id="receiveMemo" name="receiveMemo" value="" type="text">
                 </div>
                 <div class="order_title">
-                    <label for="receive_date">배송 희망일(선택) </label>
+                    <label for="receiveDate">배송 희망일(선택) </label>
                 </div>
                 <div class="order_content">
-                    <input id="receive_date" type="date">
+                    <input id="receiveDate" name="receiveDate" type="date">
                 </div>
             </div>
         </div>
@@ -128,20 +142,21 @@ total += oc.getPi_price()*oc.getOc_cnt();
         <div class="order_info">
             <div>
                 <div class="order_title">
-                    <label for="order_total">총 결제금액 </label>
+                    <label for="orderTotal">총 결제금액 </label>
                 </div>
                 <div class="order_content">
-                    <input id="order_total" type="text" >
+                    <div><%=total %> 원</div>
+                    <input id="total" type="hidden"  name="total" value=<%=total %> >
                 </div>
                 <div class="order_title">
-                    <label for="order_payment">결제방법 </label>
+                    <label for="orderPayment">결제방법 </label>
                 </div>
                 <div class="order_content">
-                    <input name="order_payment" id="card" type="radio" >
+                    <input name="order_payment" value="c" type="radio" checked >
                     <label for="card">신용카드 </label>
-                    <input name="order_payment" id="bankbook" type="radio" >
+                    <input name="order_payment" value="b" type="radio" >
                     <label for="bankbook">무통장 입금 </label>
-                    <input name="order_payment" id="account" type="radio" >
+                    <input name="order_payment" value="a" type="radio" >
                     <label for="account">계좌이체 </label>
                 </div>
             </div>

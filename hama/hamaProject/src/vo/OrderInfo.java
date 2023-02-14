@@ -1,10 +1,27 @@
 package vo;
+import java.util.*;
 
 public class OrderInfo {
 	private String oi_id, mi_id, oi_name, oi_phone, oi_zip;
 	private String oi_addr1, oi_addr2, oi_memo, oi_payment;
 	private String oi_invoice, oi_status, oi_date, oi_redate;
+	private String oi_sender,oi_sephone;
 	private int oi_pay, oi_upoint , oi_spoint;
+	private ArrayList<OrderDetail> detailList;
+	
+	
+	public String getOi_sender() {
+		return oi_sender;
+	}
+	public void setOi_sender(String oi_sender) {
+		this.oi_sender = oi_sender;
+	}
+	public String getOi_sephone() {
+		return oi_sephone;
+	}
+	public void setOi_sephone(String oi_sephone) {
+		this.oi_sephone = oi_sephone;
+	}
 	public String getOi_id() {
 		return oi_id;
 	}
@@ -100,6 +117,12 @@ public class OrderInfo {
 	}
 	public void setOi_spoint(int oi_spoint) {
 		this.oi_spoint = oi_spoint;
+	}
+	public ArrayList<OrderDetail> getDetailList() {
+		return detailList;
+	}
+	public void setDetailList(ArrayList<OrderDetail> detailList) {
+		this.detailList = detailList;
 	}
 	
 	

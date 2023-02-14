@@ -2,7 +2,8 @@ package vo;
 
 public class OrderDetail {
 	private int od_idx, od_cnt, od_price;
-	private String oi_id, pi_id, od_name, od_img, pi_isview;
+	private String oi_id, pi_id, od_name, od_img;
+	
 	public int getOd_idx() {
 		return od_idx;
 	}
@@ -45,12 +46,6 @@ public class OrderDetail {
 	public void setOd_img(String od_img) {
 		this.od_img = od_img;
 	}
-	public String getPi_isview() {
-		return pi_isview;
-	}
-	public void setPi_isview(String pi_isview) {
-		this.pi_isview = pi_isview;
-	}
-	
+
 	
 }

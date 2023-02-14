@@ -5,9 +5,9 @@ import javax.sql.*;
 import javax.naming.*;
 
 public class JdbcUtil {
-// DB °ü·Ã ¿¬°á ¹× °ø¿ë ¸Þ¼ÒµåµéÀ» Á¤ÀÇÇÏ´Â Å¬·¡½º - ¸ðµç ¸Þ¼Òµå´Â public staticÀ¸·Î ÁöÁ¤
+// DB ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ï¿½ public staticï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public static Connection getConnection() {
-	// DB¿¡ ¿¬°áÇÏ¿© ÄÁ³Ø¼Ç °´Ã¼¸¦ ¸®ÅÏÇÏ´Â ¸Þ¼Òµå
+	// DBï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼Òµï¿½
 		Connection conn = null;
 		try {
 			Context initCtx = new InitialContext();
@@ -15,10 +15,10 @@ public class JdbcUtil {
 			DataSource ds = (DataSource)envCtx.lookup("jdbc/MySQLDB");
 			conn = ds.getConnection();
 			conn.setAutoCommit(false);
-			// Äõ¸®°¡ ÀÚµ¿À¸·Î commit µÇ´Â °ÍÀ» ¸·´Â ¸í·ÉÀ¸·Î Æ®·£Àè¼ÇÀ» ½ÃÀÛ½ÃÅ´
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ commit ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û½ï¿½Å´
 
 		} catch(Exception e) {
-			System.out.println("DB ¿¬°á ½ÇÆÐ!!!!!!!!!!!!!");
+			System.out.println("DB ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!!!!!!!!!!!!!");
 			e.printStackTrace();
 		}
 
@@ -26,34 +26,34 @@ public class JdbcUtil {
 	}
 
 	public static void close(Connection conn) {
-	// Connection °´Ã¼¸¦ ´Ý¾Æ DB¿ÍÀÇ ¿¬°áÀ» ²÷¾îÁÖ´Â ¸Þ¼Òµå
+	// Connection ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ý¾ï¿½ DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Þ¼Òµï¿½
 		try { conn.close(); } catch(Exception e) { e.printStackTrace(); }
 	}
 
 	public static void close(Statement stmt) {
-	// PreparedStatement¿Í CallabledStatement´Â µÑ ´Ù 
-	// Statement¸¦ »ó¼Ó¹ÞÀ¸¹Ç·Î µû·Î close() ¸Þ¼Òµå°¡ ÇÊ¿ä ¾øÀ½
+	// PreparedStatementï¿½ï¿½ CallabledStatementï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ 
+	// Statementï¿½ï¿½ ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ close() ï¿½Þ¼Òµå°¡ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 		try { stmt.close(); } catch(Exception e) { e.printStackTrace(); }
 	}
 
 	public static void close(ResultSet rs) {
-	// ResultSet °´Ã¼¸¦ ´Ý¾ÆÁÖ´Â ¸Þ¼Òµå
+	// ResultSet ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ý¾ï¿½ï¿½Ö´ï¿½ ï¿½Þ¼Òµï¿½
 		try { rs.close(); } catch(Exception e) { e.printStackTrace(); }
 	}
 
 	public static void commit(Connection conn) {
-	// transactionÀ» commit ½ÃÅ°´Â ¸Þ¼Òµå
+	// transactionï¿½ï¿½ commit ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 		try {
 			conn.commit();
-			System.out.println("Äõ¸® ¼º°ø");
+			System.out.println("ì¿¼ë¦¬ì„±ê³µ");
 		} catch(Exception e) { e.printStackTrace(); }
 	}
 
 	public static void rollback(Connection conn) {
-	// transactionÀ» rollback ½ÃÅ°´Â ¸Þ¼Òµå
+	// transactionï¿½ï¿½ rollback ï¿½ï¿½Å°ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 		try {
 			conn.rollback();
-			System.out.println("Äõ¸® ½ÇÆÐ");
+			System.out.println("ì¿¼ë¦¬ ì‹¤íŒ¨ /ë¡¤ë°±");
 		} catch(Exception e) { e.printStackTrace(); }
 	}
 }

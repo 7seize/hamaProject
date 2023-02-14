@@ -142,7 +142,7 @@ for(let i = 0 ; i < maccImg.length; i++){
             }
         }
         for(let j = 0; j < maccNum; j++){   //선택한 마카롱들을 박스에 담음
-            selectMacc[j].src="./mc_v/"+arr[j]+"_v.png"
+            selectMacc[j].src="/hamaProject/product/pdt_img/vmc/"+arr[j]+"_v.png"
         }
     })
 }
@@ -153,7 +153,7 @@ for(let i = 0; i < maccNum; i++){
             arr[i]=0;
             custombox[i]=0;
             for(let j = 0; j < maccNum; j++){//선택한 마카롱들을 박스에서 뺌
-                selectMacc[j].src="./mc_v/"+arr[j]+"_v.png"
+                selectMacc[j].src="/hamaProject/product/pdt_img/vmc/"+arr[j]+"_v.png"
             }
         }
     })

@@ -13,7 +13,7 @@ ArrayList<OrderCart> cartList =
 <%@ include file="../_inc/header.jsp" %>
 <link rel="stylesheet" href="/hamaProject/css/cart_view.css">
 <script defer src="/hamaProject/js/cart_view.js"></script>
-<% if(cartList != null){ //카트에 담겨있는 제품이 있을경우
+<% if(cartList.size() != 0){ //카트에 담겨있는 제품이 있을경우
 	int amout = 0;
 %>
 <form name="frmCart" class="cart_contain" action="order_form" method="post">

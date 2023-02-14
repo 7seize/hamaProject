@@ -18,12 +18,12 @@ function getSelectedValues(){
 		for(let i = 1 ; i < chk.length; i ++){
 			if(chk[i].checked){
 				chkArr += (chk[i].value);
-				chkArr += ('/');
+				chkArr += (',');
 			}
 			
 		}
+		chkArr = chkArr.slice(0, chkArr.length - 1);
 		console.log(chkArr);
-		
 		return chkArr;
 	}
 
@@ -75,6 +75,6 @@ function chkBuy(){
 }
 function allBuy(){
 	let ocidx = getSelectedValues();
-	
+	document.frmCart.chk[0].setAttribute('value',ocidx)
 	document.frmCart.submit();
 }

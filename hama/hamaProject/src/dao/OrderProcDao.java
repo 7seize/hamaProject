@@ -95,7 +95,7 @@ public class OrderProcDao {
 			return addrList;
 		}
 		
-		// ################################################################################
+		
 		public String getOrderId() {
 			//새로운 주문번호를 생성하여 리턴하는 메소드
 			//주문번호 (yymmdd + 랜덤영문2자리 + 일련번호 4자리(1001)를 생성하여 리턴
@@ -165,33 +165,46 @@ public class OrderProcDao {
 			try {			
 				stmt = conn.createStatement();
 				//t_order_info 테이블에 사용할 insert문 
+				
 				String sql = "insert into t_order_info (" + 
 						"oi_id, mi_id, oi_name, oi_phone, oi_zip, oi_addr1, " + 
-						"oi_addr2, oi_payment, oi_pay, oi_status) values ('" + 
+						"oi_addr2, oi_payment, oi_pay, oi_memo, oi_sender, oi_sephone, oi_date) values ('" + 
 						oi_id			+ "', '" + oi.getMi_id()	+ "', '" + 
 						oi.getOi_name()	+ "', '" + oi.getOi_phone() + "', '" + 
 						oi.getOi_zip()	+ "', '" + oi.getOi_addr1()	+ "', '" + 
 						oi.getOi_addr2()+ "', '" + oi.getOi_payment()+"', '" + 
-						oi.getOi_pay()	+ "', '" + oi.getOi_status()+ "') ";	
+						oi.getOi_pay()	+ "', '" + oi.getOi_memo()	+ "', '" + 
+						oi.getOi_sender()	+ "', '" + oi.getOi_sephone() + "', '" + 
+						oi.getOi_date() +"') ";	
 				target++; 
+				
+				System.out.println("test1 :" + sql);
+				
 				rcount = stmt.executeUpdate(sql); 
 					//둘다 0에서 시작되는거니 둘다 잘 동작하면 1씩 증가
 					//rcount는 누적시킬거고 target(적용되어야되는레코드개수)은 ++로 증가할 것임
 				
+				System.out.println("kind :" + kind);
+				
 				if(kind.equals("c")) { //장바구니를 통한 구매일 경우
 					//장바구니에서 t_order_detail 테이블에 insert할 상품 정보를 추출
-					sql = "select a.pi_id, a.ps_idx, a.oc_cnt, " + 
-							" b.pi_name, b.pi_img1, c.ps_size, " + 
-							" if(b.pi_dc > 0, (100 - b.pi_dc) / 100 * " + 
-							" b.pi_price, b.pi_price) price " + 
-							" from t_order_cart a, t_product_info b, " + 
-							" t_product_stock c where a.pi_id = b.pi_id " + 
-							" and a.ps_idx = c.ps_idx and a.mi_id = '" + 
+					sql = "select a.pi_id, a.oc_cnt, " + 
+							" b.pi_name, b.pi_img1, " + 
+							" b.pi_price " + 
+							" from t_order_cart a, t_product_info b " + 
+							"  where a.pi_id = b.pi_id " + 
+							" and a.mi_id = '" + 
 							oi.getMi_id()+ "' and (";
+					
+					
+	
 					
 					String delWhere = " where mi_id = '" 
 					+ oi.getMi_id()+ "' and ("; 
 					//delete용 쿼리 앞부분 미리 생성해둠 
+					
+					System.out.println(temp);
+					
 					
 					String[] arr = temp.split(",");
 					//장바구니 테이블의 인덱스 번호들로 배열 생성 
@@ -206,46 +219,35 @@ public class OrderProcDao {
 					}
 					sql+= ")";
 					delWhere += ")";
+					
+					System.out.println("test2 :" + sql);
+					
 					rs = stmt.executeQuery(sql);
+					
+					
+					
 					if(rs.next()) { //장바구니에 구매할 상품 정보가 있으면
 						//루프돌면서 insert해야함
 						do {
 							Statement stmt2 = conn.createStatement();
 							//t_order_detail 테이블에서 사용할 insert문 
 							sql = "insert into t_order_detail ("
-							+ "oi_id, pi_id, ps_idx, od_cnt, od_price, "
-							+ "od_name, od_img, od_size) values ('" +
+							+ "oi_id, pi_id, od_cnt, od_price, "
+							+ "od_name, od_img) values ('" +
 							oi_id			 + 	"', '"	+ 
 							rs.getString("pi_id")	 + 	"', '"	+ 
-							rs.getInt("ps_idx") 	 + 	"', '"	+
 							rs.getInt("oc_cnt")		 + 	"', '"	+
-							rs.getInt("price")		 + 	"', '"	+
+							rs.getInt("pi_price")	 + 	"', '"	+
 							rs.getString("pi_name")  + 	"', '"	+ 
-							rs.getString("pi_img1")   + 	"', '"	+ 
-							rs.getInt("ps_size")	 +  "' ) ";					
-							System.out.println(sql + ": t_order_detail 테이블에서 사용할 insert문 ");
+							rs.getString("pi_img1")  +  "' ) ";		
+							
+							
+							System.out.println("t_order_detail 테이블에서 사용할 insert문 :");
+							System.out.println(sql);
+							
 							target++; 
 							rcount += stmt2.executeUpdate(sql);
 							
-							
-							//t_product_info 테이블의 판매수 증가 update문
-							sql = "update t_product_info set "
-									+ "pi_sale = pi_sale + " + rs.getInt("oc_cnt")
-									+ " where pi_id= '"+rs.getString("pi_id")+"' ";
-							System.out.println(sql + ": t_product_info 테이블의 판매수 증가 update문");
-							target++; 
-							rcount += stmt2.executeUpdate(sql); 
-							
-							
-							
-							//t_product_stock 테이블의 판매 및 재고 변경 증가 update문
-							sql = "update t_product_stock set "
-									+ " ps_stock = ps_stock - " + rs.getInt("oc_cnt")
-									+ ", ps_sale = ps_sale + " + rs.getInt("oc_cnt") +
-									" where ps_idx = " + rs.getInt("ps_idx");
-							System.out.println(sql + ": t_product_stock 테이블의 판매 및 재고 변경 증가 update문");
-							target++; 
-							rcount += stmt2.executeUpdate(sql);
 							
 						}while(rs.next());		
 						
@@ -255,7 +257,7 @@ public class OrderProcDao {
 						stmt.executeUpdate(sql); //쿼리실행
 						//실행시 문제가 발생해도 구매와는 상관 없으므로 rcount에 누적하지 않음.
 						
-						
+		
 						
 					}else { // 장바구니에 구매할 상품 정보가 없으면 
 						//장바구니를 통해 들어온건데 장바구니에서 상품정보가 없다?
@@ -268,6 +270,9 @@ public class OrderProcDao {
 				}else { //바로 구매일 경우
 					
 				}
+				
+				
+				// #####################################포인트 작업 나중에##############################################
 				
 				//포인트 사용 및 적립 관련 작업
 				if(oi.getOi_upoint()>0) { 
@@ -291,6 +296,8 @@ public class OrderProcDao {
 					System.out.println(sql + ":t_member_point 테이블의 포인트 사용 내역추가 쿼리 ");
 					target++;
 					rcount += stmt.executeUpdate(sql); 
+					
+					// ###################################################################################
 				}
 
 			}catch(Exception e){
@@ -302,6 +309,8 @@ public class OrderProcDao {
 			return result + rcount + "," + target;
 			//주문번호, 실제 적용된 레코드 수, 적용되어야 할 레코드 수를 리턴  
 		}
+		
+		
 		public OrderInfo getOrderInfo(String miid, String oiid) {
 			//받아온 회원 아이디와 주문 번호에 해당하는 정보들을 OrderInfo형 인스턴스에 
 			//담아 리턴하는 메소드 
@@ -312,16 +321,17 @@ public class OrderProcDao {
 			ArrayList<OrderDetail> detailList = new ArrayList<OrderDetail>();
 
 			try {
+				String sql = "select a.oi_id, a.mi_id, a.oi_sender, oi_sephone, a.oi_name, " + 
+						"a.oi_phone, a.oi_zip, a.oi_addr1,a.oi_addr2, " + 
+						"a.oi_memo, a.oi_payment , a.oi_pay, a.oi_date, a.oi_redate, "+
+						"b.pi_id, b.od_cnt, b.od_price, b.od_img, b.od_name " + 
+						"from t_order_info a , t_order_detail b " + 
+						"where a.oi_id = b.oi_id and a.mi_id = '"+miid+"' " +
+						"and a.oi_id = '"+oiid+"' order by b.pi_id ";
 				
-				String sql = "select a.oi_name, a.oi_phone, a.oi_zip, a.oi_addr1, "
-				+ " a.oi_addr2, a.oi_payment, a.oi_pay,"
-				+ " b.od_img, b.od_name, b.od_size, b.od_cnt, b.od_price, "
-				+ " b.pi_id, c.pi_isview from t_order_info a, t_order_detail b, "
-				+ " t_product_info c where a.oi_id = b.oi_id and "
-				+ " b.pi_id = c.pi_id and a.mi_id = '"+ miid
-				+"' and a.oi_id = '"+ oiid +"'  order by c.pi_id, b.od_size";
-				//제품순, 사이즈순 정리 
-				System.out.println(sql + ":OrderProcDao:getOrderInfo");
+				
+				System.out.println("OrderProcDao:getOrderInfo :");
+				System.out.println(sql);
 				stmt = conn.createStatement();
 				rs = stmt.executeQuery(sql);
 				
@@ -329,23 +339,27 @@ public class OrderProcDao {
 				if(rs.next()) { //한번만 넣어도 되는 것
 					oi = new OrderInfo();
 					oi.setOi_id(oiid);
+					oi.setMi_id(rs.getString("mi_id"));
 					oi.setOi_name(rs.getString("oi_name"));
 					oi.setOi_phone(rs.getString("oi_phone"));
 					oi.setOi_zip(rs.getString("oi_zip"));
 					oi.setOi_addr1(rs.getString("oi_addr1"));
 					oi.setOi_addr2(rs.getString("oi_addr2"));
+					oi.setOi_memo(rs.getString("oi_memo"));
 					oi.setOi_payment(rs.getString("oi_payment"));
 					oi.setOi_pay(rs.getInt("oi_pay"));
+					oi.setOi_date(rs.getString("oi_date"));
+					oi.setOi_redate(rs.getString("oi_redate"));
+					oi.setOi_sender(rs.getString("oi_sender"));
+					oi.setOi_sephone(rs.getString("oi_sephone"));
 					
 					do { //루프돌며 여러번담아야함. 목록상품마다 따로인 것
 						OrderDetail od = new OrderDetail();
 						od.setOd_img(rs.getString("od_img"));
 						od.setOd_name(rs.getString("od_name"));
-						od.setOd_size(rs.getInt("od_size"));
 						od.setOd_cnt(rs.getInt("od_cnt"));
 						od.setOd_price(rs.getInt("od_price"));
 						od.setPi_id(rs.getString("pi_id"));
-						od.setPi_isview(rs.getString("pi_isview"));
 						detailList.add(od);
 					}while(rs.next());
 					
