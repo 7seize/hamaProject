@@ -34,6 +34,7 @@ ArrayList<OrderCart> cartList =
 	int ocidx = oc.getOc_idx();
 	int cnt = oc.getOc_cnt();
 %>
+
         <div class="cart_content">
             <div class="check_wrap"><input type="checkbox" name="chk" onclick="unchkAll(this)" value = <%=ocidx %> checked="checked"></div>
             <div class="cart_img">
@@ -41,7 +42,17 @@ ArrayList<OrderCart> cartList =
                     <img src="/hamaProject/product/pdt_img/<%=oc.getPi_id().substring(0,2)%>/<%=oc.getPi_id()%>.png" alt="">
                 </a>
             </div>
-            <a href="product_view?piid=<%=oc.getPi_id()%>" class="cart_info"><%=oc.getPi_name() %></a>
+            <div>
+            	<a href="product_view?piid=<%=oc.getPi_id()%>" class="cart_info"><%=oc.getPi_name() %></a>
+            	<%
+            	if(oc.getOc_box() != null){
+            		String[] box = oc.getOc_box().split(",");
+	            	for(int j=0 ; j < box.length; j++){
+	            		%><div><%=box[j] %></div><%
+	            	}
+            	}
+            	%>
+            </div>
             <div class="cart_price" ><%=oc.getPi_price() %> 원</div>
             <div class="cart_num">
             <select class="cart_num_count" onchange="cartUp(<%=ocidx%>, this.value)" >

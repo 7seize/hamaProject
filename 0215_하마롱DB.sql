@@ -187,7 +187,7 @@ create table t_order_cart (
 	po_idx int, 							-- 상품 재고 ID
 	oc_cnt int default 0, 					-- 개수
 	oc_date datetime default now(), 		-- 등록일
-    oc_pmc_idx int default 0, 					-- 커스텀 인덱스
+    oc_pmc_idx varchar(50) default '', 		-- 커스텀 인덱스
     
     constraint fk_order_cart_mi_id foreign key (mi_id) 
 		references t_member_info(mi_id), 
@@ -269,16 +269,14 @@ create table t_order_detail (
 	od_price int default 0, 				-- 단가
 	od_name varchar(50) not null, 			-- 상품명
 	od_img varchar(50) not null, 			-- 상품이미지
-	pmc_idx int, 							-- 커스텀 인덱스
+	pmc_idx varchar(50) default '', 		-- 커스텀 인덱스
     
     constraint fk_order_detail_oi_id foreign key (oi_id) 
 		references t_order_info(oi_id), 
     constraint fk_order_detail_pi_id foreign key (pi_id) 
 		references t_product_info(pi_id), 
     constraint fk_order_detail_po_idx foreign key (po_idx) 
-		references t_product_out(po_idx),
-	constraint fk_order_detail_pmc_idx foreign key (pmc_idx) 
-		references t_product_ma_custom(pmc_idx)
+		references t_product_out(po_idx)
 );
 
 -- 상품 리뷰

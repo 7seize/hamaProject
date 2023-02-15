@@ -30,7 +30,20 @@ public class CartProcDao {
 					+ " where mi_id = '"+ oc.getMi_id()
 					+"' and pi_id = '"+ oc.getPi_id() + "'";
 
-
+			if(oc.getPi_id().equals("cb101") || oc.getPi_id().equals("cb102") ) {
+				sql =  " update t_order_cart set "
+						+ " oc_cnt = oc_cnt + " + oc.getOc_cnt()
+						+ " where mi_id = '"+ oc.getMi_id()
+						+"' and pi_id = '"+ oc.getPi_id() 
+						+"' and oc_box = '"+ oc.getOc_box()  
+						+"' and oc_pmc_idx = '"+ oc.getOc_pmc_idx() +"'";
+			}else if(oc.getPi_id().equals("mc100")){
+				sql =  " update t_order_cart set "
+						+ " oc_cnt = oc_cnt + " + oc.getOc_cnt()
+						+ " where mi_id = '"+ oc.getMi_id()
+						+"' and pi_id = '"+ oc.getPi_id() 
+						+"' and oc_pmc_idx = '"+ oc.getOc_pmc_idx() +"'";
+			}
 			System.out.println(sql);
 			stmt = conn.createStatement();
 			result = stmt.executeUpdate(sql);		
@@ -41,6 +54,21 @@ public class CartProcDao {
 						+ "  values ('"+ oc.getMi_id()+"', '"
 						+ oc.getPi_id()+"', '"
 						+ oc.getOc_cnt()+"') ";
+				
+				if(oc.getPi_id().equals("cb101") || oc.getPi_id().equals("cb102") || oc.getPi_id().equals("mc100")) {
+					sql = "insert into t_order_cart (mi_id, pi_id, oc_cnt, oc_box ,oc_pmc_idx) "
+							+ "  values ('"+ oc.getMi_id()+"', '"
+							+ oc.getPi_id()+"', '"
+							+ oc.getOc_cnt()+"', '" 
+							+ oc.getOc_box()+"', '" 
+							+ oc.getOc_pmc_idx()+"') ";
+				}else if(oc.getPi_id().equals("mc100")){
+					sql =  "insert into t_order_cart (mi_id, pi_id, oc_cnt, oc_pmc_idx) "
+							+ "  values ('"+ oc.getMi_id()+"', '"
+							+ oc.getPi_id()+"', '"
+							+ oc.getOc_cnt()+"', '"
+							+ oc.getOc_pmc_idx()+"') ";
+				}
 				
 						System.out.println(sql);
 						
@@ -119,7 +147,6 @@ public class CartProcDao {
 					+ " and b.pi_isview = 'y' and a.mi_id = '"+
 					miid +"' ";
 			
-			System.out.println(sql + ": 장바구니 + 상품정보 join sql");
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);	
 			
@@ -128,13 +155,47 @@ public class CartProcDao {
 				oc.setOc_idx(rs.getInt("oc_idx"));
 				oc.setMi_id(miid);
 				oc.setPi_id(rs.getString("pi_id"));
+				oc.setOc_box(rs.getString("oc_box"));
+				oc.setOc_pmc_idx(rs.getString("oc_pmc_idx"));
 				oc.setOc_cnt(rs.getInt("oc_cnt"));
 				oc.setPi_name(rs.getString("pi_name"));
 				oc.setPi_img1(rs.getString("pi_img1"));
 				oc.setPi_price(rs.getInt("pi_price"));
-
+				
+				if(rs.getString("oc_box")!= null && !rs.getString("oc_box").equals("")) {
+					//.equals  
+					String [] openbox = rs.getString("oc_box").split(",");
+					String box2 = "";
+					for(int i= 0; i < openbox.length ; i ++) {
+						Statement stmt2 = null; 
+						ResultSet rs2 = null;
+						try{
+							sql = "select pi_name from t_product_info where pi_id = '"+openbox[i] +"'" ;
+							stmt2 = conn.createStatement();
+							rs2 = stmt2.executeQuery(sql);	
+							System.out.println(sql);
+							if(rs2.next()) {
+								box2 += rs2.getString("pi_name");
+								box2 += ",";
+								System.out.println(box2);
+							}
+							
+						}catch(Exception e){
+							System.out.println("CartProcDao 클래스 getCartList2 오류");
+							e.printStackTrace();
+						}finally {
+							close(rs2); close(stmt2);
+						}
+						
+						
+					}
+					
+					oc.setOc_box(box2);
+				}
 				cartList.add(oc);
 			}
+			
+			
 
 		}catch(Exception e){
 			System.out.println("CartProcDao 클래스 getCartList 오류");
@@ -144,5 +205,6 @@ public class CartProcDao {
 		}
 		return cartList;	
 	}
+	
 	
 }

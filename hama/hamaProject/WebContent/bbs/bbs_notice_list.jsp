@@ -23,6 +23,7 @@
         height:40px;
         border-bottom: 1px solid black;
     }
+    
     .notice-list td{
     	text-align: center;
     	font-size : 15px;

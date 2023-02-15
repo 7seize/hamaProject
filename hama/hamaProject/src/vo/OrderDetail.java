@@ -3,6 +3,7 @@ package vo;
 public class OrderDetail {
 	private int od_idx, od_cnt, od_price;
 	private String oi_id, pi_id, od_name, od_img;
+	private String pmc_idx, od_box;
 	
 	public int getOd_idx() {
 		return od_idx;
@@ -46,6 +47,18 @@ public class OrderDetail {
 	public void setOd_img(String od_img) {
 		this.od_img = od_img;
 	}
-
+	public String getPmc_idx() {
+		return pmc_idx;
+	}
+	public void setPmc_idx(String pmc_idx) {
+		this.pmc_idx = pmc_idx;
+	}
+	public String getOd_box() {
+		return od_box;
+	}
+	public void setOd_box(String od_box) {
+		this.od_box = od_box;
+	}
+	
 	
 }

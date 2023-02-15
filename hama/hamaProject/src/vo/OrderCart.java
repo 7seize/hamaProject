@@ -5,6 +5,7 @@ public class OrderCart {
 	private String mi_id, oc_date, pi_id;
 	private int pi_price, pi_dc;
 	private String pi_name, pi_img1;
+	private String oc_pmc_idx, oc_box;
 	
 	public int getOc_idx() {
 		return oc_idx;
@@ -59,6 +60,18 @@ public class OrderCart {
 	}
 	public void setPi_img1(String pi_img1) {
 		this.pi_img1 = pi_img1;
+	}
+	public String getOc_pmc_idx() {
+		return oc_pmc_idx;
+	}
+	public void setOc_pmc_idx(String oc_pmc_idx) {
+		this.oc_pmc_idx = oc_pmc_idx;
+	}
+	public String getOc_box() {
+		return oc_box;
+	}
+	public void setOc_box(String oc_box) {
+		this.oc_box = oc_box;
 	}
 	
 }

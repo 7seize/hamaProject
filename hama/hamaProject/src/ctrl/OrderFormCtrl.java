@@ -66,7 +66,6 @@ public class OrderFormCtrl extends HttpServlet {
 			//어디서가져옴? 바로구매니까 장바구니테이블이아니라 상품테이블에서 직접 가져와야함
 			//아이디,수량은 가져올 수 없고 가져와야한다.
 			String piid = request.getParameter("piid");
-			int size = Integer.parseInt(request.getParameter("size"));
 			int cnt = Integer.parseInt(request.getParameter("cnt")); 
 			
 			//수량,사이즈는 이미 값이 있어서 받아온 상태>계속뒤에붙여서달고다녀야하는데
@@ -74,12 +73,12 @@ public class OrderFormCtrl extends HttpServlet {
 			//cnt가 product 테이블에 넣고싶으면  alias - cnt 사용하면 됨
 			//바로구매는 단 하나니까 ㄱㅊ음 
 			
-			select += cnt + " cnt ";
+			select += "," + cnt + " cnt ";
 			//쿼리 예시 select pi_id, pi_name, 10 cnt from t_product_info;
 			//이렇게 나올 것임 
 			// 바로구매일 때 alias cnt로 받았으면 장바구니일 때도 cnt로 alias 써야하고 해줘야함
 			
-			where +=  "  and a.pi_id = '" + piid + "' and b.ps_idx = " + size;
+			where +=  "  and a.pi_id = '" + piid + "'";
 			//바로구매니까 무조건 하나만 가져옴 
 			
 		

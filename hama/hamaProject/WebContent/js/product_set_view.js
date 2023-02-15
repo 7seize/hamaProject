@@ -123,7 +123,7 @@ for(let i = 0 ; i < decsClose.length; i ++){
 //./vimg/0_v.png"는 빈칸, 투명그림으로 대체
 let maccImg = document.querySelectorAll('.macc-img');
 let selectMacc = document.querySelectorAll('.select_macc');
-//let maccNum = 10; //마카롱 박스 개수 #####################이전 페이지에서 받아올 값임############################
+
 let arr = new Array(maccNum).fill(0);   //마카롱 박스에 들어가는 마카롱을 저장하는 배열,arr[?]가 0이면 빈칸 
 let custombox = new Array(maccNum).fill(0); //커스텀마카롱을 저장하는 배열
 //마카롱 클릭시 해당 마카롱을 박스에 담음
@@ -162,6 +162,7 @@ for(let i = 0; i < maccNum; i++){
 // 장바구니 버튼을 누르면 장바구니가 채워 졌는지 확인
 result.addEventListener("click",function(){
     let isFill = true;
+    let custom =[];
     for(let i =0; i < arr.length; i++){
         if(arr[i] == 0){
             isFill = false;
@@ -170,31 +171,50 @@ result.addEventListener("click",function(){
     if(!isFill){
         alert("박스를 채워주세요");
     }else{
-        alert("이곳에서 ajex 실행");
-        console.log(arr);
-
-//이런형태로 이동
-/*  ajax 
-    $.ajax({
-		type : "POST", 
-		url : "여기부분에 들어갈 주소", 
-		data : {"arr" : arr.join(), "custombox" : custombox.sort((a,b)=>b-a).join()}, 
-		success : function(chkRs) {
-			if (chkRs == 0) {
-				alert("오류 발생");
-			}
-			여기부분에 이동할 페이지
-		}
-	});
-*/
+        for(let i =0 ; i < custombox.length ; i++){
+        	if(custombox[i] != 0){
+        		custom.push(custombox[i]);
+        	}
+        }
+        custom = custom.join();
+        if(confirm("장바구니로 이동하시겠습니까?")){
+        	$.ajax({
+         		type : "POST", 
+         		url : "/hamaProject/cart_proc_in", 
+         		data : {"arr" : arr.join(), "custombox" : custom, "boxsize" : maccNum}, 
+         		success : function(chkRs) {
+         			if (chkRs == 0) {
+         				alert("오류 발생");
+         			}
+         			alert("이동할 페이지");
+         			//이동할페이지
+         		}
+         	});
+        }else{
+        	 $.ajax({
+         		type : "POST", 
+         		url : "/hamaProject/cart_proc_in", 
+         		data : {"arr" : arr.join(), "custombox" : custom, "boxsize" : maccNum}, 
+         		success : function(chkRs) {
+         			if (chkRs == 0) {
+         				alert("오류 발생");
+         			}
+         			location.reload();
+         		}
+         	});
+        }
+       
+        
         console.log('보내질 형태' );
         console.log('마카롱 박스에 담긴 마카롱 : ' + arr.join());
-        console.log('마카롱 박스에 담긴 커스텀마카롱 인덱스 : ' + custombox.sort((a,b)=>b-a).join());
+        console.log('마카롱 박스에 담긴 커스텀마카롱 인덱스 : ' + custombox.join());
     }
 
 })
+
 resultBuy.addEventListener("click",function(){
     let isFill = true;
+    let custom =[];
     for(let i =0; i < arr.length; i++){
         if(arr[i] == 0){
             isFill = false;
@@ -203,26 +223,28 @@ resultBuy.addEventListener("click",function(){
     if(!isFill){
         alert("박스를 채워주세요");
     }else{
-        alert("이곳에서 ajex 실행");
-        console.log(arr);
+    	for(let i =0 ; i < custombox.length ; i++){
+        	if(custombox[i] != 0){
+        		custom.push(custombox[i]);
+        	}
+        }
 
-//이런형태로 이동
-/*  ajax 
+    	custom = custom.join();
     $.ajax({
 		type : "POST", 
-		url : "여기부분에 들어갈 주소", 
-		data : {"arr" : arr.join(), "custombox" : custombox.sort((a,b)=>b-a).join()}, 
+		url : "", 
+		data : {"arr" : arr.join(), "custombox" : custom, "kind" : "d", "boxsize" : maccNum }, 
 		success : function(chkRs) {
 			if (chkRs == 0) {
 				alert("오류 발생");
 			}
-			여기부분에 이동할 페이지
+			//여기 이동할 주소
 		}
 	});
-*/
+
         console.log('보내질 형태' );
         console.log('마카롱 박스에 담긴 마카롱 : ' + arr.join());
-        console.log('마카롱 박스에 담긴 커스텀마카롱 인덱스 : ' + custombox.sort((a,b)=>b-a).join());
+        console.log('마카롱 박스에 담긴 커스텀마카롱 인덱스 : ' + custombox.join());
     }
     
 })
