@@ -97,6 +97,9 @@ public class OrderFormCtrl extends HttpServlet {
 				orderFormSvc.getAddrList(miid);
 		//장바구니에 주소 넣어야하니 MemberAddr형 어레이리스트
 		//현재 로그인한 회원의 주소 목록을 ArrayList로 받아옴 
+		System.out.println(select);
+		System.out.println(from);
+		System.out.println(where);
 		
 		request.setAttribute("pdtList", pdtList);
 		request.setAttribute("addrList", addrList);

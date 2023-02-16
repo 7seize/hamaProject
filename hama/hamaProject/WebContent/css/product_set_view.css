@@ -120,8 +120,8 @@ color: #7fb5ff;
 .mcc_box{
     margin: 0 auto;
     display: flex;
-    width: 70%;
-
+  	align-items: center;
+    padding: 0 15%;
 }
 .mcc_box > div{
     width: 10%;

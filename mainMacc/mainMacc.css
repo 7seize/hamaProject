@@ -15,5 +15,10 @@
     width: 10%;
 }
 .mcc_box > div > img{
+    height: ;
     width: 100%;
 }
+body{
+    background-color: rgb(125, 76, 158);
+}
+

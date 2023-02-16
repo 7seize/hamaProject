@@ -120,9 +120,12 @@ if(im == null){
            <div><img class="select_macc" src="/hamaProject/product/pdt_img/vmc/0_v.png" ></div>
 <%} %>
        </div>
-    <form>
+    <form name = "frm" method="post" >
+    	<input type="hidden" name="kind" value="d" />
+        <input type="hidden" id = "piid" name="piid" value= "" />
+        <input type="hidden" name="cnt"  value="1" />
         <input id="result" type="button" value="장바구니에 담기">
-        <input id="resultBuy" type="button" value="바로 구매">
+        <input id="resultBuy" type="button" value="바로 구매" >
     </form>
 </body>
 

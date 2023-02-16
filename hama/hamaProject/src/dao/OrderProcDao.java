@@ -195,15 +195,12 @@ public class OrderProcDao {
 							"  where a.pi_id = b.pi_id " + 
 							" and a.mi_id = '" + 
 							oi.getMi_id()+ "' and (";
-					
-					
-	
-					
+
 					String delWhere = " where mi_id = '" 
 					+ oi.getMi_id()+ "' and ("; 
 					//delete용 쿼리 앞부분 미리 생성해둠 
 					
-					System.out.println(temp);
+					System.out.println("temp : " + temp);
 					
 					
 					String[] arr = temp.split(",");
@@ -223,8 +220,6 @@ public class OrderProcDao {
 					System.out.println("test2 :" + sql);
 					
 					rs = stmt.executeQuery(sql);
-					
-					
 					
 					if(rs.next()) { //장바구니에 구매할 상품 정보가 있으면
 						//루프돌면서 insert해야함
@@ -268,6 +263,9 @@ public class OrderProcDao {
 						
 					}
 				}else { //바로 구매일 경우
+					
+					
+					
 					
 				}
 				

@@ -186,8 +186,7 @@ result.addEventListener("click",function(){
          			if (chkRs == 0) {
          				alert("오류 발생");
          			}
-         			alert("이동할 페이지");
-         			//이동할페이지
+         			location.href="cart_view";
          		}
          	});
         }else{
@@ -228,20 +227,17 @@ resultBuy.addEventListener("click",function(){
         		custom.push(custombox[i]);
         	}
         }
-
-    	custom = custom.join();
-    $.ajax({
-		type : "POST", 
-		url : "", 
-		data : {"arr" : arr.join(), "custombox" : custom, "kind" : "d", "boxsize" : maccNum }, 
-		success : function(chkRs) {
-			if (chkRs == 0) {
-				alert("오류 발생");
-			}
-			//여기 이동할 주소
-		}
-	});
-
+    	let piidbox = "";
+    	if(maccNum ==5){
+    		piidbox ="cb101"
+    	}else{
+    		piidbox ="cb102"
+    	}
+    	
+    	piid.value = piidbox;
+    	frm.action = "order_form";
+		frm.submit();
+		
         console.log('보내질 형태' );
         console.log('마카롱 박스에 담긴 마카롱 : ' + arr.join());
         console.log('마카롱 박스에 담긴 커스텀마카롱 인덱스 : ' + custombox.join());

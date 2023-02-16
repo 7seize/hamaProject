@@ -18,7 +18,7 @@ if(loginInfo != null) isLogin = true;
 <meta charset="UTF-8">
 <title>하마롱</title>
 <link rel="stylesheet" href="/hamaProject/css/header.css">
-<link rel="stylesheet" href="../_inc/css/common.css">
+
 
 </head>
 
