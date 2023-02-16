@@ -1,5 +1,5 @@
 .cart_contain{
-    margin: 200px auto;
+    margin: 100px auto;
 }
 
 .cart_name, .cart_content , .cart_total, .cart_btn{
@@ -81,4 +81,50 @@
 }
 .cart_btn :nth-child(2){
     background-color: #666666;
+}
+.order_contain{
+    margin: 0 auto 200px;
+    width: 70%;
+
+}
+.order_contain >div> h2{
+    border-bottom: #666666 solid 1px;
+    padding: 20px 0;
+}
+.order_wrap{
+    margin: 10px 0;
+    display: flex;
+    padding-left: 15px;
+
+}
+.order_title{
+    width: 20%;
+    justify-content: center;
+}
+.order_content >input{
+    width: 200px;
+    height: 25px;
+}
+.adrr_content :nth-child(1) :nth-child(1){
+    margin: 5px 0 5px 0;
+    width: 200px;
+    height: 25px;
+}
+.adrr_content :nth-child(2) >input{
+    
+    width: 400px;
+    height: 25px;
+}
+.adrr_content :nth-child(3) >input{
+    margin: 5px 0 5px 0;
+    width: 400px;
+    height: 25px;
+}
+.order_paymode{
+    display: flex;
+    align-items: center;
+}
+.order_paymode >input{
+    width: 15px;
+    margin: 0 5px;
 }
