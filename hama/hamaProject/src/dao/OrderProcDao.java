@@ -12,22 +12,22 @@ import java.time.*;
 
 
 public class OrderProcDao {
-	//주문 관련된 쿼리작업(폼, 등록, 변경)들을 모두 처리하는 클래스 
+	//二쇰Ц 愿��젴�맂 荑쇰━�옉�뾽(�뤌, �벑濡�, 蹂�寃�)�뱾�쓣 紐⑤몢 泥섎━�븯�뒗 �겢�옒�뒪 
 		private static OrderProcDao orderProcDao;
 		private Connection conn;
 		private OrderProcDao() {}
 		
 		public static OrderProcDao  getInstance() {
 			if (orderProcDao == null) orderProcDao = new OrderProcDao(); 
-			//이미 생성된 orderProcDao 클래스의 인스턴스가 없으면 새롭게  인스턴스를 생성하라 
+			//�씠誘� �깮�꽦�맂 orderProcDao �겢�옒�뒪�쓽 �씤�뒪�꽩�뒪媛� �뾾�쑝硫� �깉濡�寃�  �씤�뒪�꽩�뒪瑜� �깮�꽦�븯�씪 
 			return orderProcDao;
 		}
 		public void setConnection(Connection conn) {
-		//현 Dao 클래스에서 사용할 커넥션 객체를 받아와서 생성해주는 메소드 
+		//�쁽 Dao �겢�옒�뒪�뿉�꽌 �궗�슜�븷 而ㅻ꽖�뀡 媛앹껜瑜� 諛쏆븘���꽌 �깮�꽦�빐二쇰뒗 硫붿냼�뱶 
 			this.conn = conn;
 		}
 		public ArrayList<OrderCart> getBuyList(String kind, String sql) {
-			//주문 폼에서 보여줄 구매할 상품 목록을 ArrayList로 리턴하는 메소드
+			//二쇰Ц �뤌�뿉�꽌 蹂댁뿬以� 援щℓ�븷 �긽�뭹 紐⑸줉�쓣 ArrayList濡� 由ы꽩�븯�뒗 硫붿냼�뱶
 			Statement stmt = null;
 			ResultSet rs = null;
 			ArrayList<OrderCart> pdtList = new ArrayList<OrderCart>();
@@ -42,17 +42,16 @@ public class OrderProcDao {
 					oc = new OrderCart();
 					if(kind.equals("c"))
 						oc.setOc_idx(rs.getInt("oc_idx"));
-					//장바구니를 통한 구매일 경우에만 장바구니 인덱스를 추가함 
-					oc.setPi_id(rs.getString("pi_id"));
-					oc.setPi_img1(rs.getString("pi_img1"));
-					oc.setPi_name(rs.getString("pi_name"));
-					oc.setPi_price(rs.getInt("pi_price"));
-					oc.setOc_cnt(rs.getInt("cnt")); // cnt alias로 설정해서 cnt임
-					pdtList.add(oc);
+						oc.setPi_id(rs.getString("pi_id"));
+						oc.setPi_img1(rs.getString("pi_img1"));
+						oc.setPi_name(rs.getString("pi_name"));
+						oc.setPi_price(rs.getInt("pi_price"));
+						oc.setOc_cnt(rs.getInt("cnt")); // cnt alias濡� �꽕�젙�빐�꽌 cnt�엫
+						pdtList.add(oc);
 				}
 				
 			}catch(Exception e){
-				System.out.println("OrderProcDao 클래스의 getBuyList메소드에서오류발생");
+				System.out.println("OrderProcDao �겢�옒�뒪�쓽 getBuyList硫붿냼�뱶�뿉�꽌�삤瑜섎컻�깮");
 				e.printStackTrace();
 			}finally {
 				close(rs); close(stmt);
@@ -61,7 +60,7 @@ public class OrderProcDao {
 
 		}
 		public ArrayList<MemberAddr> getAddrList(String miid)  {
-			//주문 폼에서 보여줄 로그인한 유저의 배송정보를  ArrayList로 리턴하는 메소드
+			//二쇰Ц �뤌�뿉�꽌 蹂댁뿬以� 濡쒓렇�씤�븳 �쑀���쓽 諛곗넚�젙蹂대��  ArrayList濡� 由ы꽩�븯�뒗 硫붿냼�뱶
 			Statement stmt = null;
 			ResultSet rs = null;
 			ArrayList<MemberAddr> addrList = new ArrayList<MemberAddr>();
@@ -87,7 +86,7 @@ public class OrderProcDao {
 				}
 				
 			}catch(Exception e){
-				System.out.println("OrderProcDao 클래스의 getAddrList메소드에서오류발생");
+				System.out.println("OrderProcDao �겢�옒�뒪�쓽 getAddrList硫붿냼�뱶�뿉�꽌�삤瑜섎컻�깮");
 				e.printStackTrace();
 			}finally {
 				close(rs); close(stmt);
@@ -97,52 +96,52 @@ public class OrderProcDao {
 		
 		
 		public String getOrderId() {
-			//새로운 주문번호를 생성하여 리턴하는 메소드
-			//주문번호 (yymmdd + 랜덤영문2자리 + 일련번호 4자리(1001)를 생성하여 리턴
-			//일련번호를 쓰려면 오늘 가장 최근 주문한 일련번호의 + 1 해야하니까 select 해야함..
+			//�깉濡쒖슫 二쇰Ц踰덊샇瑜� �깮�꽦�븯�뿬 由ы꽩�븯�뒗 硫붿냼�뱶
+			//二쇰Ц踰덊샇 (yymmdd + �옖�뜡�쁺臾�2�옄由� + �씪�젴踰덊샇 4�옄由�(1001)瑜� �깮�꽦�븯�뿬 由ы꽩
+			//�씪�젴踰덊샇瑜� �벐�젮硫� �삤�뒛 媛��옣 理쒓렐 二쇰Ц�븳 �씪�젴踰덊샇�쓽 + 1 �빐�빞�븯�땲源� select �빐�빞�븿..
 			Statement stmt = null;
 			ResultSet rs = null;
 			String oi_id = null;
 			try {			
 				stmt = conn.createStatement();
-				LocalDate today = LocalDate.now(); //오늘날짜 yyyy-mm-dd 
+				LocalDate today = LocalDate.now(); //�삤�뒛�궇吏� yyyy-mm-dd 
 				String td = (today+"").substring(2).replace("-", "");
-				//yyyy-mm-dd 가 yymmdd가 됨. 
+				//yyyy-mm-dd 媛� yymmdd媛� �맖. 
 				
-				//랜덤영문둘자리
+				//�옖�뜡�쁺臾몃몮�옄由�
 				String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 				Random rnd = new Random();
 				String rn = alpha.charAt(rnd.nextInt(26)) + ""; 
-				//0~25까지의 수가 랜덤으로 나옴 
-				//중복검사하려면 set이용하는데 그냥그러지말고 중복허용하기 
+				//0~25源뚯��쓽 �닔媛� �옖�뜡�쑝濡� �굹�샂 
+				//以묐났寃��궗�븯�젮硫� set�씠�슜�븯�뒗�뜲 洹몃깷洹몃윭吏�留먭퀬 以묐났�뿀�슜�븯湲� 
 				rn += alpha.charAt(rnd.nextInt(26)) + ""; 
 				
-				//일련번호4자리 매일 하루의 첫주문 1001 
+				//�씪�젴踰덊샇4�옄由� 留ㅼ씪 �븯猷⑥쓽 泥レ＜臾� 1001 
 				String sql = " select right(oi_id, 4) seq from t_order_info "
 				+ " where left(oi_id,6) = '" + td +"' order by oi_date "
 				+ " desc limit 0, 1;";
 				
-				//주문번호(oi_id)에서 오른쪽에서 4개-일련번호를 가져온다 seq로 alias
-				//(일련번호는 년년월월일일AS(알파벳둘)일련번호(1001)부터시작를 가져온다  
-				//오더인포테이블에서
-				//근데 날짜가(일련번호앞에서 6개부분)이 td와 일치해야함
-				//date날짜순으로 역순->최근거를 가져오고
-				//하나만 가져오면 되니까 0번째부터 하나 가져오기
+				//二쇰Ц踰덊샇(oi_id)�뿉�꽌 �삤瑜몄そ�뿉�꽌 4媛�-�씪�젴踰덊샇瑜� 媛��졇�삩�떎 seq濡� alias
+				//(�씪�젴踰덊샇�뒗 �뀈�뀈�썡�썡�씪�씪AS(�븣�뙆踰노몮)�씪�젴踰덊샇(1001)遺��꽣�떆�옉瑜� 媛��졇�삩�떎  
+				//�삤�뜑�씤�룷�뀒�씠釉붿뿉�꽌
+				//洹쇰뜲 �궇吏쒓�(�씪�젴踰덊샇�븵�뿉�꽌 6媛쒕�遺�)�씠 td�� �씪移섑빐�빞�븿
+				//date�궇吏쒖닚�쑝濡� �뿭�닚->理쒓렐嫄곕�� 媛��졇�삤怨�
+				//�븯�굹留� 媛��졇�삤硫� �릺�땲源� 0踰덉㎏遺��꽣 �븯�굹 媛��졇�삤湲�
 				
 				rs=stmt.executeQuery(sql);
-				if(rs.next()) { //오늘 구매한 주문번호가 있으면
+				if(rs.next()) { //�삤�뒛 援щℓ�븳 二쇰Ц踰덊샇媛� �엳�쑝硫�
 					int num = Integer.parseInt(rs.getString("seq")) + 1;
 					oi_id = td+rn+num;
-				}else { //오늘 첫 구매일 경우 (오늘치로 검색돌렸는데 없다=)
+				}else { //�삤�뒛 泥� 援щℓ�씪 寃쎌슦 (�삤�뒛移섎줈 寃��깋�룎�졇�뒗�뜲 �뾾�떎=)
 					oi_id = td+rn+"1001";
 				}
 				
-				//없으면 그날 첫주문이기에 일련번호 1001을 넣고 아니면 받아온 일련번호에 +1한게
-				//새로운 주문의 일련번호 
+				//�뾾�쑝硫� 洹몃궇 泥レ＜臾몄씠湲곗뿉 �씪�젴踰덊샇 1001�쓣 �꽔怨� �븘�땲硫� 諛쏆븘�삩 �씪�젴踰덊샇�뿉 +1�븳寃�
+				//�깉濡쒖슫 二쇰Ц�쓽 �씪�젴踰덊샇 
 				
 				
 			}catch(Exception e){
-				System.out.println("OrderProcDao 클래스의 getOrderId메소드에서오류발생");
+				System.out.println("OrderProcDao �겢�옒�뒪�쓽 getOrderId硫붿냼�뱶�뿉�꽌�삤瑜섎컻�깮");
 				e.printStackTrace();
 			}finally {
 				close(rs); close(stmt);
@@ -153,18 +152,15 @@ public class OrderProcDao {
 		
 		public String orderInsert(String kind, OrderInfo oi, String temp){
 			Statement stmt = null;
-			ResultSet rs = null; //장바구니에서 뽑아와야하니가 필요함 
-			String oi_id = getOrderId(); //주문번호 만드는거 메소드로 작업
+			ResultSet rs = null; 
+			String oi_id = getOrderId();
 			
-			String result = oi_id + ","; //리턴할 놈 
+			String result = oi_id + ","; 
 			int rcount=0, target=0;
-			//rcount는 실제쿼리실행결과로 적용되는 레코드 개수를 누적저장할 변수
-			//target 적용되어야 할 레코드 개수 : insert update delete 쿼리 실행 횟수로
-			//적용되어야 할 레코드의 총 개수를 저장할 변수 
+
 			
 			try {			
 				stmt = conn.createStatement();
-				//t_order_info 테이블에 사용할 insert문 
 				
 				String sql = "insert into t_order_info (" + 
 						"oi_id, mi_id, oi_name, oi_phone, oi_zip, oi_addr1, " + 
@@ -181,13 +177,11 @@ public class OrderProcDao {
 				System.out.println("test1 :" + sql);
 				
 				rcount = stmt.executeUpdate(sql); 
-					//둘다 0에서 시작되는거니 둘다 잘 동작하면 1씩 증가
-					//rcount는 누적시킬거고 target(적용되어야되는레코드개수)은 ++로 증가할 것임
+
 				
 				System.out.println("kind :" + kind);
 				
-				if(kind.equals("c")) { //장바구니를 통한 구매일 경우
-					//장바구니에서 t_order_detail 테이블에 insert할 상품 정보를 추출
+				if(kind.equals("c")) { 
 					sql = "select a.pi_id, a.oc_cnt, " + 
 							" b.pi_name, b.pi_img1, " + 
 							" b.pi_price " + 
@@ -198,13 +192,9 @@ public class OrderProcDao {
 
 					String delWhere = " where mi_id = '" 
 					+ oi.getMi_id()+ "' and ("; 
-					//delete용 쿼리 앞부분 미리 생성해둠 
 					
-					System.out.println("temp : " + temp);
-					
-					
+					System.out.println("temp : " + temp);			
 					String[] arr = temp.split(",");
-					//장바구니 테이블의 인덱스 번호들로 배열 생성 
 					for(int i=0; i<arr.length; i++) {
 						if(i==0) { 
 							sql += "a.oc_idx = " + arr[i];
@@ -221,11 +211,11 @@ public class OrderProcDao {
 					
 					rs = stmt.executeQuery(sql);
 					
-					if(rs.next()) { //장바구니에 구매할 상품 정보가 있으면
-						//루프돌면서 insert해야함
+					if(rs.next()) { //�옣諛붽뎄�땲�뿉 援щℓ�븷 �긽�뭹 �젙蹂닿� �엳�쑝硫�
+						//猷⑦봽�룎硫댁꽌 insert�빐�빞�븿
 						do {
 							Statement stmt2 = conn.createStatement();
-							//t_order_detail 테이블에서 사용할 insert문 
+							//t_order_detail �뀒�씠釉붿뿉�꽌 �궗�슜�븷 insert臾� 
 							sql = "insert into t_order_detail ("
 							+ "oi_id, pi_id, od_cnt, od_price, "
 							+ "od_name, od_img) values ('" +
@@ -237,7 +227,7 @@ public class OrderProcDao {
 							rs.getString("pi_img1")  +  "' ) ";		
 							
 							
-							System.out.println("t_order_detail 테이블에서 사용할 insert문 :");
+							System.out.println("t_order_detail �뀒�씠釉붿뿉�꽌 �궗�슜�븷 insert臾� :");
 							System.out.println(sql);
 							
 							target++; 
@@ -245,53 +235,81 @@ public class OrderProcDao {
 							
 							
 						}while(rs.next());		
-						
-						//t_order_cart에서 구매한 것들 삭제 delete 문 
+
 						sql = "delete from t_order_cart " + delWhere ; 
-						System.out.println(sql + ": t_order_cart에서 구매한 것들 삭제");
-						stmt.executeUpdate(sql); //쿼리실행
-						//실행시 문제가 발생해도 구매와는 상관 없으므로 rcount에 누적하지 않음.
+						System.out.println(sql + ": t_order_cart�뿉�꽌 援щℓ�븳 寃껊뱾 �궘�젣");
+						stmt.executeUpdate(sql); //荑쇰━�떎�뻾
+						//�떎�뻾�떆 臾몄젣媛� 諛쒖깮�빐�룄 援щℓ���뒗 �긽愿� �뾾�쑝誘�濡� rcount�뿉 �늻�쟻�븯吏� �븡�쓬.
 						
 		
 						
-					}else { // 장바구니에 구매할 상품 정보가 없으면 
-						//장바구니를 통해 들어온건데 장바구니에서 상품정보가 없다?
-						//잘못된거임.. 
-						return result + "1, 4"; // result 1은 실제실행된거
-						//4는 타깃. 근데 result랑 타깃값이랑 다르니까 롤백될것임(서비스에서)
-						//4는 아무숫자나 넣은거
+					}else { // �옣諛붽뎄�땲�뿉 援щℓ�븷 �긽�뭹 �젙蹂닿� �뾾�쑝硫� 
+						//�옣諛붽뎄�땲瑜� �넻�빐 �뱾�뼱�삩嫄대뜲 �옣諛붽뎄�땲�뿉�꽌 �긽�뭹�젙蹂닿� �뾾�떎?
+						//�옒紐삳맂嫄곗엫.. 
+						return result + "1, 4"; // result 1�� �떎�젣�떎�뻾�맂嫄�
+						//4�뒗 ��源�. 洹쇰뜲 result�옉 ��源껉컪�씠�옉 �떎瑜대땲源� 濡ㅻ갚�맆寃껋엫(�꽌鍮꾩뒪�뿉�꽌)
+						//4�뒗 �븘臾댁닽�옄�굹 �꽔��嫄�
 						
 					}
-				}else { //바로 구매일 경우
+				}else { //바로구매 주문시
+
+					sql = "select a.pi_id, a.pi_name, a.pi_img1, " + 
+							" a.pi_price " + 
+							" from  t_product_info a " + 
+							 temp;
 					
+					System.out.println("test2 :" + sql);
 					
+					rs = stmt.executeQuery(sql);
 					
-					
+					if(rs.next()) {
+							Statement stmt2 = conn.createStatement();
+							//t_order_detail �뀒�씠釉붿뿉�꽌 �궗�슜�븷 insert臾� 
+							sql = "insert into t_order_detail ("
+							+ "oi_id, pi_id, od_cnt, od_price, "
+							+ "od_name, od_img) values ('" +
+							oi_id			 + 	"', '"	+ 
+							rs.getString("pi_id")	 + 	"', '"	+ 
+							1		 + 	"', '"	+
+							rs.getInt("pi_price")	 + 	"', '"	+
+							rs.getString("pi_name")  + 	"', '"	+ 
+							rs.getString("pi_img1")  +  "' ) ";		
+							
+							
+							System.out.println("t_order_detail �뀒�씠釉붿뿉�꽌 �궗�슜�븷 insert臾� :");
+							System.out.println(sql);
+							
+							target++; 
+							rcount += stmt2.executeUpdate(sql);
+							
+							
+						};
+
 				}
 				
 				
-				// #####################################포인트 작업 나중에##############################################
+				// #####################################�룷�씤�듃 �옉�뾽 �굹以묒뿉##############################################
 				
-				//포인트 사용 및 적립 관련 작업
+				//�룷�씤�듃 �궗�슜 諛� �쟻由� 愿��젴 �옉�뾽
 				if(oi.getOi_upoint()>0) { 
-					//사용한 포인트가 0보다 크면->구입시 포인트를 사용했으면
+					//�궗�슜�븳 �룷�씤�듃媛� 0蹂대떎 �겕硫�->援ъ엯�떆 �룷�씤�듃瑜� �궗�슜�뻽�쑝硫�
 					
 				}else { 
-					//구매시 포인트를 사용하지 않았으면
-					int pnt = oi.getOi_pay() * 2/100; //적립할 포인트
-					//t_member_info 테이블의 보유 포인트 변경 쿼리
+					//援щℓ�떆 �룷�씤�듃瑜� �궗�슜�븯吏� �븡�븯�쑝硫�
+					int pnt = oi.getOi_pay() * 2/100; //�쟻由쏀븷 �룷�씤�듃
+					//t_member_info �뀒�씠釉붿쓽 蹂댁쑀 �룷�씤�듃 蹂�寃� 荑쇰━
 					sql = "update t_member_info set mi_point = mi_point + " + 
 					pnt + " where mi_id = '" + oi.getMi_id() + "' ";
-					System.out.println(sql + ": 포인트 사용 및 적립 관련 작업 update t_member_info");
+					System.out.println(sql + ": �룷�씤�듃 �궗�슜 諛� �쟻由� 愿��젴 �옉�뾽 update t_member_info");
 					target++;
 					rcount += stmt.executeUpdate(sql); 
 					
-					//t_member_point 테이블의 포인트 사용 내역추가 쿼리 
+					//t_member_point �뀒�씠釉붿쓽 �룷�씤�듃 �궗�슜 �궡�뿭異붽� 荑쇰━ 
 					sql = "insert into t_member_point "
 							+ " (mi_id, mp_su, mp_point, mp_desc, mp_detail) "
 							+ " values ('"+oi.getMi_id() +"',  's', '"+ pnt
-							+"', " + "'상품구매', '"+ oi_id +"')";
-					System.out.println(sql + ":t_member_point 테이블의 포인트 사용 내역추가 쿼리 ");
+							+"', " + "'�긽�뭹援щℓ', '"+ oi_id +"')";
+					System.out.println(sql + ":t_member_point �뀒�씠釉붿쓽 �룷�씤�듃 �궗�슜 �궡�뿭異붽� 荑쇰━ ");
 					target++;
 					rcount += stmt.executeUpdate(sql); 
 					
@@ -299,19 +317,19 @@ public class OrderProcDao {
 				}
 
 			}catch(Exception e){
-				System.out.println("OrderProcDao 클래스의 orderInsert메소드에서오류발생");
+				System.out.println("OrderProcDao �겢�옒�뒪�쓽 orderInsert硫붿냼�뱶�뿉�꽌�삤瑜섎컻�깮");
 				e.printStackTrace();
 			}finally {
 				close(rs); close(stmt);
 			}
 			return result + rcount + "," + target;
-			//주문번호, 실제 적용된 레코드 수, 적용되어야 할 레코드 수를 리턴  
+			//二쇰Ц踰덊샇, �떎�젣 �쟻�슜�맂 �젅肄붾뱶 �닔, �쟻�슜�릺�뼱�빞 �븷 �젅肄붾뱶 �닔瑜� 由ы꽩  
 		}
 		
 		
 		public OrderInfo getOrderInfo(String miid, String oiid) {
-			//받아온 회원 아이디와 주문 번호에 해당하는 정보들을 OrderInfo형 인스턴스에 
-			//담아 리턴하는 메소드 
+			//諛쏆븘�삩 �쉶�썝 �븘�씠�뵒�� 二쇰Ц 踰덊샇�뿉 �빐�떦�븯�뒗 �젙蹂대뱾�쓣 OrderInfo�삎 �씤�뒪�꽩�뒪�뿉 
+			//�떞�븘 由ы꽩�븯�뒗 硫붿냼�뱶 
 			
 			Statement stmt = null;
 			ResultSet rs = null;
@@ -334,7 +352,7 @@ public class OrderProcDao {
 				rs = stmt.executeQuery(sql);
 				
 				
-				if(rs.next()) { //한번만 넣어도 되는 것
+				if(rs.next()) { //�븳踰덈쭔 �꽔�뼱�룄 �릺�뒗 寃�
 					oi = new OrderInfo();
 					oi.setOi_id(oiid);
 					oi.setMi_id(rs.getString("mi_id"));
@@ -351,7 +369,7 @@ public class OrderProcDao {
 					oi.setOi_sender(rs.getString("oi_sender"));
 					oi.setOi_sephone(rs.getString("oi_sephone"));
 					
-					do { //루프돌며 여러번담아야함. 목록상품마다 따로인 것
+					do { //猷⑦봽�룎硫� �뿬�윭踰덈떞�븘�빞�븿. 紐⑸줉�긽�뭹留덈떎 �뵲濡쒖씤 寃�
 						OrderDetail od = new OrderDetail();
 						od.setOd_img(rs.getString("od_img"));
 						od.setOd_name(rs.getString("od_name"));
@@ -362,15 +380,15 @@ public class OrderProcDao {
 					}while(rs.next());
 					
 					oi.setDetailList(detailList); 
-					//루프 끝나면 안에서 담기
-					//if안에서 담는 이유 데이터가 없으면 null로 가야하기 때문 
-					//if밖에서 선언하면 detailList가 null이 아닌 게 됨 
+					//猷⑦봽 �걹�굹硫� �븞�뿉�꽌 �떞湲�
+					//if�븞�뿉�꽌 �떞�뒗 �씠�쑀 �뜲�씠�꽣媛� �뾾�쑝硫� null濡� 媛��빞�븯湲� �븣臾� 
+					//if諛뽰뿉�꽌 �꽑�뼵�븯硫� detailList媛� null�씠 �븘�땶 寃� �맖 
 				}
 				
 				
 				
 			}catch(Exception e){
-				System.out.println("OrderProcDao 클래스의 getOrderInfo메소드에서오류발생");
+				System.out.println("OrderProcDao �겢�옒�뒪�쓽 getOrderInfo硫붿냼�뱶�뿉�꽌�삤瑜섎컻�깮");
 				e.printStackTrace();
 			}finally {
 				close(rs); close(stmt);

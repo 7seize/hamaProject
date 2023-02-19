@@ -7,6 +7,7 @@
 request.setCharacterEncoding("utf-8");
 ArrayList<OrderCart> pdtList = (ArrayList<OrderCart>)request.getAttribute("pdtList");
 ArrayList<MemberAddr> addrList = (ArrayList<MemberAddr>)request.getAttribute("addrList");
+String where = (String)request.getAttribute("where");
 MemberAddr ad = addrList.get(0);
 
 if(!isLogin || pdtList.size() == 0 || addrList.size() == 0 ){
@@ -51,8 +52,10 @@ for(int i=0; i<pdtList.size() ; i++){
         </div>
 <%
 total += oc.getPi_price()*oc.getOc_cnt();
+
 } 
 ocidxs = (ocidxs.indexOf(',') >= 0)?  ocidxs.substring(1):ocidxs;
+
 %>
         <div class="cart_total">
             <div>예상 적립 포인트</div>
@@ -100,6 +103,7 @@ ocidxs = (ocidxs.indexOf(',') >= 0)?  ocidxs.substring(1):ocidxs;
             <h2>받으시는 분 (상품을 받으시는 분)</h2>
 	        <div>
 	        	<input type="hidden" name="ocidxs" value="<%=ocidxs%>" />
+	        	<input type="hidden" name="where" value="<%=where%>" />
 	            <input type="checkbox" id="isReceive"  onClick="checkMem()" >
 	            <label for="isReceive"> 주문자 정보와 동일</label>
 	        </div>

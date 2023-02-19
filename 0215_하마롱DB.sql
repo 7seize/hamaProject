@@ -126,7 +126,7 @@ create table t_product_ma_custom (
 	pmc_tp1		varchar(5)	default '',	 		-- 토핑1
 	pmc_tp2		varchar(5)	default '',			-- 토핑2
 	pmc_date	datetime default now(), 		-- 등록일
-	pmc_price	int	default 6000,				-- 가격
+	pmc_price	int	default 5000,				-- 가격
 	pmc_isview	char(1)	default 'y',			-- 게시여부
 	pmc_isbuy	char(1)	default 'n',			-- 구매여부
 
@@ -188,7 +188,6 @@ create table t_order_cart (
 	oc_cnt int default 0, 					-- 개수
 	oc_date datetime default now(), 		-- 등록일
     oc_pmc_idx varchar(50) default '', 		-- 커스텀 인덱스
-    oc_box char(50) default '', 			-- 박스에 담길 제품
     
     constraint fk_order_cart_mi_id foreign key (mi_id) 
 		references t_member_info(mi_id), 
@@ -271,7 +270,6 @@ create table t_order_detail (
 	od_name varchar(50) not null, 			-- 상품명
 	od_img varchar(50) not null, 			-- 상품이미지
 	pmc_idx varchar(50) default '', 		-- 커스텀 인덱스
-    od_box varchar(50) default '', 			-- 커스텀 인덱스
     
     constraint fk_order_detail_oi_id foreign key (oi_id) 
 		references t_order_info(oi_id), 
@@ -647,40 +645,16 @@ insert into t_bbs_notice (bn_idx, bn_ctgr, bn_title, bn_content, bn_isview) valu
 select * from t_ev_cus_tor;
 select * from t_ev_cus_tor_poll;
 
-update t_ev_cus_tor
-set ect_date ='2023-01-10'
-where mi_id ='atest' and pmc_idx ='2' ;
-
+ insert into t_ev_cus_tor( pmc_idx, mi_id, ect_date, ect_vote, ect_isview, ect_img1, ect_title, ect_content)
+values(  '1' ,'atest', '2023-02-05', 0, 'y', '',  '내가 당연히 1등', '제 마카롱 진짜 맛있어요 비건이라 건강합니다.'  );
 
  insert into t_ev_cus_tor( pmc_idx, mi_id, ect_date, ect_vote, ect_isview, ect_img1, ect_title, ect_content)
-values(  '1' ,'atest', '2022-12-01', 0, 'y', '',  '12월의 명예 마카롱이 될거야', '제 마카롱 진짜 .........'  );
+values(  '2' ,'atest', '2023-02-05', 0, 'y', '',  '아니 내 레시피가 1등임', '제 마카롱 진짜 맛있어요22222'  );
 
- insert into t_ev_cus_tor( pmc_idx, mi_id, ect_date, ect_vote, ect_isview, ect_img1, ect_title, ect_content)
-values(  '2' ,'atest', '2023-01-10', 0, 'y', '',  '내가 당연히 1등', '제 마카롱 진짜 맛있어요 비건이라 건강합니다.'  );
-
- insert into t_ev_cus_tor( pmc_idx, mi_id, ect_date, ect_vote, ect_isview, ect_img1, ect_title, ect_content)
-values(  '3' ,'atest', '2023-02-05', 0, 'y', '',  '아니 내 레시피가 1등임', '제 마카롱 진짜 맛있어요22222'  );
-
-
-
-insert into t_ev_cus_tor( pmc_idx, mi_id, ect_date, ect_vote, ect_isview, ect_img1, ect_title, ect_content)
-values(  '1' ,'btest', '2023-01-05', 0, 'y', '',  '주인공은 나야 나', '내 마카롱을 보아라'  );
-
-insert into t_ev_cus_tor( pmc_idx, mi_id, ect_date, ect_vote, ect_isview, ect_img1, ect_title, ect_content)
-values(  '2' ,'btest', '2023-03-01', 0, 'y', '',  '뽐내봅니다', '제 레시피는 어쩌고 저쩌고'  );
-
-
--- atest
  insert into t_ev_cus_tor_poll( ect_idx, pmc_idx, mi_id, ectp_date)
 values( '1',   '1', 'atest', '2023-02-28' );
  insert into t_ev_cus_tor_poll( ect_idx, pmc_idx, mi_id, ectp_date)
 values( '2',   '2', 'atest', '2023-02-28' );
--- btest
-insert into t_ev_cus_tor_poll( ect_idx, pmc_idx, mi_id, ectp_date)
-values( '1',   '1', 'atest', '2023-02-28' );
- insert into t_ev_cus_tor_poll( ect_idx, pmc_idx, mi_id, ectp_date)
-values( '2',   '2', 'atest', '2023-02-28' );
-
 
 -- EvTorProcDao의  getCustomList() 쿼리
 select a.pmc_idx, a.pmc_img , ect_title
@@ -704,24 +678,7 @@ select * from t_order_cart;
 
 
 
---  kind=a 일때 이전 달꺼 보여주기3###########################
-select  a.*, b.* 
-from t_product_ma_custom a,  t_ev_cus_tor b  
-where a.mi_id = b.mi_id and a.pmc_idx = b.pmc_idx and a.pmc_isview='y' and a.pmc_isbuy='y' and  left(b.ect_date, 7) < date(left(now() ,7)) ;
 
-
--- select period_diff(replace(left(now(), 7), '-', ''), replace(left(ect_date, 7), '-', '') from t_ev_cus_tor where ect_idx = 1;
-select a.*, b.*  from t_product_ma_custom a,  t_ev_cus_tor b  where a.mi_id = b.mi_id and a.pmc_idx = b.pmc_idx and a.pmc_isview='y'  and a.pmc_isbuy='y' order by ect_vote desc;
-select a.*, b.*  from t_product_ma_custom a,  t_ev_cus_tor b  where a.mi_id = b.mi_id and a.pmc_idx = b.pmc_idx and a.pmc_isview='y'  and a.pmc_isbuy='y' and period_diff(replace(left(now(), 7), '-', ''), replace(left(ect_date, 7), '-', '')) > 0  order by ect_vote desc;
-select left(date(now()), 7);
-select * from t_product_ma_custom;
-select * from t_ev_cus_tor;
-update t_ev_cus_tor set pmc_idx = 11, mi_id = 'btest' where ect_idx = 6;
-update t_ev_cus_tor set pmc_idx = 10, mi_id = 'ctest' where ect_idx = 6;
-select * from t_ev_cus_tor where left(ect_date, 7) <> left(now(), 7);
- -- from t_ev_cus_tor where ect_idx = 1;
-select period_diff('202302', '202301');
--- left(b.ect_date, 7)!=  2023-01   != year-0month
 
 
 
