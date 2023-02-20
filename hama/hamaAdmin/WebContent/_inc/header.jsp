@@ -9,12 +9,13 @@ boolean isLogin = false;
 if(loginInfo != null) isLogin = true;
 //로그인 여부를 판단할 변수 isLogin 생성  
 %>
+<script  src="/hamaAdmin/js/jquery-3.6.1.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="./css/common.css">
+<link rel="stylesheet" href="/hamaAdmin/css/common.css">
 </head>
 <style>
     header{
@@ -71,9 +72,7 @@ if(loginInfo != null) isLogin = true;
     font-style: normal;
 	}
 	nav,div,a,li,ul,p,span,tr,th,td,h2{font-family:'IM_Hyemin-Bold';}
-    
-    
-    
+
 </style>
 
 <body>
@@ -100,7 +99,7 @@ if(loginInfo != null) isLogin = true;
         <div class="menu">
             <p>&nbsp;주문 관리</p>
             <ul>
-                <li><a href="">&nbsp;주문 내역</a></li>
+                <li><a href="/hamaAdmin/order">&nbsp;주문 내역</a></li>
                 <li><a href="">&nbsp;환불 문의</a></li>
                 <li><a href="">&nbsp;배송 관리</a></li>
             </ul>
