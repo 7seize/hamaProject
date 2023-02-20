@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./cart1.css">
+</head>
+<body>
+    <div  class="order_end">
+        <div>
+            <h2>결제 완료</h2>
+            <h3>주문 정보</h3>
+            <div class="order_info">
+                <div>
+                    <div class="order_wrap">
+                        <div class="order_title">
+                            <div for="order_name">주문번호</div>
+                        </div>
+                        <div class="order_content">
+                            <div><%=oi.getOi_id()%></div>
+                        </div>
+                    </div>
+                    <div class="order_wrap">
+                        <div class="order_title">
+                            <div for="order_phone">주문일자 </div>
+                        </div>
+                        <div class="order_content">
+                            <div><%=oi.getOi_date()%></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>배송 정보</h3>
+        <div class="order_info">
+            <div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_name">보내는이</div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_sender()%></div>
+                    </div>
+                </div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_phone">보내는이 연락처 </div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_sephone()%></div>
+                    </div>
+                </div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_name">받는이</div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_name()%></div>
+                    </div>
+                </div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_phone">받는이 연락처 </div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_phone()%></div>
+                    </div>
+                </div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_phone">배송지</div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_zip()%></div>
+                    </div>
+                </div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_phone"></div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_addr1()%> </div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_addr2()%></div>
+                    </div>
+                </div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_phone">배송 희망일</div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_redate()%></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>상품정보</h3>
+        <div class="order_info">
+            <div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_name">상품명</div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=od.getOd_name() %></div>
+                    </div>
+                </div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_phone">수량 </div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=od.getOd_cnt() %> 개</div>
+                    </div>
+                </div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_phone">가격 </div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=od.getOd_price() %> 원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>합계</h3>
+        <div class="order_info">
+            <div>
+                <div class="order_wrap">
+                    <div class="order_title">
+                        <div for="order_name">총 금액</div>
+                    </div>
+                    <div class="order_content">
+                        <div><%=oi.getOi_pay() %>원</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</body>
+</html>
