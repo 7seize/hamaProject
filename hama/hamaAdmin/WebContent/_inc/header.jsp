@@ -7,7 +7,8 @@
 AdminInfo loginInfo = (AdminInfo)session.getAttribute("loginInfo");
 boolean isLogin = false;
 if(loginInfo != null) isLogin = true;
-//로그인 여부를 판단할 변수 isLogin 생성  
+
+session.setMaxInactiveInterval(5*60);
 %>
 <script  src="/hamaAdmin/js/jquery-3.6.1.js"></script>
 <!DOCTYPE html>
@@ -17,6 +18,7 @@ if(loginInfo != null) isLogin = true;
 <title>Insert title here</title>
 <link rel="stylesheet" href="/hamaAdmin/css/common.css">
 </head>
+
 <style>
     header{
         width: 90%;
@@ -74,16 +76,48 @@ if(loginInfo != null) isLogin = true;
 	nav,div,a,li,ul,p,span,tr,th,td,h2{font-family:'IM_Hyemin-Bold';}
 
 </style>
+<script type="text/javascript">
+function startTimer(duration, display) {
+  let timer = duration, minutes, seconds;
+  let interval = setInterval(function () {
+    minutes = parseInt(timer / 60, 10)
+    seconds = parseInt(timer % 60, 10);
 
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    display.textContent = minutes + ":" + seconds;
+
+    if (--timer < 0) {
+      timer = duration;
+    }
+    if(timer === 0) {
+      clearInterval(interval);
+      alert("로그아웃 되셨습니다.")
+      location.replace('login_form.jsp');
+    }
+  }, 1000);
+}
+
+window.onload = function () {
+  var minutes = 5;
+
+  var fiveMinutes = (60 * minutes) - 1,
+    display = document.querySelector('#Timer');
+  startTimer(fiveMinutes, display);
+};
+
+</script>
 <body>
 <header>
     <section class="admin-header">
-        <span>관리자계정명</span>
+        <span>관리자계정</span>
         <h2>HAMARON</h2>
         <div id="link">
             <%if(isLogin){%>
-            <p>
-				<a href="/hamaAdmin/logout.jsp">로그아웃</a>&nbsp;&nbsp;
+            <p>	
+            	<span id="Timer">10:00 </span>
+				<a href="/hamaAdmin/logout.jsp"> 로그아웃</a>&nbsp;&nbsp;
 			</p>
 			<%}else{%>
             <p>

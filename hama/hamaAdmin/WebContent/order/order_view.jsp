@@ -17,7 +17,7 @@ th, td{ text-align: center;}
 
 
 <div class="container" style="width: 60%">
-	<img style="width: 100%" src="/hamaAdmin/product/pdt_img/veiw.PNG">
+	<img style="width: 100%" src="/hamaAdmin/product/pdt_img/view.PNG">
 </div>
 <div>
 	<button onclick="location.href='/hamaAdmin/order'" >  뒤로가기  </button>
