@@ -1,0 +1,31 @@
+package vo;
+
+public class AdminInfo {
+	public int ai_idx;
+	public String ai_pw, ai_name, ai_use;
+	public int getAi_idx() {
+		return ai_idx;
+	}
+	public void setAi_idx(int ai_idx) {
+		this.ai_idx = ai_idx;
+	}
+	public String getAi_pw() {
+		return ai_pw;
+	}
+	public void setAi_pw(String ai_pw) {
+		this.ai_pw = ai_pw;
+	}
+	public String getAi_name() {
+		return ai_name;
+	}
+	public void setAi_name(String ai_name) {
+		this.ai_name = ai_name;
+	}
+	public String getAi_use() {
+		return ai_use;
+	}
+	public void setAi_use(String ai_use) {
+		this.ai_use = ai_use;
+	}
+	
+}
