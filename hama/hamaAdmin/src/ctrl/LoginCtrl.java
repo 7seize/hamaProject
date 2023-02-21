@@ -18,7 +18,7 @@ public class LoginCtrl extends HttpServlet {
       request.setCharacterEncoding("utf-8");
       String aid = request.getParameter("uid").trim().toLowerCase();
       String pwd = request.getParameter("pwd").trim();   
-      String url = request.getParameter("url").replace('$', '&'); //µÇµ¹¾Æº¸³»´Â °Í ¶§¹®¿¡ url
+      String url = request.getParameter("url").replace('$', '&'); 
       LoginSvc loginSvc = new LoginSvc();
       //LoginSvc 
       AdminInfo loginInfo = loginSvc.getLoginInfo(aid, pwd);
@@ -37,10 +37,9 @@ public class LoginCtrl extends HttpServlet {
          out.println("location.replace('" + url + "');");
          out.println("</script>");
          out.close();
-      }else {//·Î±×ÀÎ ½ÇÆĞ½Ã
-
+      }else {
          out.println("<script>");
-         out.println("alert('¾ÆÀÌµğ/ºñ¹Ğ¹øÈ£¸¦ ´Ù½Ã È®ÀÎÇØÁÖ¼¼¿ä.');");
+         out.println("alert('ë¡œê·¸ì¸í›„ ì´ìš©í•´ì£¼ì„¸ìš”');");
          out.println("history.back();");
          out.println("</script>");
          out.close();

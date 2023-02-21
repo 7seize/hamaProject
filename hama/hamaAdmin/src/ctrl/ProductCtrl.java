@@ -9,11 +9,11 @@ import vo.*;
 import java.util.*;
 import java.net.*;
 
-@WebServlet("/order")
-public class OrderCtrl extends HttpServlet {
+@WebServlet("/product")
+public class ProductCtrl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public OrderCtrl() { super();}
+    public ProductCtrl() { super();}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -43,15 +43,15 @@ public class OrderCtrl extends HttpServlet {
 		 }
 		String order ="";
 		if(kindorder == null) kindorder ="";
-		if(!kindorder.equals("")) {order = " order by oi_" + kindorder;} else {
-			order = " order by oi_date desc ";
+		if(!kindorder.equals("")) {order = " order by pi_" + kindorder;} else {
+			order = " order by pi_isview desc ";
 		} 
 	
-		OrderListSvc orderListSvc = new OrderListSvc();
-		 rcnt = orderListSvc.getListCount(where);
+		ProductListSvc ProductListSvc = new ProductListSvc();
+		 rcnt = ProductListSvc.getListCount(where);
 		
-		ArrayList<OrderInfo> orderList  = new ArrayList<OrderInfo>();
-		orderList = orderListSvc.getOrderList(cpage,psize,where,order);
+		ArrayList<ProductInfo> productInfo  = new ArrayList<ProductInfo>();
+		productInfo = ProductListSvc.getProductList(cpage,psize,where,order);
 		
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setBsize(bsize);
@@ -65,12 +65,12 @@ public class OrderCtrl extends HttpServlet {
 		
 		System.out.println("test2");
 		
-		request.setAttribute("orderList", orderList);
+		request.setAttribute("productInfo", productInfo);
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("kindorder", kindorder);
 		
 		RequestDispatcher dispatcher = 
-				request.getRequestDispatcher("order/order_list.jsp");
+				request.getRequestDispatcher("product/product_list.jsp");
 		dispatcher.forward(request,response);
 		
 	}
@@ -84,8 +84,8 @@ public class OrderCtrl extends HttpServlet {
 		
 		System.out.println(status);
 		System.out.println(oiid);
-		OrderListSvc orderListSvc = new OrderListSvc();
-		int result = orderListSvc.statUpdate(status,oiid);
+		ProductListSvc productListSvc = new ProductListSvc();
+		int result = productListSvc.statUpdate(status,oiid);
 		
 		//CartProcUpSvc cartProcUpSvc = new CartProcUpSvc();
 		//int result = cartProcUpSvc.cartUpdate(oc);

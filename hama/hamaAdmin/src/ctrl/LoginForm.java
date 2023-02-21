@@ -5,7 +5,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
-//ÀÌ·¸°Ô ¹Ù²ã³ö¾ßÇÔ.
+//ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 @WebServlet("/login_form")
 public class LoginForm extends HttpServlet {
@@ -14,25 +14,21 @@ public class LoginForm extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		
-		//JSP°¡ ¾Æ´Ï¹Ç·Î ¼¼¼ÇÀ» »ç¿ëÇÏ·Á¸é Á÷Á¢ HttpSession ¼¼¼ÇÀÇ ÀÎ½ºÅÏ½º¸¦ »ı¼ºÇØ¾ßÇÑ´Ù.
+
 		HttpSession session = request.getSession();
-		//¾ÆÁ÷¾È¾µ°ÍÀÌ±â¶§¹®¿¡ ¾ÆÁ÷ Çüº¯È¯ ¾ÈÇØµµ µÊ. 
 		if(session.getAttribute("loginInfo")!= null) {
-			//ÇöÀç ·Î±×ÀÎÀÌ µÇ¾îÀÖ´Â »óÅÂ¶ó¸é
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('Àß¸øµÈ °æ·Î·Î µé¾î¿À¼Ì½À´Ï´Ù');");
+			out.println("alert('ë¡œê·¸ì¸í›„ ì´ìš©í•´ì£¼ì„¸ìš”');");
 			out.println("history.back();");
 			out.println("</script>");
 			out.close();
 		}
 		RequestDispatcher dispatcher = 
 				request.getRequestDispatcher("login_form.jsp");
-		//·Î±×ÀÎ ÆûÀ¸·Î º¸³½´Ù.
+
 		dispatcher.forward(request, response);
-		//µğ½ºÆĞÃ³·Î Æ÷¿öµù..1.urlÀÌ ¾Èº¯ÇÔ. 2.ÀÌÀüÆÄÀÏÀÌ°®°íÀÖ´Â request¶û response ÀÚ±â°¡ °¡Á®°¨
 	
 	}
 

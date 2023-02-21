@@ -7,7 +7,7 @@ if(url == null) url = "index.jsp";
 %>
 
 
-<link rel="stylesheet" href="/hamaProject/css/login_form.css">
+<link rel="stylesheet" href="/hamaAdmin/css/login_form.css">
     <div class="login-contain">
         <h1>관리자 로그인</h1>
         <div class="login-form">

@@ -9,11 +9,11 @@ import vo.*;
 import java.util.*;
 import java.net.*;
 
-@WebServlet("/order")
-public class OrderCtrl extends HttpServlet {
+@WebServlet("/member")
+public class MemberCtrl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public OrderCtrl() { super();}
+    public MemberCtrl() { super();}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -43,15 +43,15 @@ public class OrderCtrl extends HttpServlet {
 		 }
 		String order ="";
 		if(kindorder == null) kindorder ="";
-		if(!kindorder.equals("")) {order = " order by oi_" + kindorder;} else {
-			order = " order by oi_date desc ";
+		if(!kindorder.equals("")) {order = " order by mi_" + kindorder;} else {
+			order = " order by mi_joindate desc ";
 		} 
 	
-		OrderListSvc orderListSvc = new OrderListSvc();
-		 rcnt = orderListSvc.getListCount(where);
+		MemberListSvc memberListSvc = new MemberListSvc();
+		 rcnt = memberListSvc.getListCount(where);
 		
-		ArrayList<OrderInfo> orderList  = new ArrayList<OrderInfo>();
-		orderList = orderListSvc.getOrderList(cpage,psize,where,order);
+		ArrayList<MemberInfo> memberList  = new ArrayList<MemberInfo>();
+		memberList = memberListSvc.getMemberList(cpage,psize,where,order);
 		
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setBsize(bsize);
@@ -65,12 +65,12 @@ public class OrderCtrl extends HttpServlet {
 		
 		System.out.println("test2");
 		
-		request.setAttribute("orderList", orderList);
+		request.setAttribute("memberList", memberList);
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("kindorder", kindorder);
 		
 		RequestDispatcher dispatcher = 
-				request.getRequestDispatcher("order/order_list.jsp");
+				request.getRequestDispatcher("member/member_list.jsp");
 		dispatcher.forward(request,response);
 		
 	}
@@ -84,7 +84,7 @@ public class OrderCtrl extends HttpServlet {
 		
 		System.out.println(status);
 		System.out.println(oiid);
-		OrderListSvc orderListSvc = new OrderListSvc();
+		MemberListSvc orderListSvc = new MemberListSvc();
 		int result = orderListSvc.statUpdate(status,oiid);
 		
 		//CartProcUpSvc cartProcUpSvc = new CartProcUpSvc();

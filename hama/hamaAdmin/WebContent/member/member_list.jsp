@@ -8,7 +8,7 @@
 <%
 request.setCharacterEncoding("utf-8");
 
-ArrayList<OrderInfo> orderInfo  = (ArrayList<OrderInfo>)request.getAttribute("orderList");
+ArrayList<MemberInfo> memberInfo  = (ArrayList<MemberInfo>)request.getAttribute("memberList");
 PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
 
 int bsize = pageInfo.getBsize(), cpage = pageInfo.getCpage();
@@ -25,7 +25,7 @@ if(kindorder != null && !kindorder.equals("")){
 
 String schtype= pageInfo.getSchtype();
 String keyword= pageInfo.getKeyword();
-String lnkOrder = "order?";
+String lnkOrder = "member?";
 
 
 String schargs = "", args=""; 
@@ -58,12 +58,12 @@ const schValue = function(val) {
 const statusVal = function (val) {
 	let arr = val.value.split(",");
 	let status = arr[0];
-	let oiid = arr[1];
+
 	
 	$.ajax({
 		type : "POST",
-		url : "/hamaAdmin/order",
-		data : {"status" : status, "oiid" : oiid},
+		url : "/hamaAdmin/member",
+		data : {"status" : status},
 		success : function(chkRs){
 			if(chkRs==0){
 				alert("상품 변경에 실패했습니다. \n 다시 시도하세요");
@@ -74,13 +74,13 @@ const statusVal = function (val) {
 	});
 }
 </script>
-	<h2>주문 내역</h2>
+	<h2>회원 정보</h2>
 	<hr/>
 	<form name="frmSch" method="get" style="margin-bottom: 15px" >
 		<select name="schtype" onchange="schValue(this)" >
-			<option value = "idx" <%if(schtype!=null && schtype.equals("idx")){%> selected = "selected" <%} %>>주문 번호</option>
-			<option value = "uid" <%if(schtype!=null && schtype.equals("uid")){%> selected = "selected" <%} %>>고객 아이디</option>
-			<option value = "name" <%if(schtype!=null && schtype.equals("name")){%> selected = "selected" <%} %>>고객 이름</option>
+			<option value = "all" <%if(schtype!=null && schtype.equals("all")){%> selected = "selected" <%} %>>전체</option>
+			<option value = "uid" <%if(schtype!=null && schtype.equals("uid")){%> selected = "selected" <%} %>>회원 아이디</option>
+			<option value = "name" <%if(schtype!=null && schtype.equals("name")){%> selected = "selected" <%} %>>회원 이름</option>
 		</select>
 		
 		<input type = "search" name = "keyword" placeholder="검색" value="<%=keyword %>" />
@@ -88,47 +88,38 @@ const statusVal = function (val) {
 	</form>
 	<table width="100%" cellpadding="5" align="center">
 		<tr>
-			<th>주문 번호</th>
-			<th>주문 내역</th>
-			<th>고객 아이디</th>
-			<th>고객 이름</th>
-			<th>결제 금액</th>
-			<th> <%if(isUpOrder && kindorder.equals("status")){%><a href="<%=lnkOrder%>">주문 상태 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=status">주문 상태 ⯆</a><%} %></th>
-			<th> <%if(isUpOrder && kindorder.equals("date")){%><a href="<%=lnkOrder%>">접수 시간 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=date">접수 시간 ⯆</a><%} %></th>
-			<th>상세 정보</th>		
+			<th>아이디</th>
+			<th>이름</th>
+			<th>휴대번호</th>
+			<th>이메일</th>
+			<th>보유포인트</th>
+			<th>가입일시</th>
+			<th>상태</th>
+			<th>관리</th>		
 		</tr>
 <%
-if(orderInfo.size()>0){ //게시글 목록이 있으면
+if(memberInfo.size()>0){ //게시글 목록이 있으면
 
 
-for(int i = 0; i < orderInfo.size(); i++){ 
-	OrderInfo oi = orderInfo.get(i);
-	ArrayList<OrderDetail> orderDetailList = oi.getDetailList();
-	OrderDetail od = null;
-	if(orderDetailList.size()>0){
-		od = orderDetailList.get(0);
-	}
+for(int i = 0; i < memberInfo.size(); i++){ 
+	MemberInfo mi = memberInfo.get(i);
+
 %>
 		<tr>
-			<td><%=oi.getOi_id() %></td>
-<%if(od != null){ %>
-			<td><%=od.getOd_name()%><%if(orderDetailList.size()>1){%> 외 <%=orderDetailList.size()%>개<%}  %></td>
-<%}else{ %><td>-</td>
-<%} %>
-			<td><%=oi.getMi_id() %></td>
-			<td><%=oi.getOi_sender() %></td>
-			<td><%=oi.getOi_pay() %></td>
-			<td>
-				<select onchange="statusVal(this)" >
-			        <option value="a,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("a")){%>selected="selected"<%} %> >배송 준비중</option>
-			        <option value="b,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("b")){%>selected="selected"<%} %> >배송중</option>
-			        <option value="c,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("c")){%>selected="selected"<%} %> >배송 완료</option>
-			        <option value="d,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("d")){%>selected="selected"<%} %> >환불 요청</option>
-			        <option value="e,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("e")){%>selected="selected"<%} %> >환불 완료</option>
-			    </select>
-			</td>
-			<td><%=oi.getOi_date() %></td>
-			<td><button onclick="location.href='/hamaAdmin/order/order_view.jsp'" >상세 정보</button></td>	
+			<td><%=mi.getMi_id() %></td>
+			<td><%=mi.getMi_name() %></td>
+			<td><%=mi.getMi_phone() %></td>
+			<td><%=mi.getMi_email() %></td>
+			<td><%=mi.getMi_point() %></td>
+			<%if(mi.getMi_status().equals("a")){ %>
+				<td>정상</td>
+			<%}else if(mi.getMi_status().equals("b")){ %>
+				<td>휴면</td>
+			<%}else if(mi.getMi_status().equals("c")){ %>
+				<td>탈퇴</td>
+			<%} %>
+			<td><%=mi.getMi_joindate() %></td>
+			<td><button onclick="location.href='/hamaAdmin/member/member_view.jsp'" >상세 정보</button></td>	
 		</tr>
 <%}
 }else{ //게시글 목록이 없으면
@@ -146,7 +137,7 @@ if(kindorder !=null && !kindorder.equals("")){
 	order = "&kindorder=" + kindorder;
 }
 if(rcnt>0){ //게시글이 있으면 - 페이징 영역을 보여줌 
-	String lnk = "order?cpage=";
+	String lnk = "member?cpage=";
 	pcnt = rcnt / psize;
 	if(rcnt % psize>0) pcnt++; //전체 페이지 수(마지막 페이지 번호이기도 함)
 	
@@ -185,7 +176,6 @@ if(rcnt>0){ //게시글이 있으면 - 페이징 영역을 보여줌
 }
 %>
 </div>
-
 </main>
 </body>
 </html>
