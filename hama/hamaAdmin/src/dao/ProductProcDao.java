@@ -90,15 +90,15 @@ public class ProductProcDao {
 	
 		return rcnt;
 	}
-	public int statUp(String status, String oiid) {
+	public int statUp(String status, String piid) {
 		int result = 0;
 		Statement stmt = null; 
 		ResultSet rs = null;
 
 		try {
 			stmt = conn.createStatement();
-			String sql = "update t_order_info set oi_status = "+
-			"'"+status+"' where oi_id = '"+oiid+"'"; 
+			String sql = "update t_product_info set pi_isview = "+
+					"'"+status+"' where pi_id = '"+piid+"'"; 
 
 			System.out.println(sql);
 			result = stmt.executeUpdate(sql);		

@@ -53,6 +53,26 @@ const schValue = function(val) {
 	sch = val.value;
 }
 
+const statusVal = function (val) {
+	let arr = val.value.split(",");
+	let status = arr[0];
+	let piid = arr[1];
+
+	
+	$.ajax({
+		type : "POST",
+		url : "/hamaAdmin/product",
+		data : {"status" : status, "piid" : piid},
+		success : function(chkRs){
+			if(chkRs==0){
+				alert("상품 변경에 실패했습니다. \n 다시 시도하세요");
+				return;
+			}
+			location.reload(); //새로고침 
+		}
+	});
+}
+
 </script>
 	<h2>상품 정보</h2>
 	<hr/>
@@ -94,8 +114,8 @@ for(int i = 0; i < productInfo.size(); i++){
 			<td><%=pi.getPi_sale() %></td>
 			<td>
 				<select onchange="statusVal(this)" >
-			        <option value="Y" <%if(pi.getPi_isview().equals("Y")){%>selected="selected"<%} %> > 개시 </option>
-			        <option value="N" <%if(pi.getPi_isview().equals("N")){%>selected="selected"<%} %> > 미개시 </option>
+			        <option value="Y,<%=pi.getPi_id() %>" <%if(pi.getPi_isview().equals("Y")){%>selected="selected"<%} %> > 개시 </option>
+			        <option value="N,<%=pi.getPi_id() %>" <%if(pi.getPi_isview().equals("N")){%>selected="selected"<%} %> > 미개시 </option>
 			    </select>
 			</td>
 		</tr>

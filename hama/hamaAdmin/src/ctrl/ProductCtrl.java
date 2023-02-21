@@ -33,18 +33,20 @@ public class ProductCtrl extends HttpServlet {
 		 }else if(!schtype.equals("") && !keyword.equals("")  ) {
 			 URLEncoder.encode(keyword, "UTF-8");
 			 
-			 if(schtype.equals("idx")) {
-				 where+=" and (oi_id like '%" + keyword+ "%' )";
-			 }else if(schtype.equals("uid")){
-				 where+=" and (mi_id like '%" + keyword+ "%' )";
+			 if(schtype.equals("id")) {
+				 where+=" and (pi_id like '%" + keyword+ "%' )";
+			 }else if(schtype.equals("ctr")){
+				 where+=" and (pc_id like '%" + keyword+ "%' )";
 			 }else if(schtype.equals("name")) {
-				 where+=" and (oi_sender like '%" + keyword+ "%' )";
+				 where+=" and (pi_name like '%" + keyword+ "%' )";
+			 }else if(schtype.equals("isview")) {
+				 where+=" and (pi_isview ='n' )";
 			 }
 		 }
 		String order ="";
 		if(kindorder == null) kindorder ="";
-		if(!kindorder.equals("")) {order = " order by pi_" + kindorder;} else {
-			order = " order by pi_isview desc ";
+		if(!kindorder.equals("")) {order = " order by pi_" + kindorder + " desc";} else {
+			order = " order by pi_id";
 		} 
 	
 		ProductListSvc ProductListSvc = new ProductListSvc();
@@ -79,13 +81,13 @@ public class ProductCtrl extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		//ĳ���� ���ڵ�
 		String status = request.getParameter("status");
-		String oiid = request.getParameter("oiid");
+		String piid = request.getParameter("piid");
 		
 		
 		System.out.println(status);
-		System.out.println(oiid);
+
 		ProductListSvc productListSvc = new ProductListSvc();
-		int result = productListSvc.statUpdate(status,oiid);
+		int result = productListSvc.statUpdate(status,piid);
 		
 		//CartProcUpSvc cartProcUpSvc = new CartProcUpSvc();
 		//int result = cartProcUpSvc.cartUpdate(oc);

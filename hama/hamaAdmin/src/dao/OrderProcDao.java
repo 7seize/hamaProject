@@ -113,7 +113,7 @@ public class OrderProcDao {
 	
 		return rcnt;
 	}
-	public int statUp(String status, String oiid) {
+	public int statUp(String status,String oiid) {
 		int result = 0;
 		Statement stmt = null; 
 		ResultSet rs = null;
@@ -121,7 +121,8 @@ public class OrderProcDao {
 		try {
 			stmt = conn.createStatement();
 			String sql = "update t_order_info set oi_status = "+
-			"'"+status+"' where oi_id = '"+oiid+"'"; 
+					"'"+status+"' where oi_id = '"+oiid+"'"; 
+			
 
 			System.out.println(sql);
 			result = stmt.executeUpdate(sql);		

@@ -32,14 +32,14 @@ public class ProductListSvc {
 		
 		return rcnt;
 	}
-	public int statUpdate(String status, String oiid) {
+	public int statUpdate(String status, String piid) {
 		int result=0;
 
 		Connection conn = getConnection();
-		OrderProcDao orderProcDao = OrderProcDao.getInstance();
-		orderProcDao.setConnection(conn);
+		ProductProcDao productProcDao = ProductProcDao.getInstance();
+		productProcDao.setConnection(conn);
 		
-		result = orderProcDao.statUp(status, oiid);
+		result = productProcDao.statUp(status, piid);
 		if(result == 1) 	commit(conn);
 		else				rollback(conn);
 

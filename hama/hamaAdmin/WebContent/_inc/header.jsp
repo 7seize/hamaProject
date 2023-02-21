@@ -1,15 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import = "java.io.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.time.*" %>
 <%@ page import = "vo.*" %>     
-<%
-AdminInfo loginInfo = (AdminInfo)session.getAttribute("loginInfo");
-boolean isLogin = false;
-if(loginInfo != null) isLogin = true;
 
-session.setMaxInactiveInterval(5*60);
-%>
 <script  src="/hamaAdmin/js/jquery-3.6.1.js"></script>
 <!DOCTYPE html>
 <html>
@@ -18,7 +13,24 @@ session.setMaxInactiveInterval(5*60);
 <title>Insert title here</title>
 <link rel="stylesheet" href="/hamaAdmin/css/common.css">
 </head>
+<%
+AdminInfo loginInfo = (AdminInfo)session.getAttribute("loginInfo");
+boolean isLogin = false;
+if(loginInfo != null) isLogin = true;
 
+session.setMaxInactiveInterval(5*60);
+
+if(session.getAttribute("loginInfo")== null) {
+	response.setContentType("text/html; charset=utf-8");
+	//PrintWriter out = response.getWriter();
+	out.println("<script>");
+	out.println("alert('로그인 후 이용해 주세요');");
+	out.println(" location.replace('login_form.jsp');");
+	out.println("</script>");
+	out.close();
+}
+
+%>
 <style>
     header{
         width: 90%;
@@ -116,8 +128,8 @@ window.onload = function () {
         <div id="link">
             <%if(isLogin){%>
             <p>	
-            	<span id="Timer">10:00 </span>
-				<a href="/hamaAdmin/logout.jsp"> 로그아웃</a>&nbsp;&nbsp;
+            	<span id="Timer">05:00 </span>
+				<a href="/hamaAdmin/login_form.jsp"> 로그아웃</a>&nbsp;&nbsp;
 			</p>
 			<%}else{%>
             <p>

@@ -33,12 +33,10 @@ public class MemberCtrl extends HttpServlet {
 		 }else if(!schtype.equals("") && !keyword.equals("")  ) {
 			 URLEncoder.encode(keyword, "UTF-8");
 			 
-			 if(schtype.equals("idx")) {
-				 where+=" and (oi_id like '%" + keyword+ "%' )";
-			 }else if(schtype.equals("uid")){
+			 if(schtype.equals("uid")) {
 				 where+=" and (mi_id like '%" + keyword+ "%' )";
-			 }else if(schtype.equals("name")) {
-				 where+=" and (oi_sender like '%" + keyword+ "%' )";
+			 }else if(schtype.equals("name")){
+				 where+=" and (mi_name like '%" + keyword+ "%' )";
 			 }
 		 }
 		String order ="";
