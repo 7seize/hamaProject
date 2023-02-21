@@ -69,7 +69,7 @@ public class OrderProcDao {
 				 		detail.add(od);
 					}
 				} catch (Exception e) {
-					System.out.println("OrderProcDao :getOrderList() 오류");
+					System.out.println("OrderProcDao :getOrderList() ����");
 					e.printStackTrace();
 				}finally {
 					//close(rs2); close(stmt2); 
@@ -79,7 +79,7 @@ public class OrderProcDao {
 			}
 		
 		}catch(Exception e) {
-			System.out.println("OrderProcDao :getOrderList() 오류");
+			System.out.println("OrderProcDao :getOrderList() ����");
 			e.printStackTrace();
 		}finally {
 			
@@ -100,11 +100,11 @@ public class OrderProcDao {
 			rs = stmt.executeQuery(sql); 
 			
 			if(rs.next()) rcnt = rs.getInt(1);
-			//컬럼명 없어서 인덱스 번호 그냥 씀 
-			//select count하는 거여서 사실 검사 안해도 됨.
+			//�÷��� ��� �ε��� ��ȣ �׳� �� 
+			//select count�ϴ� �ſ��� ��� �˻� ���ص� ��.
 		
 		}catch(Exception e) {
-			System.out.println("OrderProcDao클래스 getListCount()오류");
+			System.out.println("OrderProcDaoŬ���� getListCount()����");
 			e.printStackTrace();
 		}finally {
 			close(rs); close(stmt); 

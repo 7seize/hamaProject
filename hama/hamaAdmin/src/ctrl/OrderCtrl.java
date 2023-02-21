@@ -22,8 +22,8 @@ public class OrderCtrl extends HttpServlet {
 		if(request.getParameter("cpage")!= null) {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}
-		String schtype =request.getParameter("schtype");   // 검색 조건
-		String keyword =request.getParameter("keyword");   // 검색어
+		String schtype =request.getParameter("schtype");   // �˻� ����
+		String keyword =request.getParameter("keyword");   // �˻���
 		String where = " where 1=1 ";   
 		String kindorder = request.getParameter("kindorder");
 		
@@ -33,11 +33,11 @@ public class OrderCtrl extends HttpServlet {
 		 }else if(!schtype.equals("") && !keyword.equals("")  ) {
 			 URLEncoder.encode(keyword, "UTF-8");
 			 
-			 if(schtype.equals("idx")) {		// 주문 번호
+			 if(schtype.equals("idx")) {		// �ֹ� ��ȣ
 				 where+=" and (oi_id like '%" + keyword+ "%' )";
-			 }else if(schtype.equals("uid")){	// 고객 아이디
+			 }else if(schtype.equals("uid")){	// ���� ���̵�
 				 where+=" and (mi_id like '%" + keyword+ "%' )";
-			 }else if(schtype.equals("name")) {	// 고객 이름
+			 }else if(schtype.equals("name")) {	// ���� �̸�
 				 where+=" and (oi_sender like '%" + keyword+ "%' )";
 			 } 
 		 }
@@ -77,7 +77,7 @@ public class OrderCtrl extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		//캐릭터 인코딩
+		//ĳ���� ���ڵ�
 		String status = request.getParameter("status");
 		String oiid = request.getParameter("oiid");
 		
