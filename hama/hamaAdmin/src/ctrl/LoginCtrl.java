@@ -26,7 +26,7 @@ public class LoginCtrl extends HttpServlet {
       
       response.setContentType("text/html; charset=utf-8");
       PrintWriter out = response.getWriter();
-      
+      System.out.println(loginInfo);
       
       if(loginInfo != null) {
          
@@ -34,6 +34,7 @@ public class LoginCtrl extends HttpServlet {
          session.setAttribute("loginInfo", loginInfo );
          
          out.println("<script>");
+         
          out.println("location.replace('" + url + "');");
          out.println("</script>");
          out.close();

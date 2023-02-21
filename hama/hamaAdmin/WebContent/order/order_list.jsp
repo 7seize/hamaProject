@@ -78,6 +78,7 @@ const statusVal = function (val) {
 	<hr/>
 	<form name="frmSch" method="get" style="margin-bottom: 15px" >
 		<select name="schtype" onchange="schValue(this)" >
+			<option value = "all" <%if(schtype!=null && schtype.equals("all")){%> selected = "selected" <%} %>>전체</option>
 			<option value = "idx" <%if(schtype!=null && schtype.equals("idx")){%> selected = "selected" <%} %>>주문 번호</option>
 			<option value = "uid" <%if(schtype!=null && schtype.equals("uid")){%> selected = "selected" <%} %>>고객 아이디</option>
 			<option value = "name" <%if(schtype!=null && schtype.equals("name")){%> selected = "selected" <%} %>>고객 이름</option>

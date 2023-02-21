@@ -110,7 +110,7 @@ for(int i = 0; i < memberInfo.size(); i++){
 			<td><%=mi.getMi_name() %></td>
 			<td><%=mi.getMi_phone() %></td>
 			<td><%=mi.getMi_email() %></td>
-			<td><%=mi.getMi_point() %></td>
+			<td><%=mi.getMi_point() %> point</td>
 			<%if(mi.getMi_status().equals("a")){ %>
 				<td>정상</td>
 			<%}else if(mi.getMi_status().equals("b")){ %>

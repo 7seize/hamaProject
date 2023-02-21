@@ -94,7 +94,7 @@ const statusVal = function (val) {
 			<th>분류</th>
 			<th>상품명</th>
 			<th>가격</th>
-			<th>할인가</th>
+			<th>할인율</th>
 			<th>판매량</th>
 			<th> <%if(isUpOrder && kindorder.equals("isview")){%><a href="<%=lnkOrder%>">개시 여부 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=isview">게시 여부 ⯆</a><%} %></th>
 		</tr>
@@ -109,9 +109,9 @@ for(int i = 0; i < productInfo.size(); i++){
 			<td><%=pi.getPi_id() %></td>
 			<td><%=pi.getPc_id() %></td>
 			<td><%=pi.getPi_name() %></td>
-			<td><%=pi.getPi_price() %></td>
-			<td><%=pi.getPi_dc() %></td>
-			<td><%=pi.getPi_sale() %></td>
+			<td><%=pi.getPi_price() %> 원</td>
+			<td><%=pi.getPi_dc() %> %</td>
+			<td><%=pi.getPi_sale() %> 개</td>
 			<td>
 				<select onchange="statusVal(this)" >
 			        <option value="Y,<%=pi.getPi_id() %>" <%if(pi.getPi_isview().equals("Y")){%>selected="selected"<%} %> > 개시 </option>

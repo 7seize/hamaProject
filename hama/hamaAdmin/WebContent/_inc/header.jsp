@@ -20,7 +20,7 @@ if(loginInfo != null) isLogin = true;
 
 session.setMaxInactiveInterval(5*60);
 
-if(session.getAttribute("loginInfo")== null) {
+if(!isLogin) {
 	response.setContentType("text/html; charset=utf-8");
 	//PrintWriter out = response.getWriter();
 	out.println("<script>");
