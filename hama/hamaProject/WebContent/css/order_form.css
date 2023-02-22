@@ -1,0 +1,130 @@
+.cart_contain{
+    margin: 100px auto;
+}
+
+.cart_name, .cart_content , .cart_total, .cart_btn{
+    display: flex;
+    margin: 0 auto;
+    width: 70%;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+}
+.cart_name{
+    padding: 12px 0;
+    font-weight: 700;
+    border-top: 1px solid black;
+    border-bottom: 1px solid rgb(209, 209, 209);
+}
+.cart_content{
+    padding: 12px 0;
+    border-bottom: 1px solid rgb(209, 209, 209);
+}
+.check_wrap{
+    width: 5%;
+}
+.cart_img{
+    width: 15%;
+}
+.cart_img_container{
+    width: 60%;
+    margin: 0 auto;
+}
+.cart_img_container >img{
+    width: 100%;
+}
+.cart_info{
+    width: 20%;
+}
+.cart_price{
+    width: 10%;
+}
+.cart_num{
+    width: 10%;
+}
+.cart_num_count{
+    width: 50%;
+}
+.cart_point{
+    width: 10%;
+}
+.cart_amout{
+    width: 10%;
+}
+.cart_del{
+    width: 10%;
+    cursor: pointer;
+}
+.cart_total{
+    margin-bottom: 30px;
+    padding: 16px 0;
+    justify-content: flex-end;
+    border-bottom: 1px solid black;
+}
+.cart_total > div{
+    margin: 0 13px;
+    font-weight: 900;
+}
+.cart_btn{
+    justify-content: flex-end;
+}
+.cart_btn > input{
+    margin-left: 20px;
+    font-size: 15px;
+    color: #fff;
+    width: 160px;
+    height: 40px;
+    border: none;
+}
+.cart_btn :nth-child(1){
+    background-color: #999999;
+}
+.cart_btn :nth-child(2){
+    background-color: #666666;
+}
+.order_contain{
+    margin: 0 auto 200px;
+    width: 70%;
+
+}
+.order_contain >div> h2{
+    border-bottom: #666666 solid 1px;
+    padding: 20px 0;
+}
+.order_wrap{
+    margin: 10px 0;
+    display: flex;
+    padding-left: 15px;
+
+}
+.order_title{
+    width: 20%;
+    justify-content: center;
+}
+.order_content >input{
+    width: 200px;
+    height: 25px;
+}
+.adrr_content :nth-child(1) :nth-child(1){
+    margin: 5px 0 5px 0;
+    width: 200px;
+    height: 25px;
+}
+.adrr_content :nth-child(2) >input{
+    
+    width: 400px;
+    height: 25px;
+}
+.adrr_content :nth-child(3) >input{
+    margin: 5px 0 5px 0;
+    width: 400px;
+    height: 25px;
+}
+.order_paymode{
+    display: flex;
+    align-items: center;
+}
+.order_paymode >input{
+    width: 15px;
+    margin: 0 5px;
+}

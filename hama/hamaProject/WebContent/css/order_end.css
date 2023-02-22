@@ -1,0 +1,56 @@
+
+.order_end{
+    margin: 0 auto;
+    width: 70%;
+
+}
+.order_end >div> h2{
+   
+    padding: 20px 0;
+}
+.order_end >div> h3{
+
+    padding: 20px 0;
+    
+}
+h3{
+	border-bottom: rgb(200, 200, 200) solid 1px;
+}
+.order_wrap{
+    margin: 10px 0;
+    display: flex;
+    padding-left: 15px;
+
+}
+.order_title{
+    width: 20%;
+    justify-content: center;
+}
+.order_content >input{
+    width: 200px;
+    height: 25px;
+}
+.adrr_content :nth-child(1) :nth-child(1){
+    margin: 5px 0 5px 0;
+    width: 200px;
+    height: 25px;
+}
+.adrr_content :nth-child(2) >input{
+    
+    width: 400px;
+    height: 25px;
+}
+.adrr_content :nth-child(3) >input{
+    margin: 5px 0 5px 0;
+    width: 400px;
+    height: 25px;
+}
+.order_paymode{
+    display: flex;
+    align-items: center;
+}
+.order_paymode >input{
+    width: 15px;
+    margin: 0 5px;
+    
+}

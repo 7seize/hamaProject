@@ -135,4 +135,71 @@ public class OrderProcDao {
 		}
 		return result;
 	}
+	public OrderInfo getOrderInfo(String oiid) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		OrderInfo oi = new OrderInfo();
+		
+		try {
+			String sql = "select * from t_order_info where oi_id = '"+oiid+"' ";
+
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql); 
+			
+			if(rs.next()) {
+				ArrayList<OrderDetail> detail  = new ArrayList<OrderDetail>();
+				oi = new OrderInfo();
+			 	oi.setOi_id(rs.getString("oi_id"));
+			 	oi.setMi_id(rs.getString("mi_id"));
+			 	oi.setOi_name(rs.getString("mi_id"));
+			 	oi.setOi_phone(rs.getString("oi_phone"));
+			 	oi.setOi_addr1(rs.getString("oi_addr1"));
+			 	oi.setOi_addr2(rs.getString("oi_addr2"));
+			 	oi.setOi_memo(rs.getString("oi_memo"));
+			 	oi.setOi_payment(rs.getString("oi_payment"));
+			 	oi.setOi_upoint(rs.getInt("oi_upoint"));
+			 	oi.setOi_invoice(rs.getString("oi_invoice"));
+			 	oi.setOi_sender(rs.getString("oi_sender"));
+			 	oi.setOi_status(rs.getString("oi_status"));
+			 	oi.setOi_sephone(rs.getString("oi_sephone"));
+			 	oi.setOi_pay(rs.getInt("oi_pay"));
+			 	oi.setOi_date(rs.getString("oi_date"));
+			 	oi.setOi_redate(rs.getString("oi_redate"));
+			 	
+			 	try {
+			 		sql = "select * from t_order_detail "+
+						 	"where oi_id = '"+ rs.getString("oi_id") +"'";
+				 	Statement stmt2 = conn.createStatement();
+				 	ResultSet rs2 = stmt2.executeQuery(sql); 
+				 	while(rs2.next()) {
+				 		OrderDetail od  = new OrderDetail();
+				 		od.setOd_idx(rs2.getInt("od_idx"));
+				 		od.setOd_cnt(rs2.getInt("od_cnt"));
+				 		od.setOd_name(rs2.getString("od_name"));
+				 		od.setOd_price(rs2.getInt("od_price"));
+				 		od.setOi_id(rs2.getString("oi_id"));
+				 		od.setOd_idx(rs2.getInt("od_idx"));
+				 		// 작업중 ###########################################################################
+				 		od.setPmc_idx(rs.getS);
+				 		detail.add(od);
+					}
+				} catch (Exception e) {
+					System.out.println("OrderProcDao :getOrderList() ����");
+					e.printStackTrace();
+				}finally {
+					//close(rs2); close(stmt2); 
+				}
+			 	oi.setDetailList(detail);
+
+			}
+		
+		}catch(Exception e) {
+			System.out.println("OrderProcDao / getOrderInfo 오류");
+			e.printStackTrace();
+		}finally {
+			close(rs); close(stmt); 
+		}
+
+		return oi;
+	}
 }

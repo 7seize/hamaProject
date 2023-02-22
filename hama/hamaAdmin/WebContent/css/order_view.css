@@ -1,0 +1,24 @@
+
+.container{width: 90%; margin:0 atuo;}
+
+table{
+    margin: 100px auto;
+    width: 800px;
+    border: 1px solid rgb(114, 114, 114);
+    border-collapse : collapse
+}
+tr{
+    width: 100%;
+    border: 1px solid rgb(114, 114, 114);
+}
+th{
+    background-color: rgb(218, 216, 216);
+    border: 1px solid rgb(114, 114, 114);
+
+    width: 150px;
+    height: 40px;
+}
+td{
+    height: 40px;
+    padding-left: 15px;
+}

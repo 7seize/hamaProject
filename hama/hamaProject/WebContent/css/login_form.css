@@ -1,0 +1,82 @@
+a{
+    text-decoration : none;
+}
+.login-contain{
+    margin-top: 8rem;
+    width: 100%;
+}
+.login-contain h1{
+    text-align: center;
+    font-size: 50px;
+    line-height: 1;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    font-family: "Montserrat",Arial,Sans-Serif;
+}
+.login-form form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login-form-inner{
+    width: 100%;
+    max-width: 1290px;
+    height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-top: 2px solid #646464;
+    border-bottom: 2px solid #646464;
+}
+
+.login-form-inner > div p {
+    padding: 0 0 10px 0;
+}
+.login-form-inner > div p > label{
+    font-family: "Montserrat",Arial,Sans-Serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: left;
+    
+}
+.login-form-inner > div:nth-child(2){
+    padding-bottom: 3rem;
+}
+.login-form-inner > div > input{
+    width: 30vw;
+    height: 2.5rem;
+    padding: 0 10px;
+    display: block;
+    border: 1px solid #b5b6ad;
+    background: #fcfbfa;
+    font-family: "Montserrat",Arial,Sans-Serif;
+    font-weight: 400;
+    color: #929190;
+}
+@media (max-width: 992px){.login-form-inner > div > input{
+    width: 70vw
+}
+}
+.login-submit > input{
+    width: 15vw;
+    height: 2.5rem;
+    background-color: #000;
+    color: white;
+    font-size: 20px;
+    font-family: 'Antonio', sans-serif;
+    margin-top: 4rem;
+    margin-bottom: 1rem;
+}
+@media (max-width: 992px){.login-submit > input{
+    width: 50vw
+}
+}
+.un-login{
+    font-family: "Montserrat",Arial,Sans-Serif;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 13rem;
+}
