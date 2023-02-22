@@ -105,7 +105,7 @@ if(productInfo.size()>0){ //게시글 목록이 있으면
 for(int i = 0; i < productInfo.size(); i++){ 
 	ProductInfo pi = productInfo.get(i);
 %>
-		<tr>
+		<tr class="hover_color" >
 			<td><%=pi.getPi_id() %></td>
 			<td><%=pi.getPc_id() %></td>
 			<td><%=pi.getPi_name() %></td>

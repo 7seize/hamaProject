@@ -23,14 +23,6 @@ th, td{ text-align: center;}
 
 
 
-<style>
-.container{width: 60%; margin:0px auto;}
-table{border-collapse: collapse;} 
-th, td{ text-align: center;}
-</style>
-
-
-
 <div class="container" style="width: 60%">
 	<img style="width: 100%" src="/hamaAdmin/product/pdt_img/main.PNG">
 </div>

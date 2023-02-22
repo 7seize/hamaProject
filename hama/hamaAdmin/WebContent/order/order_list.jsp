@@ -37,14 +37,7 @@ args = "&cpage=" + cpage +  schargs;
 lnkOrder +=schargs;
 
 %>
-<style>
-.container{width: 90%; margin:0 atuo;}
-table{border-collapse: collapse;} 
-th, td{ text-align: center;}
-h2{margin: 20px 0 10px 0;}
-</style>
-
-
+<link rel="stylesheet" href="/hamaAdmin/css/order_list.css">
 <div class="container">
 
 	<!-- <h2>관리자 메인 페이지</h2> -->
@@ -88,7 +81,7 @@ const statusVal = function (val) {
 		<input type="submit"  value="검색" />
 	</form>
 	<table width="100%" cellpadding="5" align="center">
-		<tr>
+		<tr class="ta_title">
 			<th>주문 번호</th>
 			<th>주문 내역</th>
 			<th>고객 아이디</th>
@@ -110,10 +103,10 @@ for(int i = 0; i < orderInfo.size(); i++){
 		od = orderDetailList.get(0);
 	}
 %>
-		<tr>
+		<tr class="chcolor" >
 			<td><%=oi.getOi_id() %></td>
 <%if(od != null){ %>
-			<td><%=od.getOd_name()%><%if(orderDetailList.size()>1){%> 외 <%=orderDetailList.size()%>개<%}  %></td>
+			<td style="text-align: left;"><%=od.getOd_name()%><%if(orderDetailList.size()>1){%> 외 <%=orderDetailList.size()%>개<%}  %></td>
 <%}else{ %><td>-</td>
 <%} %>
 			<td><%=oi.getMi_id() %></td>
@@ -138,9 +131,9 @@ for(int i = 0; i < orderInfo.size(); i++){
 }
 %>
 	</table>
-<table width="700" cellpadding="5" style="margin: 100px auto;" >
+<table width="700" cellpadding="5" style="margin: 100px auto;" class="page_nav" >
 <tr>
-<td width="600">
+<td width="600" style="background: #fff">
 <%
 String order ="";
 if(kindorder !=null && !kindorder.equals("")){
