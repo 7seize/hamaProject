@@ -105,18 +105,11 @@ public class OrderCtrl extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		//ĳ���� ���ڵ�
 		String status = request.getParameter("status");
 		String oiid = request.getParameter("oiid");
 		
-		
-		System.out.println(status);
-		System.out.println(oiid);
 		OrderListSvc orderListSvc = new OrderListSvc();
 		int result = orderListSvc.statUpdate(status,oiid);
-		
-		//CartProcUpSvc cartProcUpSvc = new CartProcUpSvc();
-		//int result = cartProcUpSvc.cartUpdate(oc);
 		
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();

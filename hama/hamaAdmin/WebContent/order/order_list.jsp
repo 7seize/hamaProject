@@ -130,7 +130,7 @@ for(int i = 0; i < orderInfo.size(); i++){
 			    </select>
 			</td>
 			<td><%=oi.getOi_date() %></td>
-			<td><button onclick="location.href='/hamaAdmin/order/order_view.jsp'" >상세 정보</button></td>	
+			<td><button onclick="location.href='/hamaAdmin/orderview?oiid=<%=oi.getOi_id() %>'" >상세 정보</button></td>	
 		</tr>
 <%}
 }else{ //게시글 목록이 없으면

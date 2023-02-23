@@ -22,6 +22,12 @@ public class OrderViewCtrl extends HttpServlet {
 		String oiid = request.getParameter("oiid");
 		OrderViewSvc orderViewSvc = new OrderViewSvc();
 		OrderInfo orderInfo = orderViewSvc.getOrderInfo(oiid);
+		
+		request.setAttribute("orderInfo", orderInfo);
+		
+		RequestDispatcher dispatcher = 
+				request.getRequestDispatcher("order/order_view.jsp");
+		dispatcher.forward(request,response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

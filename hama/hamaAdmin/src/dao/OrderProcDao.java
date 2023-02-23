@@ -142,9 +142,11 @@ public class OrderProcDao {
 		
 		try {
 			String sql = "select * from t_order_info where oi_id = '"+oiid+"' ";
-
+			
+			System.out.println(sql);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql); 
+
 			
 			if(rs.next()) {
 				ArrayList<OrderDetail> detail  = new ArrayList<OrderDetail>();
@@ -153,6 +155,7 @@ public class OrderProcDao {
 			 	oi.setMi_id(rs.getString("mi_id"));
 			 	oi.setOi_name(rs.getString("mi_id"));
 			 	oi.setOi_phone(rs.getString("oi_phone"));
+			 	oi.setOi_zip(rs.getString("oi_zip"));
 			 	oi.setOi_addr1(rs.getString("oi_addr1"));
 			 	oi.setOi_addr2(rs.getString("oi_addr2"));
 			 	oi.setOi_memo(rs.getString("oi_memo"));
@@ -174,20 +177,19 @@ public class OrderProcDao {
 				 	while(rs2.next()) {
 				 		OrderDetail od  = new OrderDetail();
 				 		od.setOd_idx(rs2.getInt("od_idx"));
-				 		od.setOd_cnt(rs2.getInt("od_cnt"));
-				 		od.setOd_name(rs2.getString("od_name"));
-				 		od.setOd_price(rs2.getInt("od_price"));
 				 		od.setOi_id(rs2.getString("oi_id"));
-				 		od.setOd_idx(rs2.getInt("od_idx"));
-				 		// 작업중 ###########################################################################
-				 		od.setPmc_idx(rs.getS);
+				 		od.setPi_id(rs2.getString("pi_id"));
+				 		od.setOd_cnt(rs2.getInt("od_cnt"));
+				 		od.setOd_price(rs2.getInt("od_price"));
+				 		od.setOd_name(rs2.getString("od_name"));
+				 		od.setPmc_idx(rs2.getString("pmc_idx"));
+				 		od.setOd_box(rs2.getString("od_box"));
+				 		
 				 		detail.add(od);
 					}
 				} catch (Exception e) {
-					System.out.println("OrderProcDao :getOrderList() ����");
+					System.out.println("OrderProcDao :getOrderList() fall");
 					e.printStackTrace();
-				}finally {
-					//close(rs2); close(stmt2); 
 				}
 			 	oi.setDetailList(detail);
 

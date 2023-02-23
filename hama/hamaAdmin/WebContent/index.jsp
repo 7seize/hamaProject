@@ -7,8 +7,6 @@
 
 <%
 
-
-
 String schtype="";
 String desc = "<img src=/hamaAdmin/product/pdt_img/d.png width='30px' />";
 String asc = "<img src=/hamaAdmin/product/pdt_img/u.png width='30px' />";

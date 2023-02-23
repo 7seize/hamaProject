@@ -65,7 +65,6 @@ public class ProductCtrl extends HttpServlet {
 		pageInfo.setSchtype(schtype);
 		pageInfo.setKeyword(keyword);
 		
-		System.out.println("test2");
 		
 		request.setAttribute("productInfo", productInfo);
 		request.setAttribute("pageInfo", pageInfo);
