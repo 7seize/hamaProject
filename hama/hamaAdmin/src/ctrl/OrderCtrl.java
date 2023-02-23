@@ -17,15 +17,18 @@ public class OrderCtrl extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		int cpage = 1, psize = 10, bsize = 10, rcnt = 0, pcnt = 0, spage = 0;
+		int cpage = 1, psize = 15, bsize = 10, rcnt = 0, pcnt = 0, spage = 0;
 
 		if(request.getParameter("cpage")!= null) {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}
-		String schtype =request.getParameter("schtype");   // �˻� ����
-		String keyword =request.getParameter("keyword");   // �˻���
+		String schtype =request.getParameter("schtype");
+		String keyword =request.getParameter("keyword"); 
+		String startdate =request.getParameter("startdate");
+		String enddate =request.getParameter("enddate");
 		String where = " where 1=1 ";   
 		String kindorder = request.getParameter("kindorder");
+		String desc =request.getParameter("desc");
 		
 		if(schtype == null || keyword == null) {
 			 schtype = "";
@@ -41,9 +44,32 @@ public class OrderCtrl extends HttpServlet {
 				 where+=" and (oi_sender like '%" + keyword+ "%' )";
 			 }
 		 }
+		if(startdate == null) {
+			startdate = "";
+		}else if(!startdate.equals("")){
+			where+=" and '"+startdate+"' <= DATE_FORMAT(oi_date, '%Y-%m-%d') ";
+		}
+		if(enddate == null) {
+			enddate = "";
+		}else if(!enddate.equals("")){
+			where+=" and '"+enddate+"' >= DATE_FORMAT(oi_date, '%Y-%m-%d') ";
+		}
+		
 		String order ="";
+		
 		if(kindorder == null) kindorder ="";
-		if(!kindorder.equals("")) {order = " order by oi_" + kindorder;} else {
+		if(desc == null){
+			desc ="";
+		}else if(desc.equals("desc")) {
+			desc = "desc";
+		}else{
+			desc = "asc";
+		}
+		
+		if(!kindorder.equals("")) {
+			order = " order by oi_" + kindorder + " ";
+			order += desc;
+		} else {
 			order = " order by oi_date desc ";
 		} 
 	
@@ -63,11 +89,13 @@ public class OrderCtrl extends HttpServlet {
 		pageInfo.setSchtype(schtype);
 		pageInfo.setKeyword(keyword);
 		
-		System.out.println("test2");
-		
+
 		request.setAttribute("orderList", orderList);
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("kindorder", kindorder);
+		request.setAttribute("desc", desc);
+		request.setAttribute("startdate", startdate);
+		request.setAttribute("enddate", enddate);
 		
 		RequestDispatcher dispatcher = 
 				request.getRequestDispatcher("order/order_list.jsp");

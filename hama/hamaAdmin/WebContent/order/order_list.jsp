@@ -15,27 +15,30 @@ int bsize = pageInfo.getBsize(), cpage = pageInfo.getCpage();
 int psize= pageInfo.getPsize(), pcnt= pageInfo.getPcnt();
 int spage = pageInfo.getSpage(), rcnt= pageInfo.getRcnt();
 
-boolean isUpOrder = false;
-String kindorder = (String)request.getAttribute("kindorder");
-if(kindorder != null && !kindorder.equals("")){
-	isUpOrder = true ;
-}else{
-	kindorder ="";
-} 
 
+String kindorder = (String)request.getAttribute("kindorder");
+String desc = (String)request.getAttribute("desc");
+String startdate = (String)request.getAttribute("startdate");
+String enddate = (String)request.getAttribute("enddate");
 String schtype= pageInfo.getSchtype();
 String keyword= pageInfo.getKeyword();
 String lnkOrder = "order?";
-
-
 String schargs = "", args=""; 
+
+if(kindorder == null) kindorder ="";
+if(desc == null) desc = "";
 if(schtype != null && !schtype.equals("") && 
 	keyword != null && !keyword.equals("") ){
 	schargs = "&schtype=" + schtype + "&keyword=" + keyword;
 }
 args = "&cpage=" + cpage +  schargs;
-lnkOrder +=schargs;
+System.out.println("startdate"+ startdate);
 
+if(startdate == null ) startdate ="";
+if(!startdate.equals("")) schargs += "&startdate=" +startdate;
+if(enddate == null ) enddate ="";
+if(!enddate.equals("")) schargs += "&enddate=" +enddate;
+lnkOrder +=schargs;
 %>
 <link rel="stylesheet" href="/hamaAdmin/css/order_list.css">
 <div class="container">
@@ -59,7 +62,7 @@ const statusVal = function (val) {
 		data : {"status" : status, "oiid" : oiid},
 		success : function(chkRs){
 			if(chkRs==0){
-				alert("상품 변경에 실패했습니다. \n 다시 시도하세요");
+				alert("상태 변경에 실패했습니다. \n 다시 시도하세요");
 				return;
 			}
 			location.reload(); //새로고침 
@@ -76,9 +79,14 @@ const statusVal = function (val) {
 			<option value = "uid" <%if(schtype!=null && schtype.equals("uid")){%> selected = "selected" <%} %>>고객 아이디</option>
 			<option value = "name" <%if(schtype!=null && schtype.equals("name")){%> selected = "selected" <%} %>>고객 이름</option>
 		</select>
-		
 		<input type = "search" name = "keyword" placeholder="검색" value="<%=keyword %>" />
 		<input type="submit"  value="검색" />
+		<div>
+			<label for="startdate"> </label>
+			<input name="startdate" type="date" value="<%=startdate %>" >
+			<label for="enddate"> - </label>
+			<input name="enddate" type="date" value="<%=enddate %>" >
+		</div>
 	</form>
 	<table width="100%" cellpadding="5" align="center">
 		<tr class="ta_title">
@@ -87,8 +95,8 @@ const statusVal = function (val) {
 			<th>고객 아이디</th>
 			<th>고객 이름</th>
 			<th>결제 금액</th>
-			<th> <%if(isUpOrder && kindorder.equals("status")){%><a href="<%=lnkOrder%>">주문 상태 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=status">주문 상태 ⯆</a><%} %></th>
-			<th> <%if(isUpOrder && kindorder.equals("date")){%><a href="<%=lnkOrder%>">접수 시간 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=date">접수 시간 ⯆</a><%} %></th>
+			<th> <%if(kindorder.equals("status")&&desc.equals("desc")){%><a href="<%=lnkOrder%>&kindorder=status&desc=asc">주문 상태 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=status&desc=desc">주문 상태 ⯆</a><%} %></th>
+			<th> <%if(kindorder.equals("date")&&desc.equals("desc")){%><a href="<%=lnkOrder%>&kindorder=date&desc=asc">접수 시간 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=date&desc=desc">접수 시간 ⯆</a><%} %></th>
 			<th>상세 정보</th>		
 		</tr>
 <%
@@ -138,6 +146,7 @@ for(int i = 0; i < orderInfo.size(); i++){
 String order ="";
 if(kindorder !=null && !kindorder.equals("")){
 	order = "&kindorder=" + kindorder;
+	order += "&desc=" + desc;
 }
 if(rcnt>0){ //게시글이 있으면 - 페이징 영역을 보여줌 
 	String lnk = "order?cpage=";
