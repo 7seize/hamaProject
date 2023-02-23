@@ -43,7 +43,7 @@ table{border-collapse: collapse;}
 th, td{ text-align: center;}
 h2{margin: 20px 0 10px 0;}
 </style>
-
+<link rel="stylesheet" href="/hamaAdmin/css/product_list.css">
 
 <div class="container">
 
@@ -89,7 +89,7 @@ const statusVal = function (val) {
 		<input type="submit"  value="검색" />
 	</form>
 	<table width="100%" cellpadding="5" align="center">
-		<tr>
+		<tr class="ta_title" >
 			<th>상품 코드</th>
 			<th>분류</th>
 			<th>상품명</th>
@@ -105,7 +105,8 @@ if(productInfo.size()>0){ //게시글 목록이 있으면
 for(int i = 0; i < productInfo.size(); i++){ 
 	ProductInfo pi = productInfo.get(i);
 %>
-		<tr class="hover_color" >
+		<tr onClick="" style="cursor: pointer;" class="chcolor" >
+
 			<td><%=pi.getPi_id() %></td>
 			<td><%=pi.getPc_id() %></td>
 			<td><%=pi.getPi_name() %></td>
@@ -118,6 +119,7 @@ for(int i = 0; i < productInfo.size(); i++){
 			        <option value="N,<%=pi.getPi_id() %>" <%if(pi.getPi_isview().equals("N")){%>selected="selected"<%} %> > 미개시 </option>
 			    </select>
 			</td>
+
 		</tr>
 <%}
 }else{ //게시글 목록이 없으면
@@ -126,9 +128,9 @@ for(int i = 0; i < productInfo.size(); i++){
 }
 %>
 	</table>
-<table width="700" cellpadding="5" style="margin: 100px auto;" >
+<table width="700" cellpadding="5" style="margin: 100px auto; ">
 <tr>
-<td width="600">
+<td width="600" style="background: #fff" >
 <%
 String order ="";
 if(kindorder !=null && !kindorder.equals("")){

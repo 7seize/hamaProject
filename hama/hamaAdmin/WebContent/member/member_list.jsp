@@ -93,8 +93,8 @@ const statusVal = function (val) {
 			<th>휴대번호</th>
 			<th>이메일</th>
 			<th>보유포인트</th>
-			<th>가입일시</th>
 			<th>상태</th>
+			<th>가입일시</th>
 			<th>관리</th>		
 		</tr>
 <%

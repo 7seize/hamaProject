@@ -62,7 +62,7 @@ public class OrderProcInCtrl extends HttpServlet {
 		oi.setOi_payment(payment);
 		oi.setOi_pay(total);
 		oi.setOi_memo(receiveMemo);
-		oi.setOi_date(receiveDate);
+		oi.setOi_redate(receiveDate);
 		//#####################################################################################
 		
 		OrderProcInSvc orderProcInSvc = new OrderProcInSvc();

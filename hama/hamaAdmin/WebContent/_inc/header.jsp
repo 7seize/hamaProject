@@ -40,6 +40,8 @@ if(!isLogin) {
         width: 90%;
         margin: 0 auto;
         display:flex;
+        justify-content: space-between;
+        
     }
     .admin-header{
         width: 98%;

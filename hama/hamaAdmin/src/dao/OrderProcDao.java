@@ -50,7 +50,9 @@ public class OrderProcDao {
 			 	oi.setOi_sender(rs.getString("oi_sender"));
 			 	oi.setOi_status(rs.getString("oi_status"));
 			 	oi.setOi_pay(rs.getInt("oi_pay"));
+			 	oi.setOi_payment(rs.getString("oi_payment"));
 			 	oi.setOi_date(rs.getString("oi_date"));
+			 	oi.setOi_redate(rs.getString("oi_redate"));
 			 	
 			 	
 			 	try {

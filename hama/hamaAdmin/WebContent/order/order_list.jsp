@@ -94,10 +94,12 @@ const statusVal = function (val) {
 			<th>주문 내역</th>
 			<th>고객 아이디</th>
 			<th>고객 이름</th>
+			<th>결제 방식</th>
 			<th>결제 금액</th>
 			<th> <%if(kindorder.equals("status")&&desc.equals("desc")){%><a href="<%=lnkOrder%>&kindorder=status&desc=asc">주문 상태 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=status&desc=desc">주문 상태 ⯆</a><%} %></th>
 			<th> <%if(kindorder.equals("date")&&desc.equals("desc")){%><a href="<%=lnkOrder%>&kindorder=date&desc=asc">접수 시간 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=date&desc=desc">접수 시간 ⯆</a><%} %></th>
-			<th>상세 정보</th>		
+			<th>희망 배송일</th>
+		
 		</tr>
 <%
 if(orderInfo.size()>0){ //게시글 목록이 있으면
@@ -111,7 +113,7 @@ for(int i = 0; i < orderInfo.size(); i++){
 		od = orderDetailList.get(0);
 	}
 %>
-		<tr class="chcolor" >
+		<tr class="chcolor"  onclick="location.href='/hamaAdmin/orderview?oiid=<%=oi.getOi_id() %>'" style="cursor: pointer;" >
 			<td><%=oi.getOi_id() %></td>
 <%if(od != null){ %>
 			<td style="text-align: left;"><%=od.getOd_name()%><%if(orderDetailList.size()>1){%> 외 <%=orderDetailList.size()%>개<%}  %></td>
@@ -119,6 +121,9 @@ for(int i = 0; i < orderInfo.size(); i++){
 <%} %>
 			<td><%=oi.getMi_id() %></td>
 			<td><%=oi.getOi_sender() %></td>
+			<%if(oi.getOi_payment().equals("c")){%><td>신용카드</td>
+            <%}else if(oi.getOi_payment().equals("b")){%><td>무통장 입금</td>
+            <%}else if(oi.getOi_payment().equals("a")){%><td>계좌이체</td><%} %>
 			<td><%=oi.getOi_pay() %></td>
 			<td>
 				<select onchange="statusVal(this)" >
@@ -130,7 +135,11 @@ for(int i = 0; i < orderInfo.size(); i++){
 			    </select>
 			</td>
 			<td><%=oi.getOi_date() %></td>
-			<td><button onclick="location.href='/hamaAdmin/orderview?oiid=<%=oi.getOi_id() %>'" >상세 정보</button></td>	
+			<%if(oi.getOi_date().equals(oi.getOi_redate())){ %>
+            	<td> - </td>
+            <%}else{%>
+            	<td><%=oi.getOi_redate().substring(0,10) %></td>
+            <%} %>
 		</tr>
 <%}
 }else{ //게시글 목록이 없으면

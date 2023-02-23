@@ -166,13 +166,13 @@ public class OrderProcDao {
 				
 				String sql = "insert into t_order_info (" + 
 						"oi_id, mi_id, oi_name, oi_phone, oi_zip, oi_addr1, " + 
-						"oi_addr2, oi_payment, oi_pay, oi_memo, oi_sender, oi_sephone) values ('" + 
+						"oi_addr2, oi_payment, oi_pay, oi_memo, oi_sender, oi_redate, oi_sephone) values ('" + 
 						oi_id			+ "', '" + oi.getMi_id()	+ "', '" + 
 						oi.getOi_name()	+ "', '" + oi.getOi_phone() + "', '" + 
 						oi.getOi_zip()	+ "', '" + oi.getOi_addr1()	+ "', '" + 
 						oi.getOi_addr2()+ "', '" + oi.getOi_payment()+"', '" + 
 						oi.getOi_pay()	+ "', '" + oi.getOi_memo()	+ "', '" + 
-						oi.getOi_sender()	+ "', '"+ 
+						oi.getOi_sender()+ "', '" + oi.getOi_redate()+"', '" + 
 						oi.getOi_sephone() +"') ";	
 				target++; 
 				
