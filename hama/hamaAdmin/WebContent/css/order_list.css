@@ -4,10 +4,10 @@ td{text-align: center}
 h2{margin: 20px 0 10px 0;}
 
 tr:nth-child(2n) {
-	background-color: rgb(230, 230, 230);
+	background-color: rgb(245, 245, 245);
 }
 tr:nth-child(2n +1) {
-    background-color: rgb(225, 225, 225);
+    background-color: rgb(240, 240, 240);
 }
 .ta_title{
 	background-color: rgb(200, 200, 200) !important;

@@ -68,6 +68,9 @@ const statusVal = function (val) {
 		}
 	});
 }
+
+
+
 </script>
 	<h2>주문 내역</h2>
 	<hr/>
@@ -124,7 +127,7 @@ for(int i = 0; i < orderInfo.size(); i++){
             <%}else if(oi.getOi_payment().equals("b")){%><td>무통장 입금</td>
             <%}else if(oi.getOi_payment().equals("a")){%><td>계좌이체</td><%} %>
 			<td><%=oi.getOi_pay() %></td>
-			<td>
+			<td id="sel" >
 				<select onchange="statusVal(this)" >
 			        <option value="a,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("a")){%>selected="selected"<%} %> >배송 준비중</option>
 			        <option value="b,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("b")){%>selected="selected"<%} %> >배송중</option>
@@ -170,7 +173,8 @@ if(rcnt>0){ //게시글이 있으면 - 페이징 영역을 보여줌
 		out.println("<a href='" + lnk + (cpage-1) + schargs + order + "'>[이전]</a>&nbsp;&nbsp;");
 	}
 
-	spage = (cpage-1)/bsize * bsize + 1; //현재 블록에서의 시작 페이지 번호 
+	spage = (cpage-1)/bsize * bsize 
+			+ 1; //현재 블록에서의 시작 페이지 번호 
 	for(int i=1, j=spage; i<=bsize && j<= pcnt; i++, j++){
 		//i :  블록에서 보여줄 페이지의 개수만큼 루프를 돌릴 조건으로 사용된느 변수
 		//j : 실제 출력할 페이지 번호로 전체 페이지 개수(마지막 페이지) 를 넘지 않도록 사용해야함
@@ -197,5 +201,6 @@ if(rcnt>0){ //게시글이 있으면 - 페이징 영역을 보여줌
 %>
 </div>
 </main>
+
 </body>
 </html>
