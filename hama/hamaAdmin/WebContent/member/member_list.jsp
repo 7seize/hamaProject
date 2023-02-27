@@ -46,9 +46,7 @@ h2{margin: 20px 0 10px 0;}
 
 
 <div class="container">
-
-	<!-- <h2>관리자 메인 페이지</h2> -->
-	
+<link rel="stylesheet" href="/hamaAdmin/css/member_list.css">
 <script>
 let sch = "idx"
 const schValue = function(val) {

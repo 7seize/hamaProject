@@ -43,7 +43,6 @@ lnkOrder +=schargs;
 <link rel="stylesheet" href="/hamaAdmin/css/order_list.css">
 <div class="container">
 
-	<!-- <h2>관리자 메인 페이지</h2> -->
 	
 <script>
 let sch = "idx"
