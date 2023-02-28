@@ -115,7 +115,7 @@ for(int i = 0; i < orderInfo.size(); i++){
 		od = orderDetailList.get(0);
 	}
 %>
-		<tr class="chcolor"  onclick="location.href='/hamaAdmin/orderview?oiid=<%=oi.getOi_id() %>'" style="cursor: pointer;" >
+		<tr class="chcolor" onclick="if(event.target.tagName != 'SELECT') location.href='/hamaAdmin/orderview?oiid=<%=oi.getOi_id() %>'" style="cursor: pointer;">
 			<td><%=oi.getOi_id() %></td>
 <%if(od != null){ %>
 			<td style="text-align: left;"><%=od.getOd_name()%><%if(orderDetailList.size()>1){%> 외 <%=orderDetailList.size()%>개<%}  %></td>
