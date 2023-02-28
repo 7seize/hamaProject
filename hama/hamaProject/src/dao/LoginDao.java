@@ -7,26 +7,26 @@ import vo.*;
 
 
 public class LoginDao {
-//·Î±×ÀÎ¿¡ °ü·ÃµÈ Äõ¸® ÀÛ¾÷À» Ã³¸®ÇÏ´Â Å¬·¡½º 
+//ï¿½Î±ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ 
 	private static LoginDao loginDao;
 	private Connection conn;
 	private LoginDao() {}
-	//±âº» »ý¼ºÀÚ¸¦ privateÀ¸·Î ¼±¾ðÇÏ¿© ¿ÜºÎ¿¡¼­ ÇÔºÎ·Î ÀÎ½ºÅÏ½º¸¦ »ý¼ºÇÏÁö ¸øÇÏ°Ô ¸·À½
+	//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ privateï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ÔºÎ·ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	public static LoginDao  getInstance() {
-	//LoginDao Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º¸¦ »ý¼ºÇØÁÖ´Â ¸Å¼Òµå  
-	//ÀÌ¹Ì ÀÎ½ºÅÏ½º°¡ ÀÖÀ¸¸é ±âÁ¸ÀÇ ÀÎ½ºÅÏ½º¸¦ ¸®ÅÏÇÑ´Ù.
-	//LoginDao Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º¸¦ ÇÏ³ª¸¸ »ý¼ºÇÏ¿© »ç¿ëÇÏ°Ô ÇÏ´Â ½Ì±ÛÅæ ¹æ½Ä
+	//LoginDao Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Å¼Òµï¿½  
+	//ï¿½Ì¹ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	//LoginDao Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ï´ï¿½ ï¿½Ì±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		if (loginDao == null) loginDao = new LoginDao(); 
-		//ÀÌ¹Ì »ý¼ºµÈ LoginDao Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º°¡ ¾øÀ¸¸é »õ·Ó°Ô  ÀÎ½ºÅÏ½º¸¦ »ý¼ºÇÏ¶ó 
+		//ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ LoginDao Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó°ï¿½  ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ 
 		return loginDao;
 	}
 	public void setConnection(Connection conn) {
-	//Çö Dao Å¬·¡½º¿¡¼­ »ç¿ëÇÒ Ä¿³Ø¼Ç °´Ã¼¸¦ ¹Þ¾Æ¿Í¼­ »ý¼ºÇØÁÖ´Â ¸Þ¼Òµå 
+	//ï¿½ï¿½ Dao Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½Ø¼ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Þ¾Æ¿Í¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Þ¼Òµï¿½ 
 		this.conn = conn;
 	}
 	public MemberInfo getLoginInfo(String uid, String pwd) {
-	//¹Þ¾Æ¿Â ¾ÆÀÌµð¿Í ¾ÏÈ£·Î ·Î±×ÀÎ ÀÛ¾÷À» Ã³¸®ÇÑ ÈÄ, È¸¿øÁ¤º¸ MemberInfoÇü ÀÎ½ºÅÏ½º·Î ¸®ÅÏ
+	//ï¿½Þ¾Æ¿ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ MemberInfoï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		Statement stmt = null;
 		ResultSet rs = null;
 		MemberInfo loginInfo = null;
@@ -36,14 +36,14 @@ public class LoginDao {
 			String sql = "select * from t_member_info " +
 					" where mi_status <> 'c' and mi_id = '"+ uid +
 					"' and mi_pw = '" + pwd + "'";
-
+			System.out.println(sql);
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql); //Äõ¸® stmt¿¡ ³ÖÀ½
+			rs = stmt.executeQuery(sql); //ï¿½ï¿½ï¿½ï¿½ stmtï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			
-			if(rs.next()){ //·Î±×ÀÎ¼º°ø½Ã ,rs¿¡ µ¥ÀÌÅÍ°¡ ÀÖÀ¸¸é 
+			if(rs.next()){ //ï¿½Î±ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ ,rsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 
 				loginInfo = new MemberInfo();
-				//·Î±×ÀÎÇÑ È¸¿øÀÇ Á¤º¸µéÀ» ÀúÀåÇÒ ÀÎ½ºÅÏ½º »ý¼º 
+				//ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 				loginInfo.setMi_id(rs.getString("mi_id"));
 				loginInfo.setMi_pw(rs.getString("mi_pw"));
 				loginInfo.setMi_name(rs.getString("mi_name"));
@@ -56,15 +56,15 @@ public class LoginDao {
 				loginInfo.setMi_status(rs.getString("mi_status"));
 
 			
-			} //rs°¡ ºñ¾úÀ¸¸é else¾øÀÌ loginInfo ÀÎ½ºÅÏ½º¿¡ nullÀÌ ÀÖ´Â »óÅÂ·Î ¸®ÅÏÇÒ °Í 
+			} //rsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ elseï¿½ï¿½ï¿½ï¿½ loginInfo ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ nullï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ 
 			
 		}catch(Exception e) {
-			System.out.println("LoginDao Å¬·¡½º getLoginInfo() ¸Þ¼Òµå ¿À·ù");
+			System.out.println("LoginDao Å¬ï¿½ï¿½ï¿½ï¿½ getLoginInfo() ï¿½Þ¼Òµï¿½ ï¿½ï¿½ï¿½ï¿½");
 			e.printStackTrace();
 		}finally {
 			close(rs); close(stmt); 
 		}
 		return loginInfo;
-		//¸®ÅÏÇÑ´Ù
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 	}
 }

@@ -49,6 +49,7 @@ public class MemberProcDao {
 			 	mi.setMi_email(rs.getString("mi_email"));
 			 	mi.setMi_joindate(rs.getString("mi_joindate"));
 			 	mi.setMi_status(rs.getString("mi_status"));
+			 	mi.setMi_point(rs.getInt("mi_point"));
 			 	memberList.add(mi);
 			 	
 				}

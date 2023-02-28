@@ -26,9 +26,6 @@ th, td{ text-align: center;}
 </div>
 
 
-
-
-
 </main>
 </body>
 </html>
