@@ -74,7 +74,7 @@ create table t_product_ctgr (
 
 -- 상품 정보
 create table t_product_info (
-	pi_id char(7) primary key, 				-- 상품 ID
+	pi_id char(5) primary key, 				-- 상품 ID
 	pc_id char(2), 							-- 분류 코드
 	pi_name varchar(50) not null, 			-- 상품명
 	pi_price int default 0, 				-- 가격
@@ -104,7 +104,7 @@ create table t_product_info (
 -- 상품 재고 내역
 create table t_product_out (
 	po_idx	int auto_increment primary key,		-- 일련번호
-	pi_id	char(7),	 						-- 상품ID
+	pi_id	char(5),	 						-- 상품ID
 	po_kind	char(1)	default 'i',	 			-- 입고/폐기여부
 	po_inout int	default 0,					-- 입고/폐기량
 	po_date	datetime default now(),				-- 입고/폐기일
@@ -121,7 +121,7 @@ create table t_product_ma_custom (
 	pmc_sugar	int	 default 50,				-- 당도
 	pmc_vg		char(1) default	'n',			-- 비건
 	pmc_pl		char(1)	default 'b',			-- 필링량
-	pi_id		char(7),	 					-- 상품ID
+	pi_id		char(5),	 					-- 상품ID
 	pmc_img		varchar(50) default	'',	 		-- 레터링이미지
 	pmc_tp1		varchar(5)	default '',	 		-- 토핑1
 	pmc_tp2		varchar(5)	default '',			-- 토핑2
@@ -183,7 +183,7 @@ create table t_ev_cus_tor_poll (
 create table t_order_cart (
 	oc_idx int auto_increment primary key, 	-- 일련번호
 	mi_id varchar(20), 						-- 회원 ID
-	pi_id char(7), 							-- 상품 ID
+	pi_id char(5), 							-- 상품 ID
 	po_idx int, 							-- 상품 재고 ID
 	oc_cnt int default 0, 					-- 개수
 	oc_date datetime default now(), 		-- 등록일
@@ -231,7 +231,7 @@ create table t_order_info (
 create table t_order_detail (
 	od_idx int auto_increment primary key, 	-- 일련번호
 	oi_id char(12), 						-- 주문번호
-	pi_id char(7), 							-- 상품 ID
+	pi_id char(5), 							-- 상품 ID
 	po_idx int, 							-- 재고 ID
 	od_cnt int default 0, 					-- 개수
 	od_price int default 0, 				-- 단가
@@ -253,7 +253,7 @@ create table t_product_review (
 	pr_idx		int auto_increment unique,	-- 글번호
 	mi_id		varchar(20),				-- 회원ID
 	oi_id		char(12),					-- 주문번호
-	pi_id		char(7),					-- 상품ID
+	pi_id		char(5),					-- 상품ID
 	pr_name		varchar(100) not null,		-- 상품명 & 옵션명
 	pr_title	varchar(100) not null,		-- 제목
 	pr_content	text not null,				-- 내용
@@ -379,7 +379,6 @@ create table t_ev_vote_result (
 
 -- select * from t_admin_info;
 insert into t_admin_info (ai_id, ai_pw, ai_name) value ('admin1', '1111', '관리자');
-
 
 -- 회원 가입 프로시저
 
@@ -572,7 +571,6 @@ insert into t_product_ctgr(pc_id , pc_name) values('cb', '커스텀박스');
 -- select * from t_product_ctgr;
 
 
-
 -- 커스텀 마카롱 상품정보
 insert into t_product_info( pi_id, pc_id, pi_name, pi_price, pi_cost, pi_img1, pi_img2, pi_isview, pi_limit)
 values('mc100', 'mc','커스텀마카롱', 6000, 6000, 'mc100.png', 'mc100_v.png', 'y', 'a');
@@ -614,6 +612,7 @@ call sp_product('mc110',	'mc',	'레드벨벳',	4000,			'mc110.png',	'mc110_v.png
 call sp_product('mc111',	'mc',	'얼그레이',	4000,			'mc111.png',	'mc111_v.png',	'',	'TWG 얼그레이차로 만든 얼그레이 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 얼그레이',	120			);
 call sp_product('mc112',	'mc',	'오레오',	4000,			'mc112.png',	'mc112_v.png',	'',	'미국산 오레오로 만든 오레오 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 오레오',	135						);
 call sp_product('mc113',	'mc',	'블루베리',	4000,			'mc113.png',	'mc113_v.png',	'',	'고성 블루베리로 만든 블루베리 마카롱',	'y',	'a',	'아몬드, 달걀, 우유, 블루베리',	125		);
+
 -- 마카롱 세트
 call sp_product('bx101',	'bx',	'베스트 5구',	20000,			'bx101.png',	'',	'',	'하마롱의 베스트 상품만을 모은 5구 상자',	'y',	'a',''	,600	);
 call sp_product('bx102',	'bx',	'베스트 10구',	40000,			'bx102.png',	'',	'',	'하마롱의 베스트 상품만을 모은 10구 상자',	'y',	'a',	'',	1200	);
@@ -639,7 +638,6 @@ call sp_product('ck112',	'ck',	'카라멜',	2000,			'ck112.png',	'',	'',	'카라
 call sp_product('ck113',	'ck',	'버터',	2000,			'ck113.png',	'',	'',	'버터와 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
 call sp_product('ck114',	'ck',	'시나몬',	2000,			'ck114.png',	'',	'',	'시나몬과 달콤한 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
 call sp_product('ck115',	'ck',	'슈가',	2000,			'ck115.png',	'',	'',	'설탕과 초콜릿의 환상 궁합',	'y',	'a',	'달걀, 우유 ',	300												);
-
 
 -- 잼
 call sp_product('jm101',	'jm',	'블루베리',	7000,			'jm101.png',	'',	'',	'달콤한 블루베리 잼 ',	'y',	'b',	'',	800												);
@@ -753,7 +751,7 @@ call sp_order('atest');
 -- 회원이름 입력시 해당회원이 랜덤 주문을 함
 -- =================================================================================================================================
 
--- 주문 등록 프로시저 여러개 등록시 ##주의 100명이상 회원일때만 작동
+-- 주문 등록 프로시저 여러개 등록시 
 
 drop procedure if exists sp_order_num;
 delimiter $$ 
@@ -763,9 +761,10 @@ begin
     declare rad_num int;
     declare count_num int;
     SET count_num = 0;
-    
+    SET @count_mem = 0;
+    select count(mi_id) into @count_mem from t_member_info;
     WHILE count_num < num DO
-		SET rad_num = FLOOR(RAND() * 100) + 1;
+		SET rad_num = FLOOR(RAND() * @count_mem);
 		select mi_id into p_miid from t_member_info limit rad_num, 1;
 		call sp_order(p_miid);
 		set count_num = count_num + 1;
@@ -777,8 +776,120 @@ delimiter ;
 -- =================================================================================================================================
 
 call sp_order_num(500);
--- 숫자 입력한만큼 주문이 들어감
+-- 숫자 입력한만큼 랜덤 주문이 들어감
+
 -- =================================================================================================================================
+
+
+-- 랜덤 마카롱 등록 프로시저 
+
+drop procedure if exists sp_macc;
+delimiter $$ 
+create procedure sp_macc(
+	pmcname	varchar(20)
+)
+begin 
+	declare p_miid 	varchar(20);
+    declare p_sugar int;
+    declare p_vg	char(1);
+    declare p_pl	char(1);
+    declare p_tp1	varchar(5);
+    declare p_tp2	varchar(5);
+    declare p_piid	char(5);
+    
+	declare rad_num int;
+    declare rad_vg int;
+    declare rad_pl int;
+    declare rad_tp int;
+    declare rad_tp1 int;
+    declare rad_tp2 int;
+    declare rad_piid int;
+    declare rad_day int;
+    
+    declare count_mcc int;
+    declare count_mem int;
+    select count(pmt_id) into count_mcc from t_product_ma_topping;
+    select count(mi_id) into count_mem from t_member_info;
+    
+	SET p_sugar = FLOOR(RAND() * 100);
+    SET rad_vg = FLOOR(RAND() * 2);
+    SET rad_pl = FLOOR(RAND() * 3);
+    SET rad_tp = FLOOR(RAND() * 6);
+    SET rad_day = FLOOR(RAND() * 365) + 1;
+    SET rad_piid = FLOOR(RAND() * count_mcc) + 101;
+    SET rad_num = FLOOR(RAND() * count_mem);
+    SET @rndday = DATE_SUB(now(), INTERVAL rad_day DAY);
+    SET p_piid = concat('mc' , rad_piid);
+    
+    select mi_id into p_miid from t_member_info limit rad_num, 1;
+    
+    IF rad_vg < 1 THEN
+		SET p_vg = 'n';
+	ELSE
+		SET p_vg = 'y';
+	END IF;
+    
+    IF rad_pl < 1 THEN
+		SET p_pl = 'a';
+	ELSEIF rad_pl < 2 THEN
+		SET p_pl = 'b';
+	ELSE
+		SET p_pl = 'c';
+	END IF;
+    
+    IF rad_tp < 1 THEN
+		SET p_tp1 = '';
+        SET p_tp2 = '';
+	ELSEIF rad_tp < 3 THEN
+        SET rad_tp1 = FLOOR(RAND() * count_mcc);
+        select pmt_id into p_tp1 from t_product_ma_topping limit rad_tp1,1;
+		SET p_tp2 = '';
+	ELSE
+        SET rad_tp1 = FLOOR(RAND() * count_mcc);
+        select pmt_id into p_tp1 from t_product_ma_topping limit rad_tp1,1;
+        SET rad_tp2 = FLOOR(RAND() * count_mcc) - 1;
+		select pmt_id into p_tp2 from t_product_ma_topping where pmt_id <> p_tp1 limit rad_tp2,1;
+	END IF;
+    
+     IF rad_tp2 is null THEN	-- rad_tp1와 rad_tp2 겹칠떄 null값이 나오므로 null처리
+		SET rad_tp2 = '';
+	END IF;
+    
+    
+    insert into t_product_ma_custom(mi_id,pmc_name,pmc_sugar,pmc_vg,pmc_pl,pi_id,pmc_tp1,pmc_tp2,pmc_date)
+        values(p_miid, pmcname, p_sugar, p_vg, p_pl, p_piid, p_tp1, p_tp2, @rndday);
+    
+    
+end $$
+delimiter ;
+
+
+													-- 랜덤 커스텀 마카롱 예시  --	
+-- =================================================================================================================================
+
+call sp_macc('맛있는 마카롱 ');
+-- 숫자 입력한만큼 랜덤 주문이 들어감
+
+-- =================================================================================================================================
+
+call sp_macc('딸기라떼마카롱');call sp_macc('블루베리마카롱');call sp_macc('초코바나나마카롱');call sp_macc('민트초코마카롱');call sp_macc('카라멜마카롱');call sp_macc('라즈베리마카롱');call sp_macc('레몬마카롱');call sp_macc('파인애플마카롱');call sp_macc('아몬드마카롱');call sp_macc('블랙베리마카롱');call sp_macc('그린티마카롱');
+call sp_macc('스폰지바나나마카롱');call sp_macc('허니버터마카롱');call sp_macc('밀크티마카롱');call sp_macc('피칸파이마카롱');call sp_macc('초코민트마카롱');call sp_macc('애플시나몬마카롱');call sp_macc('오렌지마카롱');call sp_macc('흑임자마카롱');call sp_macc('블루문마카롱');call sp_macc('스트로베리초콜릿마카롱');
+call sp_macc('민트라떼마카롱');call sp_macc('초코치즈케이크마카롱');call sp_macc('파인애플코코넛마카롱');call sp_macc('블랙퍼스트마카롱');call sp_macc('요거트마카롱');call sp_macc('시나몬애플마카롱');call sp_macc('호두마카롱');call sp_macc('마들렌마카롱');call sp_macc('크림치즈마카롱');
+call sp_macc('로즈마카롱');call sp_macc('코코넛마카롱');call sp_macc('바나나카라멜마카롱');call sp_macc('머랭마카롱');call sp_macc('카페라떼마카롱');call sp_macc('팥빙수마카롱');call sp_macc('벨벳케이크마카롱');call sp_macc('토마토마카롱');call sp_macc('바닐라마카롱');
+call sp_macc('밀크초코마카롱');call sp_macc('오리지날마카롱');call sp_macc('넛츠마카롱');call sp_macc('레드벨벳마카롱');call sp_macc('페스츄리마카롱');call sp_macc('아이스크림마카롱');call sp_macc('쿠키앤크림마카롱');call sp_macc('토핑치즈마카롱');call sp_macc('망고마카롱');
+call sp_macc('아이보리마카롱');call sp_macc('마들렌프랄린마카롱');call sp_macc('코코마카롱');call sp_macc('티라미수마카롱');call sp_macc('올리브마카롱');call sp_macc('초코쿠키마카롱');call sp_macc('프렌치바닐라마카롱');call sp_macc('마시멜로우마카롱');call sp_macc('카라멜애플마카롱');call sp_macc('마카롱빙수');
+call sp_macc('딸기콘푸로스트마카롱');call sp_macc('레몬티마카롱');call sp_macc('에스프레소마카롱');call sp_macc('블랙베리크림치즈마카롱');call sp_macc('요거트크림마카롱');call sp_macc('무화과마카롱');call sp_macc('카라멜블랙퍼스트마카롱');call sp_macc('토마토파스타마카롱');call sp_macc('모카마카롱');call sp_macc('바닐라아이스크림마카롱');call sp_macc('애플파이마카롱');call sp_macc('푸딩마카롱');call sp_macc('사과마카롱');
+call sp_macc('알파카마카롱');call sp_macc('코코넛마카롱');call sp_macc('바이올렛마카롱');call sp_macc('키위마카롱');call sp_macc('초코레이즌마카롱');call sp_macc('리치마카롱');call sp_macc('벨기에와플마카롱');call sp_macc('프랄린마카롱');call sp_macc('메론마카롱');
+call sp_macc('꿀브레드마카롱');call sp_macc('옥수수마카롱');call sp_macc('바나나마카롱');call sp_macc('마켓자몽마카롱');call sp_macc('바닐라코코넛마카롱');call sp_macc('마카롱아이스크림');call sp_macc('초코바나나마카롱');call sp_macc('블루베리마카롱');call sp_macc('라이스푸딩마카롱');call sp_macc('크랜베리마카롱');
+call sp_macc('초코머랭마카롱');call sp_macc('망고요거트마카롱');call sp_macc('녹차마카롱');call sp_macc('토마토샐러드마카롱');call sp_macc('녹차초코마카롱');call sp_macc('바닐라와플마카롱');call sp_macc('리코타치즈마카롱');call sp_macc('안심스테이크마카롱');call sp_macc('페퍼로니피자마카롱');
+call sp_macc('초코바닐라마카롱');call sp_macc('그린티마카롱');call sp_macc('크림치즈마카롱');call sp_macc('초코카라멜마카롱');call sp_macc('블루베리치즈케이크마카롱');call sp_macc('초코파이마카롱');call sp_macc('아이스크림마카롱');call sp_macc('플레인마카롱');
+call sp_macc('반으로잘라먹는마카롱');call sp_macc('민트마카롱');call sp_macc('네모난마카롱');call sp_macc('생크림마카롱');call sp_macc('리코타치즈블루베리마카롱');call sp_macc('포도마카롱');call sp_macc('바나나와플마카롱');call sp_macc('헤이즐넛마카롱');call sp_macc('토마토마카롱');
+call sp_macc('양배추마카롱');call sp_macc('비트마카롱');call sp_macc('파마카롱');call sp_macc('바질마카롱');call sp_macc('고구마와페칸마카롱');call sp_macc('레드벨벳마카롱');call sp_macc('민트아이스크림마카롱');call sp_macc('구아바마카롱');call sp_macc('토마토와페스토마카롱');
+call sp_macc('딸기와플마카롱');call sp_macc('레몬마카롱');call sp_macc('캐러멜마카롱');call sp_macc('크림브륄마카롱');call sp_macc('카페라떼마카롱');call sp_macc('자몽요거트마카롱');call sp_macc('무화과마카롱');call sp_macc('초코크림치즈마카롱');call sp_macc('카라멜마카롱');
+
+
+
+
 
 
 -- ============한유진 추가 20230206========================================================
