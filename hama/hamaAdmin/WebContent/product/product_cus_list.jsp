@@ -75,6 +75,11 @@ for(int i = 0; i < productCustom.size(); i++){
 %>
 		<tr class="chcolor" onclick="" style="cursor: pointer;">
 			<td><%=pc.getPmc_idx() %></td>
+			<td><%=pc.getPi_id() %></td>
+			<td><%=pc.getPmc_name() %></td>
+			<td><%=pc.getPmc_isview() %></td>
+			<td><%=pc.getMi_id()%></td>
+			<td><%=pc.getPmc_idx() %></td>
 		</tr>
 <%}
 }else{ //게시글 목록이 없으면
