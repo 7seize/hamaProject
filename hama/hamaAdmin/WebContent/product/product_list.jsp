@@ -73,6 +73,7 @@ const statusVal = function (val) {
 	});
 }
 
+
 </script>
 	<h2>상품 정보</h2>
 	<hr/>
@@ -84,9 +85,9 @@ const statusVal = function (val) {
 			<option value = "name" <%if(schtype!=null && schtype.equals("name")){%> selected = "selected" <%} %>>상품명</option>
 			<option value = "isview" <%if(schtype!=null && schtype.equals("isview")){%> selected = "selected" <%} %>>개시여부</option>
 		</select>
-		
 		<input type = "search" name = "keyword" placeholder="검색" value="<%=keyword %>" />
 		<input type="submit"  value="검색" />
+		<button class="add_product"> 상품추가 </button>
 	</form>
 	<table width="100%" cellpadding="5" align="center">
 		<tr class="ta_title" >
@@ -178,4 +179,12 @@ if(rcnt>0){ //게시글이 있으면 - 페이징 영역을 보여줌
 </div>
 </main>
 </body>
+<script>
+
+const addProduct = document.querySelector('.add_product')
+addProduct.addEventListener('click',()=>{
+	event.preventDefault(); // 기본 동작인 폼 전송을 막음
+    window.location = '/hamaAdmin/productadd'
+})
+</script>
 </html>

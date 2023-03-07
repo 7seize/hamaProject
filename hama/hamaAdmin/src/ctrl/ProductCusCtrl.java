@@ -9,13 +9,16 @@ import vo.*;
 import java.util.*;
 import java.net.*;
 
-@WebServlet("/product")
-public class ProductCtrl extends HttpServlet {
+
+@WebServlet("/productcus")
+public class ProductCusCtrl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public ProductCtrl() { super();}
+    public ProductCusCtrl() {
+        super();
+    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		int cpage = 1, psize = 10, bsize = 10, rcnt = 0, pcnt = 0, spage = 0;
 
@@ -24,7 +27,7 @@ public class ProductCtrl extends HttpServlet {
 		}
 		String schtype =request.getParameter("schtype");   // �˻� ����
 		String keyword =request.getParameter("keyword");   // �˻���
-		String where = " where 1=1 ";   
+		String where = " ";   
 		String kindorder = request.getParameter("kindorder");
 		
 		if(schtype == null || keyword == null) {
@@ -35,25 +38,31 @@ public class ProductCtrl extends HttpServlet {
 			 
 			 if(schtype.equals("id")) {
 				 where+=" and (pi_id like '%" + keyword+ "%' )";
-			 }else if(schtype.equals("ctr")){
-				 where+=" and (pc_id like '%" + keyword+ "%' )";
+			 }else if(schtype.equals("topping")){
+				 where+=" and ((pmc_tp1 like '%" + keyword+ "%') or (pmc_tp2 like '%\" + keyword+ \"%') )";
 			 }else if(schtype.equals("name")) {
 				 where+=" and (pi_name like '%" + keyword+ "%' )";
 			 }else if(schtype.equals("isview")) {
-				 where+=" and (pi_isview ='n' )";
+				 where+=" and (pmc_isview ='n' )";
 			 }
 		 }
+		
+		
 		String order ="";
+		/*
 		if(kindorder == null) kindorder ="";
 		if(!kindorder.equals("")) {order = " order by pi_" + kindorder + " desc";} else {
-			order = " order by pi_id";
+			order = " order by pmc_idx desc";
 		} 
-	
-		ProductListSvc productListSvc = new ProductListSvc();
-		 rcnt = productListSvc.getListCount(where);
+		*/
 		
-		ArrayList<ProductInfo> productInfo  = new ArrayList<ProductInfo>();
-		productInfo = productListSvc.getProductList(cpage,psize,where,order);
+		
+		
+		ProductCusSvc productcusSvc = new ProductCusSvc();
+		 rcnt = productcusSvc.getListCount(where);
+		
+		ArrayList<ProductCustom> productcustom = new ArrayList<ProductCustom>();
+		productcustom = productcusSvc.getProductList(cpage,psize,where,order);
 		
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setBsize(bsize);
@@ -64,36 +73,19 @@ public class ProductCtrl extends HttpServlet {
 		pageInfo.setSpage(spage);
 		pageInfo.setSchtype(schtype);
 		pageInfo.setKeyword(keyword);
-		
-		
-		request.setAttribute("productInfo", productInfo);
+
+		request.setAttribute("productCustom", productcustom);
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("kindorder", kindorder);
 		
 		RequestDispatcher dispatcher = 
-				request.getRequestDispatcher("product/product_list.jsp");
+				request.getRequestDispatcher("product/product_cus_list.jsp");
 		dispatcher.forward(request,response);
 		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		//ĳ���� ���ڵ�
-		String status = request.getParameter("status");
-		String piid = request.getParameter("piid");
-		
-		
-		System.out.println(status);
 
-		ProductListSvc productListSvc = new ProductListSvc();
-		int result = productListSvc.statUpdate(status,piid);
-		
-		//CartProcUpSvc cartProcUpSvc = new CartProcUpSvc();
-		//int result = cartProcUpSvc.cartUpdate(oc);
-		
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
-		out.println(result);
 	}
 
 }

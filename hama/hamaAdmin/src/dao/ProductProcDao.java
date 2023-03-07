@@ -72,7 +72,7 @@ public class ProductProcDao {
 		ResultSet rs = null;
 		
 		try {
-			String sql = "select count(*) from t_order_info " + where;
+			String sql = "select count(*) from t_product_info " + where;
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql); 
 			
@@ -81,7 +81,7 @@ public class ProductProcDao {
 			//select count�ϴ� �ſ��� ��� �˻� ���ص� ��.
 		
 		}catch(Exception e) {
-			System.out.println("OrderProcDaoŬ���� getListCount()����");
+			System.out.println("ProductProcDao getListCount()");
 			e.printStackTrace();
 		}finally {
 			close(rs); close(stmt); 
@@ -104,11 +104,35 @@ public class ProductProcDao {
 			result = stmt.executeUpdate(sql);		
 			
 		}catch(Exception e){
-			System.out.println("OrderProcDao Class statUp Fall");
+			System.out.println("ProductProcDao Class statUp Fail");
 			e.printStackTrace();
 		}finally {
 			close(stmt);
 		}
 		return result;
 	}
+	
+	public String setPiid(String cat) {
+		String setpiid = "";
+		Statement stmt = null; 
+		ResultSet rs = null;
+
+		try {
+			stmt = conn.createStatement();
+			String sql = "select right(pi_id,3)+1 newpiid from t_product_info where pc_id = '"+cat+"' order by pi_id desc limit 1";
+			System.out.println(sql);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql); 		
+			if(rs.next()) setpiid = cat + rs.getInt("newpiid");
+			
+		}catch(Exception e){
+			System.out.println("OrderProcDao Class setPiid Fail");
+			e.printStackTrace();
+		}finally {
+			close(stmt);
+		}
+		return setpiid;
+	}
+	
+	
 }

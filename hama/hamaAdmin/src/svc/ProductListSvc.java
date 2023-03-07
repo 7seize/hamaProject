@@ -46,4 +46,17 @@ public class ProductListSvc {
 		close(conn);
 		return result;
 	}
+	public String piidAssign(String cat) {
+		String setpiid ="";
+		
+		Connection conn = getConnection();
+		ProductProcDao productProcDao = ProductProcDao.getInstance();
+		productProcDao.setConnection(conn);
+		
+		setpiid = productProcDao.setPiid(cat);
+		close(conn);
+		
+		return setpiid;
+	}
+	
 }

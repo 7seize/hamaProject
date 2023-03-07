@@ -1,14 +1,13 @@
 package vo;
 
 public class ProductCustom {
-	//°í°´ÀÌ ¸¸µç Ä¿½ºÅÒ¸¶Ä«·Õ(·¹½ÃÇÇ¶óºÁµµ¹«¹æ)À» ÀúÀåÇÏ´Â Å¬·¡½º 
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ï¿½Ò¸ï¿½Ä«ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ 
 	private int pmc_idx, pmc_sugar, pmc_price, ect_idx, ect_vote;
 	private String mi_id, pmc_name,	pmc_vg, pmc_pl, ect_title;
 	private String pi_id, pmc_img, pmc_tp1, pmc_tp2, pmc_isview, pmc_isbuy, pmc_date;
-	 //ect_idx, ect_vote,ect_title (´ÙÈñ:ÀÓÀÇ)
 	
 	private String pi_name , pi_img1, pi_isview, pmt_name;
-	//µðÅ×ÀÏ¸®½ºÆ® ¸¸µé±â ½È¾î¼­ Ãß°¡ÇÔ(Ä¿½ºÅÒ ¸¶Ä«·ÕÀÇ ¸À¿¡ µû¸¥(¤·¤·¸À, ¤·¤·ÀÌ¹ÌÁö,°Ô½Ã¿©ºÎ)(ÇÑÀ¯Áø:Áö¿ìÁö¸»°Í)
+
  
 	
 	public int getPmc_idx() {

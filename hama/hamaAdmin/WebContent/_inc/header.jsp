@@ -156,7 +156,7 @@ window.onload = function () {
             <p>&nbsp;상품 관리</p>
             <ul>
                 <li><a href="/hamaAdmin/product">&nbsp;상품 목록</a></li>
-                <li><a href="">&nbsp;커스텀 상품</a></li>
+                <li><a href="/hamaAdmin/productcus">&nbsp;커스텀 상품</a></li>
                 <li><a href="">&nbsp;상품 재고 관리</a></li>
             </ul>
         </div>
