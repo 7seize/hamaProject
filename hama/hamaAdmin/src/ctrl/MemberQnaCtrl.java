@@ -9,11 +9,11 @@ import vo.*;
 import java.util.*;
 import java.net.*;
 
-@WebServlet("/member")
-public class MemberCtrl extends HttpServlet {
+@WebServlet("/memberqna")
+public class MemberQnaCtrl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public MemberCtrl() { super();}
+    public MemberQnaCtrl() { super();}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -22,8 +22,8 @@ public class MemberCtrl extends HttpServlet {
 		if(request.getParameter("cpage")!= null) {
 			cpage = Integer.parseInt(request.getParameter("cpage"));
 		}
-		String schtype =request.getParameter("schtype");   // �˻� ����
-		String keyword =request.getParameter("keyword");   // �˻���
+		String schtype =request.getParameter("schtype"); 
+		String keyword =request.getParameter("keyword");  
 		String where = " where 1=1 ";   
 		String kindorder = request.getParameter("kindorder");
 		
@@ -42,14 +42,14 @@ public class MemberCtrl extends HttpServlet {
 		String order ="";
 		if(kindorder == null) kindorder ="";
 		if(!kindorder.equals("")) {order = " order by mi_" + kindorder;} else {
-			order = " order by mi_joindate desc ";
+			order = " order by bq_idx desc ";
 		} 
 	
-		MemberListSvc memberListSvc = new MemberListSvc();
-		 rcnt = memberListSvc.getListCount(where);
+		MemberQnaSvc memberQnaSvc = new MemberQnaSvc();
+		 rcnt = memberQnaSvc.getListCount(where);
 		
-		ArrayList<MemberInfo> memberList  = new ArrayList<MemberInfo>();
-		memberList = memberListSvc.getMemberList(cpage,psize,where,order);
+		ArrayList<MemberQna> memberQna  = new ArrayList<MemberQna>();
+		memberQna = memberQnaSvc.getMemberQnaList(cpage,psize,where,order);
 		
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setBsize(bsize);
@@ -60,14 +60,13 @@ public class MemberCtrl extends HttpServlet {
 		pageInfo.setSpage(spage);
 		pageInfo.setSchtype(schtype);
 		pageInfo.setKeyword(keyword);
-		
-		
-		request.setAttribute("memberList", memberList);
+
+		request.setAttribute("memberQna", memberQna);
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("kindorder", kindorder);
 		
 		RequestDispatcher dispatcher = 
-				request.getRequestDispatcher("member/member_list.jsp");
+				request.getRequestDispatcher("member/member_qna.jsp");
 		dispatcher.forward(request,response);
 		
 	}

@@ -6,6 +6,7 @@ import java.util.*;
 import java.io.*;
 import java.sql.*;
 import javax.*;
+
 import vo.*;
 import svc.*;
 
@@ -47,6 +48,7 @@ public class OrderProcDao {
 			 	oi.setOi_id(rs.getString("oi_id"));
 			 	oi.setMi_id(rs.getString("mi_id"));
 			 	oi.setOi_name(rs.getString("mi_id"));
+			 	oi.setOi_phone(rs.getString("oi_phone"));
 			 	oi.setOi_sender(rs.getString("oi_sender"));
 			 	oi.setOi_status(rs.getString("oi_status"));
 			 	oi.setOi_pay(rs.getInt("oi_pay"));
@@ -205,5 +207,45 @@ public class OrderProcDao {
 		}
 
 		return oi;
+	}
+	
+	public  ArrayList<OrderRefund> getOrderRefundList(int cpage, int psize, String where, String order){
+
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<OrderRefund> orderRefundList  = new ArrayList<OrderRefund>();
+		OrderRefund or = null;
+
+		try {
+
+			String sql = "select * from t_order_info a, t_order_refund b "+
+			where + "and a.oi_id = b.oi_id " + order +
+			" limit "+(cpage-1)*psize+","+psize;
+			
+			System.out.println(sql);
+			
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql); 
+
+			while(rs.next()) {
+				or = new OrderRefund();
+				or.setMi_id(rs.getString("mi_id"));
+				or.setOi_id(rs.getString("oi_id"));
+				or.setOr_pay(rs.getInt("or_pay"));
+				or.setOr_reas(rs.getString("or_reas"));
+				or.setOr_status(rs.getString("or_status"));
+			 	orderRefundList.add(or);
+			}
+		
+		}catch(Exception e) {
+			System.out.println("OrderProcDao :getOrderRefundList() fail");
+			e.printStackTrace();
+		}finally {
+			
+			close(rs); close(stmt); 
+			
+		}
+		
+		return orderRefundList;
 	}
 }

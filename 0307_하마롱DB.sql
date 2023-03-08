@@ -289,18 +289,18 @@ create table t_order_refund (
 
 -- 1:1 문의
 create table t_bbs_qna (
-	bq_idx int primary key, 			-- 글번호
-	mi_id varchar(20), 					-- 회원 ID
-	bq_ctgr char(1) default 'a', 		-- 질문 분류
-	bq_title varchar(100) not null, 	-- 질문 제목
-	bq_content text not null, 			-- 질문 내용
-	bq_img1 varchar(50), 				-- 이미지1
-	bq_img2 varchar(50), 				-- 이미지2
-	bq_qdate datetime default now(), 	-- 질문 일자
-	bq_isanswer char(1) default 'n', 	-- 답변 여부
-	bq_ai_idx int default 0, 			-- 답변 관리자
-	bq_answer text, 					-- 답변 내용
-	bq_adate datetime, 					-- 답변 일자
+	bq_idx int auto_increment primary key, 	-- 글번호
+	mi_id varchar(20), 						-- 회원 ID
+	bq_ctgr char(1) default 'a', 			-- 질문 분류
+	bq_title varchar(100) not null, 		-- 질문 제목
+	bq_content text not null, 				-- 질문 내용
+	bq_img1 varchar(50), 					-- 이미지1
+	bq_img2 varchar(50), 					-- 이미지2
+	bq_qdate datetime default now(), 		-- 질문 일자
+	bq_isanswer char(1) default 'n', 		-- 답변 여부
+	bq_ai_idx int default 0, 				-- 답변 관리자
+	bq_answer text, 						-- 답변 내용
+	bq_adate datetime, 						-- 답변 일자
     constraint fk_bbs_qna_mi_id foreign key (mi_id) 
 		references t_member_info(mi_id)
 );
@@ -812,9 +812,9 @@ BEGIN
         END;
         
         IF rad_status = 'a' THEN
-            SET rad_info_status = 'c';
-        ELSEIF rad_status = 'b' THEN
             SET rad_info_status = 'd';
+        ELSEIF rad_status = 'b' THEN
+            SET rad_info_status = 'e';
         ELSEIF rad_status = 'c' THEN
             SET rad_info_status = 'e';
         END IF;
@@ -828,16 +828,14 @@ BEGIN
 END $$
 DELIMITER ;
 
-SELECT oi_id, mi_id, oi_pay FROM t_order_info limit 2, 1;
-												-- 주문 예시 --	
+-- SELECT * FROM t_order_info
+												-- 환불 예시 --	
 -- =================================================================================================================================
 
 call sp_refund();
--- 회원이름 입력시 해당회원이 랜덤 주문을 함
+-- 환불 진행 프로시저
 -- =================================================================================================================================
 
-
--- 랜덤 마카롱 등록 프로시저 
 
 -- 랜덤 마카롱 등록 프로시저 
 
@@ -947,6 +945,53 @@ call sp_macc('딸기와플마카롱');call sp_macc('레몬마카롱');call sp_ma
 
 
 
+
+drop procedure if exists sp_bbs_qna;
+delimiter $$ 
+create procedure sp_bbs_qna(title varchar(100), content text)
+begin 
+	DECLARE miid varchar(20);
+	DECLARE rad_qna INT;
+    DECLARE rad_day INT;
+    DECLARE rad_cause char(1);
+    
+    SET rad_day = FLOOR(RAND() * 700) + 1;
+    SET @rndday = DATE_SUB(now(), INTERVAL rad_day DAY);
+	SET rad_cause = CASE FLOOR(RAND() * 4) + 1
+            WHEN 1 THEN 'a'
+            WHEN 2 THEN 'b'
+            WHEN 3 THEN 'c'
+            WHEN 4 THEN 'd'
+        END;
+	SET rad_qna = FLOOR(RAND() * (SELECT COUNT(mi_id) FROM t_member_info )) + 1;
+    
+    select mi_id into miid from t_member_info limit rad_qna, 1;
+    insert into t_bbs_qna(mi_id,bq_ctgr,bq_title,bq_content,bq_qdate)
+        values(miid, rad_cause, title, content, @rndday);
+end $$
+delimiter ;
+
+
+													-- 1대1 문의 예시  --	
+-- =================================================================================================================================
+
+call sp_bbs_qna('결제가 안 되는데요','결제를 시도해도 결제가 되지 않습니다. 무엇이 문제인가요?');
+
+-- =================================================================================================================================
+
+call sp_bbs_qna('배송이 언제쯤 가능한가요?', '주문한 상품이 언제쯤 도착할까요?');
+call sp_bbs_qna('상품에 문제가 있어요', '상품을 받았는데 제품에 문제가 있어요. 어떻게 해야 하나요?');
+call sp_bbs_qna('반품 신청을 하려면 어떻게 해야 하나요?', '상품을 받아보니 생각했던 것과는 다른 제품입니다. 반품 신청을 하려면 어떻게 해야 하나요?');
+call sp_bbs_qna('상품이 안 와요', '주문한 지 오래됐는데 아직 상품이 안 와요. 어떻게 해야 하나요?');
+call sp_bbs_qna('결제한 상품이 없어요', '결제를 했는데 상품이 없어요. 어떻게 해야 하나요?');
+call sp_bbs_qna('교환 신청을 하려면 어떻게 해야 하나요?', '상품을 받아보니 제품에 이상이 있습니다. 교환 신청을 하려면 어떻게 해야 하나요?');
+call sp_bbs_qna('상품 정보를 알고 싶어요', '상품에 대한 자세한 정보를 알고 싶어요. 어디서 확인할 수 있나요?');
+call sp_bbs_qna('결제가 안 되는데요', '결제를 시도해도 결제가 되지 않습니다. 무엇이 문제인가요?');
+call sp_bbs_qna('상품 수령 후 후기 작성이 안 돼요', '상품을 받은 후 후기를 작성하려고 하는데 안 되네요. 어떻게 해야 하나요?');
+call sp_bbs_qna('주문 취소가 안 돼요', '주문을 취소하려고 하는데 취소가 되지 않습니다. 무엇이 문제일까요?');
+call sp_bbs_qna('배송이 너무 늦어요', '주문한 지 오래됐는데 아직 상품이 배송되지 않았어요. 어떻게 해야 하나요?');
+call sp_bbs_qna('교환 신청을 하려고 하는데 안 되네요', '상품을 교환하려고 하는데 교환 신청이 되지 않습니다. 무엇이 문제인가요?');
+call sp_bbs_qna('결제 진행 중 오류가 발생했어요', '결제를 진행하려고 했는데 오류가 발생했습니다. 어떻게 해결해야 하나요?');
 
 
 

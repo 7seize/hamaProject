@@ -20,6 +20,10 @@ if(loginInfo != null) isLogin = true;
 
 session.setMaxInactiveInterval(5*60);
 
+
+isLogin = true;	//작업동안 로그인안해도#########################################################나중에 지울것!
+
+
 if(!isLogin) {
 	response.setContentType("text/html; charset=utf-8");
 	//PrintWriter out = response.getWriter();
@@ -149,8 +153,7 @@ window.onload = function () {
             <p>&nbsp;주문 관리</p>
             <ul>
                 <li><a href="/hamaAdmin/order">&nbsp;주문 내역</a></li>
-                <li><a href="">&nbsp;환불 문의</a></li>
-                <li><a href="">&nbsp;배송 관리</a></li>
+                <li><a href="/hamaAdmin/orderrefund">&nbsp;환불 문의</a></li>
             </ul>
         </div>
         <div class="menu">

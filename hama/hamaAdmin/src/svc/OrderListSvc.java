@@ -3,6 +3,9 @@ package svc;
 import static db.JdbcUtil.*;
 import java.sql.Connection;
 import java.util.ArrayList;
+
+import ctrl.OrderRefundCtrl;
+
 import java.util.*;
 import java.sql.*;
 import dao.*;
@@ -45,5 +48,17 @@ public class OrderListSvc {
 
 		close(conn);
 		return result;
+	}
+	public  ArrayList<OrderRefund>  getOrderRefundList( int cpage, int psize, String where,String order){
+		ArrayList<OrderRefund> orderRefund  = new ArrayList<OrderRefund>();
+		Connection conn = getConnection();
+		OrderProcDao orderProcDao = OrderProcDao.getInstance();
+		orderProcDao.setConnection(conn);
+		
+		orderRefund = orderProcDao.getOrderRefundList(cpage, psize, where, order);
+		
+		close(conn);
+		
+		return orderRefund;
 	}
 }

@@ -9,6 +9,7 @@
 request.setCharacterEncoding("utf-8");
 
 ArrayList<OrderInfo> orderInfo  = (ArrayList<OrderInfo>)request.getAttribute("orderList");
+ArrayList<OrderRefund> orderRefund  = (ArrayList<OrderRefund>)request.getAttribute("orderRefund");
 PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
 
 int bsize = pageInfo.getBsize(), cpage = pageInfo.getCpage();
@@ -18,11 +19,9 @@ int spage = pageInfo.getSpage(), rcnt= pageInfo.getRcnt();
 
 String kindorder = (String)request.getAttribute("kindorder");
 String desc = (String)request.getAttribute("desc");
-String startdate = (String)request.getAttribute("startdate");
-String enddate = (String)request.getAttribute("enddate");
 String schtype= pageInfo.getSchtype();
 String keyword= pageInfo.getKeyword();
-String lnkOrder = "order?";
+String lnkOrder = "orderrefund?";
 String schargs = "", args=""; 
 
 if(kindorder == null) kindorder ="";
@@ -32,55 +31,48 @@ if(schtype != null && !schtype.equals("") &&
 	schargs = "&schtype=" + schtype + "&keyword=" + keyword;
 }
 args = "&cpage=" + cpage +  schargs;
-System.out.println("startdate"+ startdate);
 
-if(startdate == null ) startdate ="";
-if(!startdate.equals("")) schargs += "&startdate=" +startdate;
-if(enddate == null ) enddate ="";
-if(!enddate.equals("")) schargs += "&enddate=" +enddate;
 lnkOrder +=schargs;
 %>
-<link rel="stylesheet" href="/hamaAdmin/css/order_list.css">
+<link rel="stylesheet" href="/hamaAdmin/css/order_refund_list.css">
 <div class="container">
-
 	
 <script>
 let sch = "idx"
-const schValue = function(val) {
-	sch = val.value;
-}
-
-function chkAll(all){
-	let chk = document.getElementsByName('chk');
-	
-	for(let i=0; i < chk.length; i++){
-		chk[i].checked = all.checked;
+	const schValue = function(val) {
+		sch = val.value;
 	}
-}
 
-const statusVal = function (val) {
-	let arr = val.value.split(",");
-	let status = arr[0];
-	let oiid = arr[1];
-	
-	$.ajax({
-		type : "POST",
-		url : "/hamaAdmin/order",
-		data : {"status" : status, "oiid" : oiid},
-		success : function(chkRs){
-			if(chkRs==0){
-				alert("상태 변경에 실패했습니다. \n 다시 시도하세요");
-				return;
-			}
-			location.reload(); //새로고침 
+	function chkAll(all){
+		let chk = document.getElementsByName('chk');
+		
+		for(let i=0; i < chk.length; i++){
+			chk[i].checked = all.checked;
 		}
-	});
-}
+	}
 
+	const statusVal = function (val) {
+		let arr = val.value.split(",");
+		let status = arr[0];
+		let oiid = arr[1];
+		
+		$.ajax({
+			type : "POST",
+			url : "/hamaAdmin/order",
+			data : {"status" : status, "oiid" : oiid},
+			success : function(chkRs){
+				if(chkRs==0){
+					alert("상태 변경에 실패했습니다. \n 다시 시도하세요");
+					return;
+				}
+				location.reload(); //새로고침 
+			}
+		});
+	}
 
 
 </script>
-	<h2>주문 내역</h2>
+	<h2>환불 문의</h2>
 	<hr/>
 	<form name="frmSch" method="get" style="margin-bottom: 15px" >
 		<select name="schtype" onchange="schValue(this)" >
@@ -91,69 +83,56 @@ const statusVal = function (val) {
 		</select>
 		<input type = "search" name = "keyword" placeholder="검색" value="<%=keyword %>" />
 		<input type="submit"  value="검색" />
-		<div>
-			<label for="startdate"> </label>
-			<input name="startdate" type="date" value="<%=startdate %>" >
-			<label for="enddate"> - </label>
-			<input name="enddate" type="date" value="<%=enddate %>" >
-		</div>
 	</form>
 	<table width="100%" cellpadding="5" align="center">
 		<tr class="ta_title">
 			<th><input type="checkbox" name="all" onclick="chkAll(this)" ></th>
 			<th>주문 번호</th>
-			<th>주문 내역</th>
 			<th>고객 아이디</th>
-			<th>고객 이름</th>
-			<th>결제 방식</th>
-			<th>결제 금액</th>
-			<th> <%if(kindorder.equals("status")&&desc.equals("desc")){%><a href="<%=lnkOrder%>&kindorder=status&desc=asc">주문 상태 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=status&desc=desc">주문 상태 ⯆</a><%} %></th>
-			<th> <%if(kindorder.equals("date")&&desc.equals("desc")){%><a href="<%=lnkOrder%>&kindorder=date&desc=asc">접수 시간 ⯅</a><%}else{%><a href="<%=lnkOrder%>&kindorder=date&desc=desc">접수 시간 ⯆</a><%} %></th>
-			<th>희망 배송일</th>
-		
+			<th>고객 연락처</th>
+			<th>환불 내역</th>
+			<th>환불 사유</th>
+			<th>환불 금액</th>
+			<th>환불 상태</th>
 		</tr>
 <%
 if(orderInfo.size()>0){ //게시글 목록이 있으면
-
-
 for(int i = 0; i < orderInfo.size(); i++){ 
 	OrderInfo oi = orderInfo.get(i);
+	OrderRefund or = orderRefund.get(i);
 	ArrayList<OrderDetail> orderDetailList = oi.getDetailList();
 	OrderDetail od = null;
 	if(orderDetailList.size()>0){
 		od = orderDetailList.get(0);
 	}
 %>
-		<tr class="chcolor" onclick="if(event.target.className != 'unmove') location.href='/hamaAdmin/orderview?oiid=<%=oi.getOi_id() %>'" style="cursor: pointer;">
+		<tr class="chcolor" onclick="" style="cursor: pointer;">
 			<td class="unmove" ><input class="unmove" type="checkbox" name="chk" ></td>
 			<td><%=oi.getOi_id() %></td>
+			<td><%=oi.getMi_id() %></td>
+			<td><%=oi.getOi_phone() %></td>
 <%if(od != null){ %>
 			<td style="text-align: left;"><%=od.getOd_name()%><%if(orderDetailList.size()>1){%> 외 <%=orderDetailList.size()%>개<%}  %></td>
 <%}else{ %><td>-</td>
 <%} %>
-			<td><%=oi.getMi_id() %></td>
-			<td><%=oi.getOi_sender() %></td>
-			<%if(oi.getOi_payment().equals("c")){%><td>신용카드</td>
-            <%}else if(oi.getOi_payment().equals("b")){%><td>무통장 입금</td>
-            <%}else if(oi.getOi_payment().equals("a")){%><td>계좌이체</td><%} %>
-			<td><%=oi.getOi_pay() %></td>
+			
+			<%if(or.getOr_reas().equals("a")) {%><td>상품 분실</td>
+			<%}else if(or.getOr_reas().equals("b")){ %><td>오배송</td>
+			<%}else if(or.getOr_reas().equals("c")){ %><td>상품 누락</td>
+			<%}else if(or.getOr_reas().equals("d")){ %><td>상품 파손</td>
+			<%}else if(or.getOr_reas().equals("e")){ %><td>단순 변심</td><%} %>
+			<td><%=or.getOr_pay() %></td>
 			<td id="sel" class="unmove" >
 				<select class="unmove" onchange="statusVal(this)" >
-			        <option value="a,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("a")){%>selected="selected"<%} %> >배송 준비중</option>
-			        <option value="b,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("b")){%>selected="selected"<%} %> >배송중</option>
-			        <option value="c,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("c")){%>selected="selected"<%} %> >배송 완료</option>
+			        <option value="a,<%=oi.getOi_id() %>" <%if(or.getOr_status().equals("a")){%>selected="selected"<%} %> >환불 대기</option>
+			        <option value="b,<%=oi.getOi_id() %>" <%if(or.getOr_status().equals("b")){%>selected="selected"<%} %> >환불 완료</option>
+			        <option value="c,<%=oi.getOi_id() %>" <%if(or.getOr_status().equals("c")){%>selected="selected"<%} %> >환불 취소</option>
 			    </select>
 			</td>
-			<td><%=oi.getOi_date() %></td>
-			<%if(oi.getOi_date().equals(oi.getOi_redate())){ %>
-            	<td> - </td>
-            <%}else{%>
-            	<td><%=oi.getOi_redate().substring(0,10) %></td>
-            <%} %>
 		</tr>
 <%}
 }else{ //게시글 목록이 없으면
-	out.print("<tr><td colspan='5' >");
+	out.print("<tr><td colspan='8' >");
 	out.print("검색결과가 없습니다. </td></tr> ");
 }
 %>
@@ -168,7 +147,7 @@ if(kindorder !=null && !kindorder.equals("")){
 	order += "&desc=" + desc;
 }
 if(rcnt>0){
-	String lnk = "order?cpage=";
+	String lnk = "orderrefund?cpage=";
 	pcnt = rcnt / psize;
 	if(rcnt % psize>0) pcnt++;
 	if(cpage == 1){
