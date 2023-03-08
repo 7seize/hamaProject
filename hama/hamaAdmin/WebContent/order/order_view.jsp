@@ -14,16 +14,24 @@ ArrayList <OrderDetail> od = oi.getDetailList();
 <style>
 
 table{border-collapse: collapse;} 
-h2{margin: 20px 0 10px 0;}
+.main_con{
+	width: 100%;
+}
+.main_con >h2{
+	margin: 20px 0 10px 0;
+	border-bottom: 1px solid rgb(150,150,150);
+}
 </style>
 <script>
 function goBack(){
 	window.history.back();
 }
 </script>
-	<div>
+	<div class="main_con">
 		<h2>주문 상세 내역</h2>
-
+		<div>
+			<button onclick="goBack()" >  뒤로가기  </button>
+		</div>
 		<div class="container"  >
 			<table>
 		        <tr>
@@ -126,9 +134,6 @@ function goBack(){
 		        </tr>
 		    </table>
 		</div>
-	</div>
-	<div>
-		<button onclick="goBack()" >  뒤로가기  </button>
 	</div>
 </main>
 </body>

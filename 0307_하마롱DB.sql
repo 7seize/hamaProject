@@ -781,6 +781,64 @@ call sp_order_num(500);
 -- =================================================================================================================================
 
 
+-- 환불 프로시저
+
+DROP PROCEDURE IF EXISTS sp_refund;
+DELIMITER $$
+CREATE PROCEDURE sp_refund(
+)
+BEGIN 
+	DECLARE oiid CHAR(12);
+	DECLARE miid varchar(20);
+	DECLARE orpay int;
+	DECLARE rad_refund INT;
+	DECLARE rad_status CHAR(1);
+	DECLARE rad_info_status CHAR(1);
+	DECLARE rad_cause_str CHAR(1);
+
+        
+        SET rad_refund = FLOOR(RAND() * (SELECT COUNT(oi_id) FROM t_order_info)) + 1;
+        SET rad_cause_str = CASE FLOOR(RAND() * 5) + 1
+            WHEN 1 THEN 'a'
+            WHEN 2 THEN 'b'
+            WHEN 3 THEN 'c'
+            WHEN 4 THEN 'd'
+            WHEN 5 THEN 'e'
+        END;
+        SET rad_status = CASE FLOOR(RAND() * 3) + 1
+            WHEN 1 THEN 'a'
+            WHEN 2 THEN 'b'
+            WHEN 3 THEN 'c'
+        END;
+        
+        IF rad_status = 'a' THEN
+            SET rad_info_status = 'c';
+        ELSEIF rad_status = 'b' THEN
+            SET rad_info_status = 'd';
+        ELSEIF rad_status = 'c' THEN
+            SET rad_info_status = 'e';
+        END IF;
+        
+        SELECT oi_id, mi_id, oi_pay INTO oiid, miid, orpay FROM t_order_info limit rad_refund, 1;
+        
+        INSERT INTO t_order_refund(oi_id, mi_id, or_reas, or_pay, or_status)
+            VALUES(oiid, miid, rad_cause_str, orpay, rad_status);
+         
+        UPDATE t_order_info SET oi_status = rad_info_status WHERE oi_id = oiid;
+END $$
+DELIMITER ;
+
+SELECT oi_id, mi_id, oi_pay FROM t_order_info limit 2, 1;
+												-- 주문 예시 --	
+-- =================================================================================================================================
+
+call sp_refund();
+-- 회원이름 입력시 해당회원이 랜덤 주문을 함
+-- =================================================================================================================================
+
+
+-- 랜덤 마카롱 등록 프로시저 
+
 -- 랜덤 마카롱 등록 프로시저 
 
 drop procedure if exists sp_macc;
@@ -852,7 +910,7 @@ begin
 	END IF;
     
      IF rad_tp2 is null THEN	-- rad_tp1와 rad_tp2 겹칠떄 null값이 나오므로 null처리
-		SET rad_tp2 = '';
+		SET p_tp2 = '';
 	END IF;
     
     

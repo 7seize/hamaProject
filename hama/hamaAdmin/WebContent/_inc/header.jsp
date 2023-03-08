@@ -65,10 +65,11 @@ if(!isLogin) {
         align : center;
     }
     .menu > p{
+    	color:  rgb(255, 255, 255);
         font-weight: bold;
         font-size: 15px;
         padding: 1%;
-        background-color: rgb(241, 241, 241);
+        background-color: rgb(100, 100, 100);
         border-bottom: 1px solid rgb(218, 218, 218);
     }
     .menu > ul{

@@ -50,6 +50,14 @@ const schValue = function(val) {
 	sch = val.value;
 }
 
+function chkAll(all){
+	let chk = document.getElementsByName('chk');
+	
+	for(let i=0; i < chk.length; i++){
+		chk[i].checked = all.checked;
+	}
+}
+
 const statusVal = function (val) {
 	let arr = val.value.split(",");
 	let status = arr[0];
@@ -92,6 +100,7 @@ const statusVal = function (val) {
 	</form>
 	<table width="100%" cellpadding="5" align="center">
 		<tr class="ta_title">
+			<th><input type="checkbox" name="all" onclick="chkAll(this)" ></th>
 			<th>주문 번호</th>
 			<th>주문 내역</th>
 			<th>고객 아이디</th>
@@ -115,7 +124,8 @@ for(int i = 0; i < orderInfo.size(); i++){
 		od = orderDetailList.get(0);
 	}
 %>
-		<tr class="chcolor" onclick="if(event.target.tagName != 'SELECT') location.href='/hamaAdmin/orderview?oiid=<%=oi.getOi_id() %>'" style="cursor: pointer;">
+		<tr class="chcolor" onclick="if(event.target.className != 'unmove') location.href='/hamaAdmin/orderview?oiid=<%=oi.getOi_id() %>'" style="cursor: pointer;">
+			<td class="unmove" ><input class="unmove" type="checkbox" name="chk" ></td>
 			<td><%=oi.getOi_id() %></td>
 <%if(od != null){ %>
 			<td style="text-align: left;"><%=od.getOd_name()%><%if(orderDetailList.size()>1){%> 외 <%=orderDetailList.size()%>개<%}  %></td>
@@ -127,8 +137,8 @@ for(int i = 0; i < orderInfo.size(); i++){
             <%}else if(oi.getOi_payment().equals("b")){%><td>무통장 입금</td>
             <%}else if(oi.getOi_payment().equals("a")){%><td>계좌이체</td><%} %>
 			<td><%=oi.getOi_pay() %></td>
-			<td id="sel" >
-				<select onchange="statusVal(this)" >
+			<td id="sel" class="unmove" >
+				<select class="unmove" onchange="statusVal(this)" >
 			        <option value="a,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("a")){%>selected="selected"<%} %> >배송 준비중</option>
 			        <option value="b,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("b")){%>selected="selected"<%} %> >배송중</option>
 			        <option value="c,<%=oi.getOi_id() %>" <%if(oi.getOi_status().equals("c")){%>selected="selected"<%} %> >배송 완료</option>
