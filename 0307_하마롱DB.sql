@@ -1015,7 +1015,7 @@ begin
     DECLARE order_month INT;
 	
     select sum(oi_pay) into yesterday_sale 
-		from t_order_info where date(order_date) = date_sub(taget_date, interval 1 day);
+		from t_order_info where date(oi_date) = date_sub(taget_date, interval 1 day);
 	select count(bq_idx) into qna_not_anw 
 		from t_bbs_qna where bq_isanswer ='n';
 	select count(bq_idx) into qna_today 
@@ -1023,41 +1023,26 @@ begin
     select count(bq_idx) into qna_is_anw 
 		from t_bbs_qna where bq_isanswer ='y' and date(bq_adate) = taget_date;
 	select sum(od_cnt*od_price) into today_cb  
-		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'cb' and date(a.oi_date) = taget_date;
+		from t_order_detail a, t_order_info b where a.oi_id = b.oi_id and left(pi_id, 2 ) = 'cb' and date(b.oi_date) = taget_date;
 	select sum(od_cnt*od_price) into today_mc  
-		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'mc' and date(a.oi_date) = taget_date;
+		from t_order_detail a, t_order_info b where a.oi_id = b.oi_id and left(pi_id, 2 ) = 'mc' and date(b.oi_date) = taget_date;
     select sum(od_cnt*od_price) into today_ck  
-		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'ck' and date(a.oi_date) = taget_date;
+		from t_order_detail a, t_order_info b where a.oi_id = b.oi_id and left(pi_id, 2 ) = 'ck' and date(b.oi_date) = taget_date;
     select sum(od_cnt*od_price) into today_te  
-		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'te' and date(a.oi_date) = taget_date;
+		from t_order_detail a, t_order_info b where a.oi_id = b.oi_id and left(pi_id, 2 ) = 'te' and date(b.oi_date) = taget_date;
     select sum(od_cnt*od_price) into today_bx  
-		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'bx' and date(a.oi_date) = taget_date;
+		from t_order_detail a, t_order_info b where a.oi_id = b.oi_id and left(pi_id, 2 ) = 'bx' and date(b.oi_date) = taget_date;
 	select sum(od_cnt*od_price) into today_jm  
-		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'jm' and date(a.oi_date) = taget_date;
+		from t_order_detail a, t_order_info b where a.oi_id = b.oi_id and left(pi_id, 2 ) = 'jm' and date(b.oi_date) = taget_date;
 	select sum(oi_pay) into today_sale  
 		from t_order_info where date(oi_date) = taget_date;
-	
 end $$
 delimiter ;
 
-create table t_bbs_qna (
-	bq_idx int auto_increment primary key, 	-- 글번호
-	mi_id varchar(20), 						-- 회원 ID
-	bq_ctgr char(1) default 'a', 			-- 질문 분류
-	bq_title varchar(100) not null, 		-- 질문 제목
-	bq_content text not null, 				-- 질문 내용
-	bq_img1 varchar(50), 					-- 이미지1
-	bq_img2 varchar(50), 					-- 이미지2
-	bq_qdate datetime default now(), 		-- 질문 일자
-	bq_isanswer char(1) default 'n', 		-- 답변 여부
-	bq_ai_idx int default 0, 				-- 답변 관리자
-	bq_answer text, 						-- 답변 내용
-	bq_adate datetime, 						-- 답변 일자
-    constraint fk_bbs_qna_mi_id foreign key (mi_id) 
-		references t_member_info(mi_id)
-);
-
-
+set @yes = 0 ;
+call sp_sale_stat('2023-01-23', @yes );
+select @yes;
+-- ###############################################################################################문제발생
 
 -- ============한유진 추가 20230206========================================================
 -- 커스텀 마카롱(mc100) 상세 설명 빠져있어서 update 
