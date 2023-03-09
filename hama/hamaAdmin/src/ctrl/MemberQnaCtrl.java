@@ -42,11 +42,11 @@ public class MemberQnaCtrl extends HttpServlet {
 		String order ="";
 		if(kindorder == null) kindorder ="";
 		if(!kindorder.equals("")) {order = " order by mi_" + kindorder;} else {
-			order = " order by bq_idx desc ";
+			order = " order by bq_qdate desc ";
 		} 
 	
 		MemberQnaSvc memberQnaSvc = new MemberQnaSvc();
-		 rcnt = memberQnaSvc.getListCount(where);
+		 rcnt = memberQnaSvc.getQnaListCount(where);
 		
 		ArrayList<MemberQna> memberQna  = new ArrayList<MemberQna>();
 		memberQna = memberQnaSvc.getMemberQnaList(cpage,psize,where,order);
@@ -73,19 +73,12 @@ public class MemberQnaCtrl extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		//ĳ���� ���ڵ�
 		String status = request.getParameter("status");
 		String oiid = request.getParameter("oiid");
-		
-		
-		System.out.println(status);
-		System.out.println(oiid);
+
 		MemberListSvc orderListSvc = new MemberListSvc();
 		int result = orderListSvc.statUpdate(status,oiid);
-		
-		//CartProcUpSvc cartProcUpSvc = new CartProcUpSvc();
-		//int result = cartProcUpSvc.cartUpdate(oc);
-		
+
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		out.println(result);

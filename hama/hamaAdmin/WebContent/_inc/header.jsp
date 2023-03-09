@@ -168,7 +168,7 @@ window.onload = function () {
             <p>&nbsp;회원 관리</p>
             <ul>
                 <li><a href="/hamaAdmin/member">&nbsp;회원 목록</a></li>
-                <li><a href="">&nbsp;1대1 문의</a></li>
+                <li><a href="/hamaAdmin/memberqna">&nbsp;1대1 문의</a></li>
             </ul>
         </div>
         <div class="menu">

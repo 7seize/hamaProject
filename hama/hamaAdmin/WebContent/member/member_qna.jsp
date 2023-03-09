@@ -84,7 +84,10 @@ for(int i = 0; i < memberQna.size(); i++){
 			<td class="unmove" ><input class="unmove" type="checkbox" name="chk" ></td>
 			<td><%=mq.getMi_id() %></td>
 			<td><%=mq.getMi_name() %></td>
-			<td><%=mq.getBq_ctgr() %></td>
+			<%if(mq.getBq_ctgr() !=null){ 
+				if(mq.getBq_ctgr().equals("a")){%><td>회원</td><%}else if(mq.getBq_ctgr().equals("b")){ %><td>상품</td><%}else if(mq.getBq_ctgr().equals("c")) {%><td>주문/결제</td><%}else if(mq.getBq_ctgr().equals("d")) {%><td>기타</td><%} %>
+			<%} %>
+			
 			<%if(mq.getBq_title() !=null && mq.getBq_title().length() >= 12 ) {%><td style="text-align: left;"><%=mq.getBq_title().substring(0,10) + "..." %></td><%}else{ %><td style="text-align: left;"><%=mq.getBq_title()%></td><%} %>			
 			<td><%=mq.getBq_qdate() %></td>
 			<%if((mq.getBq_img1() != null && !mq.getBq_img1().equals("") )||(mq.getBq_img2() != null && !mq.getBq_img2().equals("") )) {%><td>Y</td><%}else{ %><td>N</td><%} %>

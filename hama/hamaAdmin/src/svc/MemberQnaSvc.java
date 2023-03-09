@@ -15,21 +15,19 @@ public class MemberQnaSvc {
 		Connection conn = getConnection();
 		MemberProcDao memberProcDao = MemberProcDao.getInstance();
 		memberProcDao.setConnection(conn);
-		
-		// ########################################################################################여기부터 작업
-		memberqna = memberProcDao.getMemberList(cpage, psize, where, order);
+		memberqna = memberProcDao.getMemberQnaList(cpage, psize, where, order);
 		
 		close(conn);
 		
 		return memberqna;
 	}
-	public int getListCount(String where) {
+	public int getQnaListCount(String where) {
 		int rcnt=0;
 		Connection conn = getConnection();
 		MemberProcDao memberProcDao = MemberProcDao.getInstance();
 		memberProcDao.setConnection(conn);
 		
-		rcnt = memberProcDao.getListCount(where);
+		rcnt = memberProcDao.getQnaListCount(where);
 		close(conn);
 		
 		return rcnt;

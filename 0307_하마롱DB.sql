@@ -945,7 +945,7 @@ call sp_macc('딸기와플마카롱');call sp_macc('레몬마카롱');call sp_ma
 
 
 
-
+-- 랜덤 qna 발생 프로시져
 drop procedure if exists sp_bbs_qna;
 delimiter $$ 
 create procedure sp_bbs_qna(title varchar(100), content text)
@@ -992,6 +992,70 @@ call sp_bbs_qna('주문 취소가 안 돼요', '주문을 취소하려고 하는
 call sp_bbs_qna('배송이 너무 늦어요', '주문한 지 오래됐는데 아직 상품이 배송되지 않았어요. 어떻게 해야 하나요?');
 call sp_bbs_qna('교환 신청을 하려고 하는데 안 되네요', '상품을 교환하려고 하는데 교환 신청이 되지 않습니다. 무엇이 문제인가요?');
 call sp_bbs_qna('결제 진행 중 오류가 발생했어요', '결제를 진행하려고 했는데 오류가 발생했습니다. 어떻게 해결해야 하나요?');
+
+-- 매출 통계 프로시져
+drop procedure if exists sp_sale_stat;
+delimiter $$ 
+create procedure sp_sale_stat(in taget_date DATE, out yesterday_sale int)
+begin 
+	DECLARE yesterday_sale INT;
+    DECLARE qna_is_anw INT;
+    DECLARE qna_not_anw INT;
+    DECLARE qna_today INT;
+    DECLARE today_sale INT;
+    DECLARE today_cb INT;
+    DECLARE today_mc INT;
+    DECLARE today_ck INT;
+    DECLARE today_te INT;
+    DECLARE today_bx INT;
+    DECLARE today_jm INT;
+    DECLARE order_today INT;
+    DECLARE order_yesterday INT;
+    DECLARE order_week INT;
+    DECLARE order_month INT;
+	
+    select sum(oi_pay) into yesterday_sale 
+		from t_order_info where date(order_date) = date_sub(taget_date, interval 1 day);
+	select count(bq_idx) into qna_not_anw 
+		from t_bbs_qna where bq_isanswer ='n';
+	select count(bq_idx) into qna_today 
+		from t_bbs_qna where date(bq_qdate) = curdate();
+    select count(bq_idx) into qna_is_anw 
+		from t_bbs_qna where bq_isanswer ='y' and date(bq_adate) = taget_date;
+	select sum(od_cnt*od_price) into today_cb  
+		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'cb' and date(a.oi_date) = taget_date;
+	select sum(od_cnt*od_price) into today_mc  
+		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'mc' and date(a.oi_date) = taget_date;
+    select sum(od_cnt*od_price) into today_ck  
+		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'ck' and date(a.oi_date) = taget_date;
+    select sum(od_cnt*od_price) into today_te  
+		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'te' and date(a.oi_date) = taget_date;
+    select sum(od_cnt*od_price) into today_bx  
+		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'bx' and date(a.oi_date) = taget_date;
+	select sum(od_cnt*od_price) into today_jm  
+		from t_order_detail a, t_order_info b where a.pi_id = b.pi_id and left(pi_id, 2 ) = 'jm' and date(a.oi_date) = taget_date;
+	select sum(oi_pay) into today_sale  
+		from t_order_info where date(oi_date) = taget_date;
+	
+end $$
+delimiter ;
+
+create table t_bbs_qna (
+	bq_idx int auto_increment primary key, 	-- 글번호
+	mi_id varchar(20), 						-- 회원 ID
+	bq_ctgr char(1) default 'a', 			-- 질문 분류
+	bq_title varchar(100) not null, 		-- 질문 제목
+	bq_content text not null, 				-- 질문 내용
+	bq_img1 varchar(50), 					-- 이미지1
+	bq_img2 varchar(50), 					-- 이미지2
+	bq_qdate datetime default now(), 		-- 질문 일자
+	bq_isanswer char(1) default 'n', 		-- 답변 여부
+	bq_ai_idx int default 0, 				-- 답변 관리자
+	bq_answer text, 						-- 답변 내용
+	bq_adate datetime, 						-- 답변 일자
+    constraint fk_bbs_qna_mi_id foreign key (mi_id) 
+		references t_member_info(mi_id)
+);
 
 
 
@@ -1126,9 +1190,4 @@ select * from t_ev_cus_tor where left(ect_date, 7) <> left(now(), 7);
  -- from t_ev_cus_tor where ect_idx = 1;
 select period_diff('202302', '202301');
 -- left(b.ect_date, 7)!=  2023-01   != year-0month
-
-
-
-
-
 
