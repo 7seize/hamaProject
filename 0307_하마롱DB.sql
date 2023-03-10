@@ -775,7 +775,7 @@ delimiter ;
 													-- 주문 예시  --	
 -- =================================================================================================================================
 
-call sp_order_num(500);
+call sp_order_num(100);
 -- 숫자 입력한만큼 랜덤 주문이 들어감
 
 -- =================================================================================================================================
@@ -998,7 +998,6 @@ drop procedure if exists sp_sale_stat;
 delimiter $$ 
 create procedure sp_sale_stat(in taget_date DATE, out yesterday_sale int)
 begin 
-	DECLARE yesterday_sale INT;
     DECLARE qna_is_anw INT;
     DECLARE qna_not_anw INT;
     DECLARE qna_today INT;
@@ -1039,8 +1038,14 @@ begin
 end $$
 delimiter ;
 
+select *
+		from t_order_info;
+
+select sum(oi_pay)
+		from t_order_info where date(oi_date) = date_sub('2023-03-02', interval 1 day);
+
 set @yes = 0 ;
-call sp_sale_stat('2023-01-23', @yes );
+call sp_sale_stat('2023-03-02', @yes );
 select @yes;
 -- ###############################################################################################문제발생
 
